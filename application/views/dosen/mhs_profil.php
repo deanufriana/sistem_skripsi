@@ -119,8 +119,11 @@
 										No. HP : <?php echo $u->nohp_mhs;?> 
 									</div>
 								</div>						
-								<div class="form-group col-md text-right">
-									<div><h5><?php echo $u->judul_skripsi;?></h5></div>
+								<div class="form-group col-md">
+									<div>
+										<h5><?php echo $u->judul_skripsi;?></h5>
+										<small><?= word_limiter($u->deskripsi, 20) ;?></small>
+									</div>
 								</div>
 							</div>
 							<div class="row">

@@ -223,16 +223,15 @@ function aksi_daftar($nim)
       {
 
       	$id = $this->session->userdata('id');
-        $where = array('id_konsentrasi_mhs' => $id);
         $data['dosen'] = $this->M_data->find('dosen', '', 'id_konsentrasi_dsn', $id);
+        $where = array('id_konsentrasi_mhs' => $id);
         $data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
+
         $this->load->view('kaprodi/ide_skripsi', $data);
       }
 
       public function aksi_skripsi($id_skripsi)
       {
-
-      	$where = array('id_ide' => $id_skripsi);
 
       	$cek = $this->M_data->find('ide_skripsi', $where, '', '', '', '', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
 
@@ -265,14 +264,16 @@ function aksi_daftar($nim)
 
       			$id = array('id_skripsi_mhs' => $id_skripsi);
 
+            $where = array('nim_mhs_ide' => $penerima);
       			$this->M_data->update('nim', $s->nim, 'mahasiswa', $id);
       			$this->M_data->save($sh, 'skripsi');
       			$this->M_data->save($dosen1, 'pembimbing');
       			$this->M_data->save($dosen2, 'pembimbing');
       			$this->M_data->save($pemberitahuan, 'pemberitahuan');
       			$this->M_data->save($pemberitahuan2, 'pemberitahuan');
-      			$this->M_data->save($pemberitahuan3, 'pemberitahuan');
-      			$this->M_data->delete($where, 'ide_skripsi');
+      			$this->M_data->save($pemberitahuan3, 'pemberitahuan');      			
+            $this->M_data->delete($where, 'ide_skripsi');
+
       		}
 
 

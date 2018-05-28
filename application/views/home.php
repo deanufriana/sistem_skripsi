@@ -2,25 +2,19 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-
 	<title> Sistem Informasi Skripsi</title>
-	<script src="<?php echo base_url('assets/js/fontawesome-all.js');?>"></script>
+	<script src="<?= base_url('assets/js/fontawesome-all.js');?>"></script>
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/bootstrap.min.css');?>">
+	<script type="text/javascript" src="<?= base_url('assets/js/jquery.js');?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/js/bootstrap.min.js');?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/js/sweetalert.min.js');?>"></script>
+	<script type="text/javascript" src="<?= base_url('assets/js/jquery.validate.min.js');?>"></script>
 	
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.min.css');?>">
-	
-	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.js');?>"></script>
-
-	<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert.min.js');?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
-
-
 	<script type="text/javascript">
-		$(document).ready(function(){
 
-			$("#lupa").on('submit',
+		$(document).ready(function(){
+			$("#form-lupa").on('submit',
 				function(e) {
 					e.preventDefault();
 					var form = $(this);
@@ -39,18 +33,18 @@
 						processData: false,
 						cache: false,
 						beforeSend: function() {
-							$('#lupa').hide('slow');
+							$('#form-lupa').hide('slow');
 							$('#loading').show();
 						},
 						success: function(result) {
 							if (result == 1) {
 								swal("Pengaturan Ulang Password Telah Di Kirim Ke Email Anda!", "Silahkan masuk ke email", "success");
 								$('#loading').hide();
-								$('#masuk').fadeIn('slow');
+								$('#form-login').fadeIn('slow');
 							} else {
 								swal("Gagal!", "Silahkan Cek Internet Anda / Coba Lagi Nanti", "error");
 								$('#loading').hide();
-								$('#lupa').show('fast');
+								$('#form-lupa').show('fast');
 							}
 						}
 					});
@@ -59,19 +53,18 @@
 			$(".daftar").click(function(event) {
 				$("#umus").toggle('fast', function () {
 					$("#form_daftar").toggle('slow');
-					$("#masuk").toggle('slow');
+					$("#form-login").toggle('slow');
 					$("#log").toggle('fast');
-
 				});
 			});
 
-			$(".lupa").click(function(event) {
-				$("#lupa").toggle('slow');
-				$("#masuk").toggle('fast');
+			$("#btn-forget").click(function(event) {
+				$("#form-forget").toggle('slow');
+				$("#form-login").toggle('fast');
 			});
 
 
-			$('#form_daftar').load('<?php echo base_url('home/pendaftaran');?>');
+			$('#form_daftar').load('<?= base_url('home/pendaftaran');?>');
 
 			$(function() {
 				$("#login").click(function() {
@@ -81,8 +74,8 @@
 
 
 
-			$("#tombol").click(function(){
-				var formAction = $("#masuk").attr('action');
+			$("#btn-login").click(function(){
+				var formAction = $("#form-login").attr('action');
 				var datalogin = {
 					nim: $("#nim").val(),
 					password: $("#password").val()
@@ -104,28 +97,28 @@
 								$('#loading').fadeOut('slow');
 								$("#success").fadeIn('fast');
 								setTimeout(function() {
-									window.location = '<?php echo base_url('Dosen');?>'
+									window.location = '<?= base_url('Dosen');?>'
 								}, 1000);
 							} else {
 								if (result == 2) {
 									$('#loading').fadeOut('slow');
 									$("#success").show('fast');
 									setTimeout(function() {
-										window.location = '<?php echo base_url('Mahasiswa');?>'
+										window.location = '<?= base_url('Mahasiswa');?>'
 									}, 1000);
 								} else {
 									if (result == 3) {
 										$('#loading').fadeOut('slow');
 										$("#success").fadeIn('fast');
 										setTimeout(function() {
-											window.location = '<?php echo base_url('Kaprodi');?>'
+											window.location = '<?= base_url('Kaprodi');?>'
 										}, 1000);
 									} else {
 										if (result == 4) {
 											$('#loading').fadeOut('slow');
 											$("#success").fadeIn('fast');
 											setTimeout(function() {
-												window.location = '<?php echo base_url('Admin');?>'
+												window.location = '<?= base_url('Admin');?>'
 											}, 1000);
 										} else {
 											if (result == 0) {
@@ -153,6 +146,7 @@
 	</script>
 
 	<style type="text/css">
+	
 	.bs-docs-footer {
 		padding-top: 3rem;
 		padding-bottom: 5.5rem;
@@ -240,7 +234,7 @@
 						</div>				
 
 
-						<form id="masuk" method="POST" action="<?php echo base_url('Home/session');?>">
+						<form id="form-login" method="POST" action="<?= base_url('Home/session');?>">
 							
 							<div class="form-group">
 								<input type="text" placeholder="NIM / Email" class="form-control" id="nim" name="nim">
@@ -248,15 +242,15 @@
 							<div class="form-row">
 								<div class="form-group col-md">
 									<input type="Password" id="password" placeholder="Password" name="password" class="form-control">
-									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas <br> Atau malah lupa passwordnya? <a href="#" class="lupa">Reset Password</a> </small>
+									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas <br> Atau malah lupa passwordnya? <a href="#" id="btn-forget">Reset Password</a> </small>
 								</div>
-								<div class="form-group col-2">
-									<button type="submit" class="btn btn-primary" id="tombol"> <i class="fas fa-sign-in-alt"></i> Login</button>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary float-right" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
 								</div>
 							</div>
 						</form>
 
-						<form id="lupa" action="<?php echo base_url('home/lupa');?>" style="display: none">
+						<form id="form_forget" action="<?= base_url('home/lupa');?>" style="display: none">
 							<div id="lupa" class="row">
 								<div class="form-group col-md">
 									<input class="form-control" type="email" name="email" placeholder="Masukan Email">
@@ -272,7 +266,7 @@
 						<div id="form_daftar" style="display: none;">
 						</div>
 						<div id="log" style="display: none;">
-							<small class="form-text text-muted"> Sudah Punya Akun? Silahkan <a href="#" class="daftar" > Login </a>  </small>	
+							<small class="form-text text-muted" id="text-login"> Sudah Punya Akun? Silahkan <a href="#" class="daftar" > Login </a>  </small>	
 						</div>
 					</div>
 				</div>
@@ -281,8 +275,8 @@
 		<div class="row mt-3">
 			<div class="col-md">
 				<div class="form-row">
-					<div class="form-group col-2">
-						<img class="img-thumbnail" src="<?php echo base_url('assets/images/avatar.png');?>">
+					<div class="form-group col-md-2">
+						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
 					</div>
 
 					<div class="form-group col">
@@ -296,8 +290,8 @@
 			</div>
 			<div class="col-md">
 				<div class="form-row">
-					<div class="form-group col-2">
-						<img class="img-thumbnail" src="<?php echo base_url('assets/images/avatar.png');?>">
+					<div class="form-group col-md-2">
+						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
 					</div>
 					
 					<div class="form-group col">
@@ -313,8 +307,8 @@
 		<div class="row mt-3">
 			<div class="col-md">
 				<div class="form-row">
-					<div class="form-group col-2">
-						<img class="img-thumbnail" src="<?php echo base_url('assets/images/avatar.png');?>">
+					<div class="form-group col-md-2">
+						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
 					</div>
 
 					<div class="form-group col">
@@ -328,22 +322,18 @@
 			</div>
 			<div class="col-md">
 				<div class="form-row">
-					<div class="form-group col-2">
-						<img class="img-thumbnail" src="<?php echo base_url('assets/images/avatar.png');?>">
+					<div class="form-group col-md-2">
+						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
 					</div>
-					
 					<div class="form-group col">
 						<h6>Header</h6>
 						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 						quis nostrud exercitation 
 					</div>
-				</div>
-				
+				</div>	
 			</div>
 		</div>
-
-
 	</div>	
 </body>
 <br>

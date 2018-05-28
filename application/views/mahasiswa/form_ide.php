@@ -39,7 +39,7 @@
 	</div>
 	<div class="form-row">
 		<div class="form-group col-md">
-			<input class="form-control" type="text" name="judul" id="judul" placeholder="Judul Skripsi">
+			<input class="form-control form-control-sm" type="text" name="judul" id="judul" placeholder="Judul Skripsi">
 		</div>
 
 		<div class="form-group float-right">

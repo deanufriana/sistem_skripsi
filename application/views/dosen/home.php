@@ -16,7 +16,7 @@
 	
 	<div class="container-fluid">
 		<div>
-			<div class="nav nav-pills nav-justified" id="list-tab" role="tablist">
+			<div class="nav nav-pills nav-justified flex-column flex-sm-row" id="list-tab" role="tablist">
 				<a href="#" class="nav-link btn-menu"> <i class="fas fa-bars"> </i> </a>
 				<a class="nav-item nav-link active" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"> <i class="fas fa-envelope"></i> Pemberitahuan</a>
 				<a class="nav-item nav-link" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"> <i class="fas fa-users"></i> Skripsi </a>

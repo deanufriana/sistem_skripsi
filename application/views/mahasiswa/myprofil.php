@@ -126,5 +126,4 @@
 		<div class="card-text small"> <span class='span-phone caption' data-id='<?= $this->session->userdata('nim');?>'> <?= $m->nohp_mhs;?> </span> <input type='text' class='field-phone col-7 form-control-sm form-control editor' value='<?= $m->nohp_mhs;?>' data-id='<?= $this->session->userdata('nim');?>' style="display: none;"/>
 		</div>
 	<?php } ?> 
-
 </div>

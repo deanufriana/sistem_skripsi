@@ -220,8 +220,8 @@
 					<option value="dosen/beranda">Dosen</option>
 				</select>
 			</div>
-			<div class="m-1">
-				<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-primary btn-sm"><i class="fas fa-sign-out-alt"></i> Keluar </a>
+			<div class="m-1 float-right">
+				<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt"></i> Keluar </a>
 			</div>
 		</div>
 	</nav>
