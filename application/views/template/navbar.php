@@ -92,9 +92,6 @@
 					success: function(response){ 
 						$("#konsentrasi").html(response.list_kota).show();
 					},
-					error: function (xhr, ajaxOptions, thrownError) { 
-						alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
-					}
 				});
 			});
 
@@ -126,87 +123,84 @@
 
 	<style type="text/css">
 
-		h1 {
-			font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
-			font-size: 24px;
-			font-style: normal;
-			font-variant: normal;
-			font-weight: 500;
-			line-height: 26.4px;
-		}
-		h3 {
-			font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
-			font-size: 14px;
-			font-style: normal;
-			font-variant: normal;
-			font-weight: 500;
-			line-height: 15.4px;
-		}
-		p {
-			font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
-			font-size: 14px;
-			font-style: normal;
-			font-variant: normal;
-			font-weight: 400;
-			line-height: 20px;
-		}
-		blockquote {
-			font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
-			font-size: 21px;
-			font-style: normal;
-			font-variant: normal;
-			font-weight: 400;
-			line-height: 30px;
-		}
-		pre {
-			font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
-			font-size: 13px;
-			font-style: normal;
-			font-variant: normal;
-			font-weight: 400;
-			line-height: 18.5714px;
-		}
+	h1 {
+		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+		font-size: 24px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 500;
+		line-height: 26.4px;
+	}
+	h3 {
+		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+		font-size: 14px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 500;
+		line-height: 15.4px;
+	}
+	p {
+		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+		font-size: 14px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 400;
+		line-height: 20px;
+	}
+	blockquote {
+		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+		font-size: 21px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 400;
+		line-height: 30px;
+	}
+	pre {
+		font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
+		font-size: 13px;
+		font-style: normal;
+		font-variant: normal;
+		font-weight: 400;
+		line-height: 18.5714px;
+	}
 
-		.bayang {
-			border: none;
-			/* top    */ border-top: 1px solid #ccc;
-			/* middle */ background-color: #ddd; color: #ddd;
-			/* bottom */ border-bottom: 1px solid #eee;
-			height: 2px;
-			*height: 3px; /* IE6+7 need the total height */
-			/* the rest of your styling */
-		}
-		.scroll{
-			overflow: scroll;
-			overflow: hidden;
-			height: 29rem;
-		}
-		/*div.card {
-		box-shadow: 0 0px 4px 0 rgba(0, 0, 0, 0.2), 0 0px 16px 0 rgba(0, 0, 0, 0.19);
-		text-align: justify;
-		}*/
-		.navigasi{
-			box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
-			background-color: #2a2730; 
-			color: #dfe6e9;
-		}
-		#table-wrapper {
-			position:relative;
-		}
-		
-		#table-wrapper table {
-			width:100%;
+	.bayang {
+		border: none;
+		/* top    */ border-top: 1px solid #ccc;
+		/* middle */ background-color: #ddd; color: #ddd;
+		/* bottom */ border-bottom: 1px solid #eee;
+		height: 2px;
+		*height: 3px; /* IE6+7 need the total height */
+		/* the rest of your styling */
+	}
+	.scroll {
+		overflow: scroll;
+		height: 25rem;
+	}
 
-		}
+	.navigasi{
+		box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 3px 10px 0 rgba(0, 0, 0, 0.19);
+		background-color: #2a2730; 
+		color: #dfe6e9;
+	}
 
-		#table-wrapper table thead th .text {
-			position:absolute;   
-			top:-20px;
-			z-index:2;
-			height:10rem;
-			width:35%;
-		}
-	</style>
+	#table-wrapper {
+		position:relative;
+	}
+
+	#table-wrapper table {
+		width:100%;
+
+	}
+
+	#table-wrapper table thead th .text {
+		position:absolute;   
+		top:-20px;
+		z-index:2;
+		height:10rem;
+		width:35%;
+	}
+</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border">
@@ -231,8 +225,11 @@
 			</div>
 		</div>
 	</nav>
-	<div id="beranda">
+	<div id="beranda" <?php if ($this->uri->segment(3) != '') {
+		echo "style='display: none'";
+	} 
+	?> >
 
-	</div>
+</div>
 </body>
 </html>

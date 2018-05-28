@@ -4,16 +4,16 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
-					<div class="col-md-2 mr-auto">
-						<img class="card-img-top" src="<?php echo base_url('assets/images/'.$d->foto) ;?>">
+					<div class="col-md-1 mr-auto">
+						<img class="card-img-top" src="<?php echo base_url('assets/images/'.$d->foto_dsn) ;?>">
 					</div>
 					<div class="col">
 						<div class="form-row">
 							<div class="form-group col-5">
-								<h3 class="card-title text-left"><?php echo $d->nama_dosen;?></h3>
+								<h5 class="card-title text-left"><?php echo $d->nama_dosen;?></h5>
 								<div class="card-subtitle text-muted"> <?php echo $d->nik;?> / <?php echo $d->email_dsn;?> </div>
 								<div>
-									No. HP : <?php echo $d->nohp;?> 
+									No. HP : <?php echo $d->nohp_dsn;?> 
 								</div>
 							</div>						
 						</div>

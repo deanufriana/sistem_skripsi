@@ -19,6 +19,8 @@
 				}
 			});
 		}
+
+		$('.tabel_mahasiswa')load('<?= base_url('Mahasiswa/page_mhs');?>');
 	</script>
 </head>
 <div style="height: 17rem" id="container">
@@ -39,36 +41,6 @@
 		</div>
 	</div>
 	<div class="table-responsive tabel_mahasiswa">
-		<table class="table table-bordered">
-			<thead>
-				<tr class="text-center">
-					<th>NIM</th>
-					<th>Nama</th>
-					<th>Judul</th>
-					<th>Nilai</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php if (!empty($skripsi)): foreach ($skripsi as $u):
-					?>
-					<tr class="text-left list-item">
-						<td><?php echo $u->nim;?></td>
-						<td><a class="btn_view" id="pembimbing" href="<?php echo base_url('Kaprodi/pembimbing/'.$u->id_skripsi);?>"><?php echo $u->nama_mhs ?></a></td>
-						<td><?php echo $u->judul_skripsi;?></td>
-						<td> <?php if ($u->nilai === '0') {
-							echo "<form method='post' id='nilai' action=".base_url('Kaprodi/nilai/'.$u->id_skripsi).">
-							<input class='form-control' type='number' name='nilai' min='0' max='100'>
-							</form>";
-						} else {
-							echo $u->nilai;
-						} ?> 
-					</td>
-				</tr> 
-				<?php echo $this->ajax_pagination->create_links();?>
-
-			</tbody>
-		</table>
-
 	</div>
 <?php endforeach; else: ?>
 <div class="col-md">

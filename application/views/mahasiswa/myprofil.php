@@ -35,13 +35,6 @@
 
 		$(function(){
 
-			$.ajaxSetup({
-				type:"post",
-				cache:false,
-				dataType: "json"
-			})
-
-
 			$(document).on("click","div.small",function(){
 				$(this).find("span[class~='caption']").hide();
 				$(this).find("input[class~='editor']").fadeIn().focus();
@@ -63,6 +56,9 @@
 					}
 
 					$.ajax({
+						type:"post",
+						cache:false,
+						dataType: "json",
 						data:data,
 						url:"<?php echo base_url('Mahasiswa/update'); ?>",
 						success: function(a){

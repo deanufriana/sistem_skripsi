@@ -76,7 +76,7 @@ class Mahasiswa extends CI_Controller {
 	function ide_skripsi()
 	{
 		$where = array('nim_mhs_ide' => $this->session->userdata('nim'));
-		$data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where);
+		$data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC');
 
 		$this->load->view('mahasiswa/ide_skripsi', $data);
 	}

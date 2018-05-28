@@ -1,7 +1,7 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#ide").on('submit',
+			$("#pengajuan").on('submit',
 				function(e) {
 					e.preventDefault();
 					var form = $(this);
@@ -21,27 +21,31 @@
 						processData: false,
 						cache: false,
 						success: function() {
-							swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success")
-							$('#data_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
-							return false;
+							swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success");
+							$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
+							$('#judul').val('');
+							$('#deskripsi').val('');
 						}
 					});
 				});
 		});
 	</script>
 </head>
-<form id="ide" method="POST" action="<?php echo base_url('Mahasiswa/pengajuan') ;?>">
+<form id="pengajuan" method="POST" action="<?php echo base_url('Mahasiswa/pengajuan') ;?>">
+	
 	<div class="form-group">
-		<label>Judul Skripsi</label>
-		<input class="form-control" type="text" name="judul">
-	</div>
-	<div class="form-group">
-		<label>Deskripsi Judul</label>
-		<textarea class="form-control" name="deskripsi" minlength="200" rows="9"></textarea>
+		<textarea class="form-control" name="deskripsi" placeholder="Deskripsi" id="deskripsi" minlength="200" rows="13"></textarea>
 		<small>Minimal 200 Kata</small>
 	</div>
+	<div class="form-row">
+		<div class="form-group col-md">
+			<input class="form-control" type="text" name="judul" id="judul" placeholder="Judul Skripsi">
+		</div>
+
+		<div class="form-group float-right">
+			<button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-paper-plane fa-sm"></i> Submit</button>
+		</div>
+
+	</div>
 	
-</div>
-<button id="kirim" type="submit" class="btn btn-outline-primary"><i class="fas fa-paper-plane"></i> Submit</button>
 </form>	
-</div>

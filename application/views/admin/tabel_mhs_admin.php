@@ -7,7 +7,7 @@
 			<th scope="col">Konsentrasi</th>
 			<th scope="col">Email</th>
 			<th scope="col">No HP</th>
-			<th>Aksi</th>
+			<th>Status</th>
 		</tr>
 	</thead>
 	<tbody>
