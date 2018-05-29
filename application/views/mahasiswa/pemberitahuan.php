@@ -7,11 +7,11 @@
 	<div class="tabel<?= $p->id;?>">
 		<div class="card-body">
 			<div class="form-row">
-				<div class="form-group col-1">
-					<img class="card-img-top" src="<?= base_url('assets/images/'.$p->foto_dsn);?>" alt="Card image">
+				<div class="form-group col-2 col-md-1">
+					<img class="card-img-top img-rounded img-fluid" src="<?= base_url('assets/images/'.$p->foto_dsn);?>" alt="Card image">
 				</div>
 				<div class="form-group col">
-					<h5 class="card-title"> <?= $p->pemberitahuan;?>  <?= $p->status;?> </h5>
+					<h6 class="card-title"> <?= $p->pemberitahuan;?>  <?= $p->status;?> </h6>
 					<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar"></i> <?= longdate_indo($p->tanggal);?> <i class="fas fa-users"></i> <?= $p->nama_dosen;?></h6>
 				</div>
 				

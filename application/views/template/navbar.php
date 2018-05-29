@@ -14,9 +14,6 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/clockpicker.css');?>">
 	
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js');?>"></script>
-
-	
-	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.tabledit.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert.min.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
@@ -174,8 +171,8 @@
 		/* the rest of your styling */
 	}
 	.scroll {
-		overflow: scroll;
-		height: 25rem;
+		overflow: hidden;
+		height: 28rem;
 	}
 
 	.navigasi{

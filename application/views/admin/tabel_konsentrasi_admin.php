@@ -3,28 +3,29 @@
 	</script>
 </head>
 
-<table class="table">
-	<thead>
-		<th>ID</th>
-		<th>Konsentrasi</th>
-		<th>KaProdi</th>
-	</thead>
-	<?php foreach ($konsentrasi->result() as $k) {
-		?>
-		<tbody>
-			<tr>
-				<td scope="row"> <?php echo $k->id;?></td>
-				<td> <?php echo $k->konsentrasi;?> </td>
-				<td> <?php if (empty($k->nama_dosen)) {
-					?>
-					<form method="POST" action="<?php echo base_url('Admin/ubah_kaprodi/'.$k->id);?>" id="kaprodi">
-						<div class="form-row align-items-center">
-							<div class="col-md mb-4">
-								<select name="kaprodi" class="custom-select mr-sm-2">
-									<option selected>Menetapkan Kaprodi <?php echo $k->konsentrasi;?></option>
-									<?php foreach ($dosen as $j) {
-										?>
-										<option value="<?php echo $j->nik;?>"><?php echo $j->nama_dosen;?></option>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<th>ID</th>
+			<th>Konsentrasi</th>
+			<th>KaProdi</th>
+		</thead>
+		<?php foreach ($konsentrasi->result() as $k) {
+			?>
+			<tbody>
+				<tr>
+					<td scope="row"> <?php echo $k->id;?></td>
+					<td> <?php echo $k->konsentrasi;?> </td>
+					<td> <?php if (empty($k->nama_dosen)) {
+						?>
+						<form method="POST" action="<?php echo base_url('Admin/ubah_kaprodi/'.$k->id);?>" id="kaprodi">
+							<div class="form-row align-items-center">
+								<div class="col-md mb-4">
+									<select name="kaprodi" class="custom-select mr-sm-2">
+										<option selected>Menetapkan Kaprodi <?php echo $k->konsentrasi;?></option>
+										<?php foreach ($dosen as $j) {
+											?>
+											<option value="<?php echo $j->nik;?>"><?php echo $j->nama_dosen;?></option>
 										<?php } ?>
 									</select>
 								</div>
@@ -37,15 +38,16 @@
 					} else { ?>
 						<a id='kaprodi' class='btn_view' href="<?php echo base_url('Admin/form_kaprodi/').$k->id; ?>"><?php echo $k->nama_dosen ?> </a>
 
-						<?php } ?>
-					</td>
-				</tr>		
-			</tbody>
-			<?php } ?>
-		</table>
+					<?php } ?>
+				</td>
+			</tr>		
+		</tbody>
+	<?php } ?>
+</table>
 
-		<div class="SHkaprodi" style="display: none">
-			<div id="SHkaprodi">
+<div class="SHkaprodi" style="display: none">
+	<div id="SHkaprodi">
 
-			</div>
-		</div>
+	</div>
+</div>	
+</div>

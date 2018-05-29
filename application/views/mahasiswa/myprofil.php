@@ -112,7 +112,9 @@
 		</div>
 	</div>
 </div>
-<img class="card-img-top" src="<?php echo base_url('assets/images/').$this->session->userdata('foto_mhs');?>">
+
+<img class="card-img-top img-rounded img-fluid" src="<?php echo base_url('assets/images/').$this->session->userdata('foto_mhs');?>">
+
 <div class="card-body">
 	<?php foreach ($mahasiswa as $m) {
 		echo $this->session->userdata('jurusan')." ".$this->session->userdata('konsentrasi');

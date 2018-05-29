@@ -1,4 +1,4 @@
-	<table  class="table">
+	<table class="table">
 		<thead>
 			<tr class="text-center">
 				<th>NIK</th>

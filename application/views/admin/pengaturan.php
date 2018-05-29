@@ -54,11 +54,11 @@
       <label for="exampleInputEmail1">Username</label>
       <input type="text" class="form-control" id="username" placeholder="Username" name="username">
     </div>
-    <div class="form-group col">
+    <div class="form-group col-md">
       <label for="exampleInputPassword1">Password Lama</label>
       <input type="password" class="form-control" id="pass_lama" name="pass_lama" placeholder="Password">
     </div>
-    <div class="form-group col">
+    <div class="form-group col-md">
       <label for="exampleInputPassword1">Password Baru</label>
       <input type="password" class="form-control" id="pass_baru" name="pass_baru" placeholder="Password">
     </div>

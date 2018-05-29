@@ -1,12 +1,16 @@
 <div class="card-body">
 	<div class="form-row">
-		<div class="form-group col-md-9">
-			<h5> <i class="fas fa-book fa-sm"></i> <?php foreach ($skripsi as $s) {
-				echo $s->judul_skripsi; ?> </h5>	
-			<small><?= character_limiter($s->deskripsi, '200'); } ?></small>
+		<div class="form-group col-md-11">
+			<h6> <i class="fas fa-book fa-sm"></i> <?php foreach ($skripsi as $s) {
+				echo $s->judul_skripsi; ?> 
+			</h6>	
+
+			<?= word_limiter($s->deskripsi, 10); } ?>
 		</div>
-		<div class="form-group col-md text-right">
-			<a href="<?php echo base_url('Cetak/kartu/').$this->session->userdata('nim');?>"> <button class="btn btn-outline-primary"> <i class="fas fa-print"></i> Cetak Kartu</button> </a>		
+		<div class="form-group col-md-1">
+			<div class="float-right">
+				<a href="<?php echo base_url('Cetak/kartu/').$this->session->userdata('nim');?>"> <button class="btn btn-outline-primary"> <i class="fas fa-print"> </i> Cetak </button> </a>	
+			</div>
 		</div>
 	</div>
 
@@ -45,7 +49,6 @@
 					<tr>
 						<th>No</th>
 						<th style="width: 12rem">Tanggal</th>
-						<th>Catatan</th>
 						<th>Pembimbing</th>
 					</tr>
 				</thead>
@@ -53,16 +56,17 @@
 					<?php $no = '1'; ?>
 					<?php foreach ($konsultasi as $k) {	?>
 						<tr>
-							<th><?php echo $no++;?></th>
-							<th><?php echo longdate_indo($k->tanggal);?></th>
-							<th><?php echo $k->catatan;?></th>
-							<th style="width: 10rem"><?php echo $k->pembimbing;?></th>
+							<td><?php echo $no++;?></td>
+							<td><?php echo longdate_indo($k->tanggal);?></td>
+							<td style="width: 10rem"><?php echo $k->pembimbing;?></td>
+						</tr>
+						<tr>
+							<th>Catatan</th>
+							<td colspan="3"><?php echo $k->catatan;?></td>
 						</tr>
 					<?php } ?>
 				</tbody>	
 			</table>
-
 		</div>
-
 	</div>
 </div>

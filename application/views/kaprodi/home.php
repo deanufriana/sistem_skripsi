@@ -1,5 +1,22 @@
 <head>
 	<script type="text/javascript">
+		function searchmhs(page_num) {
+			page_num = page_num?page_num:0;
+			var keywords = $('#keywords_mhs').val();
+			var cari_mhs = $('#cari_mhs').val();
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo base_url(); ?>Kaprodi/page_mhs/'+page_num,
+				data:'page='+page_num+'&keywords='+keywords+'&cari_mhs='+cari_mhs,
+				beforeSend: function () {
+					$('.loading').show();
+				},
+				success: function (html) {
+					$('#mahasiswa').html(html);
+					$('.loading').fadeOut("slow");
+				}
+			});
+		}
 		$(document).ready(function(){
 
 			$('#ide_skripsi').load('<?php echo base_url('kaprodi/ide_skripsi');?>');
@@ -112,29 +129,6 @@
 								</div>
 
 								<div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-									<head>
-										<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>">
-										</script>
-										<script type="text/javascript">
-											function searchmhs(page_num) {
-												page_num = page_num?page_num:0;
-												var keywords = $('#keywords_mhs').val();
-												var cari_mhs = $('#cari_mhs').val();
-												$.ajax({
-													type: 'POST',
-													url: '<?php echo base_url(); ?>Kaprodi/page_mhs/'+page_num,
-													data:'page='+page_num+'&keywords='+keywords+'&cari_mhs='+cari_mhs,
-													beforeSend: function () {
-														$('.loading').show();
-													},
-													success: function (html) {
-														$('.mahasiswa').html(html);
-														$('.loading').fadeOut("slow");
-													}
-												});
-											}
-										</script>
-									</head>
 									<div style="height: 17rem" id="container">
 										<div class="form-row">
 

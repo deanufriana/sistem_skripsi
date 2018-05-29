@@ -27,7 +27,7 @@
 	<div class="row">
 		<div class="col-md-2 menu">
 			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-				<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-university"></i> Universitas</a> 
+				<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-university"></i> Beranda </a> 
 				<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fas fa-graduation-cap"></i> Mahasiswa</a>
 				<a class="nav-link" id="v-pills-dosen-tab" data-toggle="pill" href="#v-pills-dosen" role="tab" aria-controls="v-pills-dosen" aria-selected="false"><i class="fas fa-briefcase"></i> Dosen </a>
 				<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fas fa-wrench"></i> Pengaturan</a>
@@ -44,7 +44,7 @@
 						<div>
 							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md text-right">
+						<div class="col-md col text-right">
 							<h5 class="nav-link"> BERANDA </h5>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 						<div class="float-left">
 							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col">
+						<div class="col col-md">
 							<h5 class="text-right nav-link"> PENGATURAN </h5>
 						</div>
 					</div>
@@ -97,8 +97,8 @@
 						<div class="float-left">
 							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md text-right">
-							<h5 class="nav-link"> DATA MAHASISWA SKRIPSI </h5>
+						<div class="col-md col text-right">
+							<h5 class="nav-link"> DATA MAHASISWA </h5>
 						</div>
 					</div>
 					<hr>
@@ -112,7 +112,7 @@
 						<div class="float-left">
 							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md text-right">
+						<div class="col-md col text-right">
 							<h5 class="nav-link"> DATA DOSEN </h5>
 						</div>
 					</div>
