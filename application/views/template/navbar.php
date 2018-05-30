@@ -112,6 +112,79 @@
 			$("#txtConfirmPassword").keyup(checkPasswordMatch);
 		});
 
+		$(document).ready(function(){
+	// berfungsi untuk menghapus data
+	$("div#container").on('click', 'a.hapus', (function(e) {
+		e.preventDefault();
+		var form = $(this);
+		var formdata = false;
+		var id = $(this).attr("id");
+		var nama = $(this).attr('name');
+
+		if (window.FormData) {
+			formdata = new FormData(form[0]);
+		}	
+		swal({
+			title: "Apa kau yakin ingin menghapus?"+nama,
+			text: "sekali dihapus kau tidak akan dapat mengembalikannya lagi!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				$.ajax({
+					type: "POST",
+					url: form.attr("href"),
+					data: formdata ? formdata: form.serialize(),
+					contentType: false,
+					processData: false,
+					cache: false,
+					success: function() {
+						$(".tabel" + id).fadeOut("slow");
+					}
+				});
+			} else {
+				swal("Data Tidak Dihapus!");
+			}
+		});
+	}));
+
+	// btn view berfungsi untuk melihat data
+	$("div#container").on('click', 'a.btn_view', function(e) {
+		e.preventDefault();
+		var form = $(this);
+		var formdata = false;
+		var id = $(this).attr("id");
+
+		if (window.FormData) {
+			formdata = new FormData(form[0]);
+		}	
+		$.ajax({
+			type: 'POST',
+			url: form.attr('href'),
+			data: formdata ? formdata: form.serialize(),
+			contentType: false,
+			processData: false,
+			cache: false,
+			beforeSend: function() {
+				$('.loading').show();
+			},
+			success: function() {
+				$(".SH"+id).fadeIn('fast' ,function() {
+					$("#SH"+id).load(form.attr('href')).fadeIn('fast');
+					$('.loading').fadeOut('slow');
+				});
+			}
+		});
+	});
+});
+
+
+
+
+
+
 
 
 
@@ -171,7 +244,7 @@
 		/* the rest of your styling */
 	}
 	.scroll {
-		overflow: hidden;
+		overflow: scroll;
 		height: 28rem;
 	}
 
@@ -209,7 +282,7 @@
 				<span class="text-right col"><i class="fas fa-calendar-alt"> </i>   
 					<?php echo longdate_indo(date('Y-m-d'));?> </span>	
 				</div>
-				<div <?php if ($this->uri->segment('1') != 'Kaprodi') {
+				<div <?php if (!(($this->uri->segment(1) == "Kaprodi") AND ($this->uri->segment(3) == ""))) {
 					echo "style='display: none'";
 				}?>>
 				<select class="custom-select" id="status">

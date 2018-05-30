@@ -1,4 +1,4 @@
-	<script type="text/javascript">
+<script type="text/javascript">
 		function cari_dsn(page_num) {
 			page_num = page_num?page_num:0;
 			var keywords_dsn = $('#keywords_dsn').val();

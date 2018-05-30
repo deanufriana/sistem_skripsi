@@ -4,7 +4,7 @@
 </head>
 <?php foreach ($pemberitahuan->result() as $p) {
 	?>
-	<div class="tabel<?= $p->id;?>">
+	<div class="tabel<?= $p->id;?>" id="container">
 		<div class="card-body">
 			<div class="form-row">
 				<div class="form-group col-2 col-md-1">
@@ -16,7 +16,7 @@
 				</div>
 				
 				<div class="form-group col-1 text-right">
-					<a id="<?= $p->id;?>" class="hapus" href="<?= base_url('Mahasiswa/hapus/'.$p->id);?>"><i class="fas fa-trash-alt"></i></a>
+					<a id="<?= $p->id;?>" class="hapus" name="<?= $p->pemberitahuan;?>" href="<?= base_url('Mahasiswa/hapus/'.$p->id);?>"><i class="fas fa-trash-alt"></i></a>
 				</div>
 				<br>
 				<div class="form-group col-md-3">

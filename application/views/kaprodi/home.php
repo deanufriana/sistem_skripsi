@@ -6,13 +6,13 @@
 			var cari_mhs = $('#cari_mhs').val();
 			$.ajax({
 				type: 'POST',
-				url: '<?php echo base_url(); ?>Kaprodi/page_mhs/'+page_num,
+				url: '<?php echo base_url(); ?>Kaprodi/tabel_mhs_kaprodi/'+page_num,
 				data:'page='+page_num+'&keywords='+keywords+'&cari_mhs='+cari_mhs,
 				beforeSend: function () {
 					$('.loading').show();
 				},
 				success: function (html) {
-					$('#mahasiswa').html(html);
+					$('#tabel_mhs_kaprodi').html(html);
 					$('.loading').fadeOut("slow");
 				}
 			});
@@ -20,7 +20,7 @@
 		$(document).ready(function(){
 
 			$('#ide_skripsi').load('<?php echo base_url('kaprodi/ide_skripsi');?>');
-			$('#mahasiswa').load('<?php echo base_url('kaprodi/page_mhs');?>');
+			$('#tabel_mhs_kaprodi').load('<?php echo base_url('kaprodi/tabel_mhs_kaprodi');?>');
 			$('#form_kegiatan').load('<?php echo base_url('kaprodi/form_kegiatan');?>');
 			// $('#daftar').load('<?php echo base_url('kaprodi/daftar');?>');
 			$('#profil').load('<?php echo base_url('dosen/profil');?>');
@@ -146,7 +146,7 @@
 												<i class="fas fa-spinner fa-pulse" ></i>
 											</div>
 										</div>
-										<div id="mahasiswa">
+										<div id="tabel_mhs_kaprodi">
 
 										</div>
 

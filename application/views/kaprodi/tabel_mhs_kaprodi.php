@@ -18,7 +18,7 @@
 				?>
 				<tr class="text-left list-item">
 					<td><?php echo $u->nim;?></td>
-					<td><a class="btn_view" id="pembimbing" href="<?php echo base_url('Kaprodi/pembimbing/'.$u->id_skripsi);?>"><?php echo $u->nama_mhs ?></a></td>
+					<td><a id="nama" href="<?php echo base_url('Kaprodi/profil_mhs/'.$u->nim);?>"><?php echo $u->nama_mhs ?></a></td>
 					<td><?= $u->nohp_mhs;?></td>
 					<td><?= $u->email_mhs;?></td>
 					<td> <?php if ($u->nilai === '0') {
@@ -31,7 +31,9 @@
 				</tr>
 				<tr class="list-item">
 					<th scope="col">Judul</th>
-					<td colspan="4"><?php echo $u->judul_skripsi;?></td>
+					<td colspan="4"><a class="btn_view" id="pembimbing" href="<?php echo base_url('Kaprodi/pembimbing/'.$u->id_skripsi);?>">
+						<?php echo $u->judul_skripsi;?>
+					</a></td>
 				</tr>
 			<?php endforeach; else: ?>
 		</tbody>
@@ -40,13 +42,11 @@
 		<p>Belum Ada Data.</p>	
 	</div>
 
+<?php endif; ?>
+</div>
 <div class="SHpembimbing " style="display: none">
 	<div id="SHpembimbing">
 	</div>	
 </div>
-
-<?php endif; ?>
-</div>
-
 
 <?php echo $this->ajax_pagination->create_links(); ?>	

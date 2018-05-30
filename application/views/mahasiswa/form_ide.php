@@ -20,17 +20,34 @@
 						contentType: false,
 						processData: false,
 						cache: false,
-						success: function() {
-							swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success");
-							$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
-							$('#judul').val('');
-							$('#deskripsi').val('');
+						beforeSend: function () {
+							$('#loading').fadeIn();
+						},
+						success: function(result) {
+							if (result != 1) {
+								swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success");
+								$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
+								$('#judul').val('');
+								$('#deskripsi').val('');
+								$('#loading').fadeOut();
+							} else {
+								swal("Judul Skripsi Sudah Pernah Ada", "Mohon Ubah Judul yang lain", "error");
+								$('#loading').fadeOut();
+
+							}
 						}
 					});
 				});
 		});
 	</script>
 </head>
+<div id="loading" class="modal" style="display:none;">
+	<div class="modal-dialog modal-dialog-centered ">
+		<div class="alert alert-info alert-white rounded modal-content">
+			<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
+		</div>
+	</div>
+</div>
 <form id="pengajuan" method="POST" action="<?php echo base_url('Mahasiswa/pengajuan') ;?>">
 	
 	<div class="form-group">

@@ -102,7 +102,7 @@ class Dosen extends CI_Controller {
 				$data['pemberitahuan'] = 'Proposal '.$c->judul_skripsi.' Telah Di ACC';
 				$data['catatan'] = 'Proposal Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').'Sebagai '.$c->level;
 				$data['penerima'] = $c->nim;
-				$data['pengirim'] = $this->session->userdata('nama_dosen');
+				$data['pengirim'] = $this->session->userdata('nik');
 				$data['tanggal'] = date('Y-m-d');
 				$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> Proposal </span>';
 
@@ -125,7 +125,7 @@ class Dosen extends CI_Controller {
 				$data['pemberitahuan'] = 'Skripsi '.$c->judul_skripsi.' Telah Di ACC';
 				$data['catatan'] = 'Skripsi Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').'<br> Sebagai '.$c->level;
 				$data['penerima'] = $c->nim;
-				$data['pengirim'] = $this->session->userdata('nama_dosen');
+				$data['pengirim'] = $this->session->userdata('nik');
 				$data['tanggal'] = date('Y-m-d');
 				$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> Skripsi </span>';
 

@@ -65,7 +65,15 @@ class Mahasiswa extends CI_Controller {
 
 		$ide = array('id_ide' => $id_ide, 'nim_mhs_ide' => $nim, 'judul' => $judul, 'deskripsi' => $deskripsi, 'tanggal' => $tanggal);
 
-		$this->M_data->save($ide, 'ide_skripsi');
+		$where = array('judul_skripsi' => $judul);
+
+		$skripsi = $this->M_data->find('skripsi', $where);
+
+		if ($skripsi->num_rows() > 0) {
+			echo 1;
+		} else {
+			$this->M_data->save($ide, 'ide_skripsi');
+		}
 	}
 
 	function form_ide()
