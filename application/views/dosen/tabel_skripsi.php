@@ -4,9 +4,9 @@
 				<tr class="text-center">
 					<th>NIM</th>
 					<th>Nama</th>
-					<th>Judul</th>
 					<th>Status Proposal</th>
 					<th>Status Skripsi</th>
+					<th>Status</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -15,12 +15,24 @@
 					<tr>
 						<td><?php echo $u->nim;?></td>
 						<td><?php echo $u->nama_mhs;?></td>
-						<td><?php echo anchor('Dosen/mhs_profil/'.$u->id_pmb, $u->judul_skripsi);?></td></a>
-						<td><?php echo $u->status_proposal;?></td>
-						<td><?php echo $u->status_skripsi;?></td>
+						<td class="text-center"><?php if ($u->status_proposal === 'Disetujui') {
+							echo "<i class='fas fa-check-square'></i>";
+						} else {
+							echo "<i class='fas fa-square'></i>";
+						} ?></td>
+						<td class="text-center"><?php if ($u->status_skripsi === 'Disetujui') {
+							echo "<i class='fas fa-check-square'></i>";
+						} else {
+							echo "<i class='fas fa-square'></i>";
+						} ?></td>
+						<td class="text-center"><?php echo $u->level;?></td>
 					</tr>
-					<?php } ?>
-				</tbody>
-			</table>
-		</div>
-		</div>
+					<tr>
+						<th>Judul Skripsi</th>
+						<td colspan="4"><?php echo anchor('Dosen/mhs_profil/'.$u->id_pmb, $u->judul_skripsi);?></td>
+					</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+	</div>
+</div>

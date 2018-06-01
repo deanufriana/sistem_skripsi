@@ -25,7 +25,9 @@ class Dosen extends CI_Controller {
 
 	function profil()
 	{
-		$this->load->view('dosen/profil');
+		$where = array('nik' => $this->session->userdata('nik'));
+		$data['dosen'] = $this->M_data->find('dosen',$where);
+		$this->load->view('dosen/profil', $data);
 	}
 
 	function update_password()
@@ -144,5 +146,15 @@ class Dosen extends CI_Controller {
 		$data['pembimbing'] = $this->session->userdata('nama_dosen');
 		$data['nim_mhs_ks'] = $this->input->post('mhs');
 		$this->M_data->save($data, 'konsultasi');
+	}
+
+	function update(){
+		$id= $this->input->post("id");
+		$value= $this->input->post("value");
+		$modul= $this->input->post("modul");
+		$data[$modul] = $value;
+
+		$this->M_data->update('nik', $id, 'dosen', $data);
+		echo "{}";
 	}
 }

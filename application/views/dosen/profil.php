@@ -32,6 +32,46 @@
 				return false;
 			}
 		});
+		
+		$(function(){
+
+			$(document).on("click","div.small",function(){
+				$(this).find("span[class~='caption']").hide();
+				$(this).find("input[class~='editor']").fadeIn().focus();
+			});
+
+
+			$(document).on("keydown",".editor",function(e){
+				if(e.keyCode==13){
+					var target=$(e.target);
+					var value=target.val();
+					var id=target.attr("data-id");
+					var data={id:id,value:value};
+					if (target.is(".field-name")){
+						data.modul="nama_dsn";
+					} else if(target.is(".field-email")){
+						data.modul="email_dsn";
+					} else if(target.is(".field-phone")){
+						data.modul="nohp_dsn";
+					}
+
+					$.ajax({
+						type:"post",
+						cache:false,
+						dataType: "json",
+						data:data,
+						url:"<?php echo base_url('Dosen/update'); ?>",
+						success: function(a){
+							target.hide();
+							target.siblings("span[class~='caption']").html(value).fadeIn();
+						}
+
+					})
+
+				}
+
+			});
+		});
 	</script>
 </head>
 <div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -70,13 +110,18 @@
 		</div>
 	</div>
 </div>
-<div class="card mb-1">
-	<img class="card-img-top" src="<?php echo base_url('assets/images/').$this->session->userdata('foto');?>" alt="Card image">
-	<div class="card-body">
-		<?php echo $this->session->userdata('status')." ".$this->session->userdata('jurusan')." ".$this->session->userdata('konsentrasi');?>
-		<h6 class="card-title"><?php echo $this->session->userdata('nama_dosen');?></h6>
-		<hr>
-		<a href="" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm float-right"><i class="fas fa-edit"></i> Password </a>
-		<p class="card-text small"><?php echo $this->session->userdata('nik');?> <br> <?php echo $this->session->userdata('email_dsn'); ;?></p>
-	</div>
-</div>	
+<?php foreach ($dosen->result() as $d): ?>
+	<div class="card mb-1">
+		<img class="card-img-top" src="<?php echo base_url('assets/images/').$this->session->userdata('foto');?>" alt="Card image">
+		<div class="card-body">
+			<?php echo $this->session->userdata('status')." ".$this->session->userdata('jurusan')." ".$this->session->userdata('konsentrasi');?>
+			<h6 class="card-title"><?php echo $this->session->userdata('nama_dosen');?> / <?= $this->session->userdata('nik'); ?></h6>
+			<hr>
+			<a href="" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm float-right"><i class="fas fa-edit fa-xs"></i> Password </a>
+			<div class="card-text small">	<span class='span-email caption' data-id='<?= $this->session->userdata('nik');?>'> <?= $d->email_dsn;?> </span> <input type='email' class='field-email col-7 form-control-sm form-control editor' value='<?= $d->email_dsn;?>' data-id='<?= $this->session->userdata('nik');?>' style="display: none;"/> 
+			</div> 
+			<div class="card-text small"> <span class='span-phone caption' data-id='<?= $this->session->userdata('nik');?>'> <?= $d->nohp_dsn;?> </span> <input type='text' class='field-phone col-7 form-control-sm form-control editor' value='<?= $d->nohp_dsn;?>' data-id='<?= $this->session->userdata('nik');?>' style="display: none;"/>
+			</div>
+		</div>
+	</div>	
+	<?php endforeach ?>

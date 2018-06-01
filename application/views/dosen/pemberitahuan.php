@@ -6,7 +6,7 @@
 <?php foreach ($pemberitahuan->result() as $p) {
 	?>
 	<div class="tabel<?php echo $p->id;?>">
-		<div class="card scroll">
+		<div class="card mb-3">
 			<div class="card-body">
 				<div class="form-row">
 					<div class="form-group col-2 col-md-1">

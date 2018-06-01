@@ -149,6 +149,12 @@
 										<div id="tabel_mhs_kaprodi">
 
 										</div>
+										<?php echo $this->ajax_pagination->create_links(); ?>	
+										<div class="SHpembimbing " style="display: none">
+											<div id="SHpembimbing">
+											</div>	
+										</div>
+
 
 									</div>
 

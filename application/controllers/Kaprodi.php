@@ -99,11 +99,14 @@ function tabel_mhs_kaprodi()
 
 }
 
-function nilai($id_skripsi)
+function nilai()
 {
-  $data = $this->input->post('nilai');
-  $where = array('nilai' => $data);
-  $this->M_data->update('id_skripsi', $id_skripsi, 'skripsi', $where);
+  $id= $this->input->post("id");
+    $value= $this->input->post("value");
+    $modul= $this->input->post("modul");
+    $data[$modul] = $value;
+    $this->M_data->update('id_skripsi', $id, 'skripsi', $data);
+    echo "{}";
 }
 
 function daftar()

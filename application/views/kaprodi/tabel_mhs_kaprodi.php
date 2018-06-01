@@ -1,8 +1,44 @@
 <head>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>">
-	-	</script>
+	<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>"></script>
+	<script type="text/javascript">
+		$(function(){
+
+			$(document).on("click","div.small",function(){
+				$(this).find("span[class~='caption']").hide();
+				$(this).find("input[class~='editor']").fadeIn().focus();
+			});
+
+
+			$(document).on("keydown",".edit",function(e){
+				if(e.keyCode==13){
+					var target=$(e.target);
+					var value=target.val();
+					var id=target.attr("data-id");
+					var data={id:id,value:value};
+					if(target.is(".field-name")){
+						data.modul="nilai";
+					}
+
+					$.ajax({
+						type:"post",
+						cache:false,
+						dataType: "json",
+						data:data,
+						url:"<?php echo base_url('Kaprodi/nilai'); ?>",
+						success: function(a){
+							target.hide();
+							target.siblings("span[class~='caption']").html(value).fadeIn();
+						}
+
+					})
+
+				}
+
+			});
+		});
+	</script>	
 </head>
-<div class="table-responsive" id="container">
+<div class="table-responsive">
 	<table class="table">
 		<thead>
 			<tr>
@@ -18,16 +54,14 @@
 				?>
 				<tr class="text-left list-item">
 					<td><?php echo $u->nim;?></td>
-					<td><a id="nama" href="<?php echo base_url('Kaprodi/profil_mhs/'.$u->nim);?>"><?php echo $u->nama_mhs ?></a></td>
+					<td><a href="<?php echo base_url('Kaprodi/profil_mhs/'.$u->nim);?>"><?php echo $u->nama_mhs ?></a></td>
 					<td><?= $u->nohp_mhs;?></td>
 					<td><?= $u->email_mhs;?></td>
-					<td> <?php if ($u->nilai === '0') {
-						echo "<form method='post' action=".base_url('Kaprodi/nilai/'.$u->id_skripsi).">
-						<input class='form-control form-control-sm' type='number' name='nilai' min='0' max='100'>
-						</form>";
+					<td>  <?php if ($u->nilai === '0') {
+						echo "<input data-id=".$u->id_skripsi." class='form-control form-control-sm field-name edit' type='number' name='nilai' min='0' max='100' value=".$u->nilai.">";
 					} else {
-						echo $u->nilai;
-					} ?> 				</td>
+						echo "<span class='caption'>".$u->nilai."</span>";
+					} ?> 	<span class='span-name caption' data-id='<?= $u->id_skripsi ?>' style="display: none"> <?= $u->nilai;?> </span>		</td>
 				</tr>
 				<tr class="list-item">
 					<th scope="col">Judul</th>
@@ -44,9 +78,3 @@
 
 <?php endif; ?>
 </div>
-<div class="SHpembimbing " style="display: none">
-	<div id="SHpembimbing">
-	</div>	
-</div>
-
-<?php echo $this->ajax_pagination->create_links(); ?>	

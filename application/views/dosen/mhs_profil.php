@@ -160,7 +160,7 @@
 				<hr>
 				<div class="form-row">
 					<div class="form-group col-8">
-						<h4> <i class="fas fa-pencil-alt fa-sm"></i> Kartu Bimbingan </h4>	
+						<h5> <i class="fas fa-pencil-alt fa-xs"></i> Kartu Bimbingan </h5>	
 					</div>
 					
 					<?php if($this->uri->segment(1) === "Kaprodi") {
@@ -179,7 +179,6 @@
 							<tr>
 								<th>No</th>
 								<th>Tanggal</th>
-								<th>Catatan</th>
 								<th>Pembimbing</th>
 							</tr>
 						</thead>
@@ -189,8 +188,12 @@
 								<tr>
 									<td><?= $no++;?></td>
 									<td><?= longdate_indo($k->tanggal);?></td>
-									<td><?= $k->catatan;?></td>
 									<td><?= $k->pembimbing;?></td>
+								</tr>
+								<tr>
+									<th> Catatan </th>
+									<td colspan="2"><?= $k->catatan;?></td>
+
 								</tr>
 							<?php } ?>
 						</tbody>

@@ -1,4 +1,5 @@
-<?php foreach ($dosen->result() as $d) {
+<?php $no = '1';
+foreach ($dosen->result() as $d) {
 	?>
 	<div class="container-fluid">
 		<div class="card">
@@ -10,51 +11,66 @@
 					<div class="col">
 						<div class="form-row">
 							<div class="form-group col-5">
-								<h5 class="card-title text-left"><?php echo $d->nama_dosen;?></h5>
-								<div class="card-subtitle text-muted"> <?php echo $d->nik;?> / <?php echo $d->email_dsn;?> </div>
-								<div>
+								<h5 class="card-title text-left"><?php echo $d->nama_dosen;?> / <?php echo $d->nik;?></h5>
+								<div class="card-subtitle text-muted"> <i class="fas fa-envelope fa-xs"></i> <?php echo $d->email_dsn;?> </div>
+								<div> <i class="fas fa-phone fa-xs"></i>
 									No. HP : <?php echo $d->nohp_dsn;?> 
 								</div>
 							</div>						
 						</div>
-
-
 					</div>
 				</div>
-				<?php } ?>
-				<hr>
+			<?php } ?>
+			<hr>
+			<div>
 				<div>
-					<div>
-						<div class="form-row">
-							<div class="form-group col-9">
-								<h4> <i class="fas fa-pencil-alt"></i> Skripsi Yang di Bimbing </h4>	
-							</div>
+					<div class="form-row">
+						<div class="form-group col-9">
+							<h6> <i class="fas fa-pencil-alt fa-xs"></i> Skripsi Yang di Bimbing </h6>	
 						</div>
-						<table class="table table-bordered">
-							<thead>
+					</div>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>Mahasiswa</th>
+								<th>Status Proposal</th>
+								<th>Status Skripsi</th>
+								<th>Status</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($pembimbing as $p) {
+								?>
+								<tr>
+									<td><?= $no++ ?></td>
+									<td><?= $p->nama_mhs;?></td>
+									
+									<td class="text-center"><?php if ($p->status_proposal === 'Disetujui') {
+										echo "<i class='fas fa-check-square'></i>";
+									} else {
+										echo "<i class='fas fa-square'></i>";
+									} ?></td>
+									<td class="text-center"><?php if ($p->status_skripsi === 'Disetujui') {
+										echo "<i class='fas fa-check-square'></i>";
+									} else {
+										echo "<i class='fas fa-square'></i>";
+									} ?></td>
+									<td><?= $p->level?></td>
+								</tr>
 								<tr>
 									<th>Judul Skripsi</th>
-									<th>Status Proposal</th>
-									<th>Status Skripsi</th>
+									<td colspan="4"><?php echo $p->judul_skripsi;?></td>
 								</tr>
-							</thead>
-							<tbody>
-								<?php foreach ($pembimbing as $p) {
-									?>
-									<tr>
-										<th scope="row"><?php echo $p->judul_skripsi;?></th>
-										<td><?php echo $p->status_proposal;?></td>
-										<td><?php echo $p->status_skripsi;?></td>
-									</tr>
-									<?php } ?>
-								</tbody>
-							</table>
+							<?php } ?>
+						</tbody>
+					</table>
 
-						</div>
-					</div>
 				</div>
-
 			</div>
 		</div>
+
 	</div>
+</div>
+</div>
 </div>
