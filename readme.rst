@@ -31,10 +31,10 @@ Terkadang kaprodi kesulitan memberikan informasi kepada mahasiswa maupun dosen p
 Resources
 *******************
 
-Framework : Codeigniter https://codeigniter.com
-Desain		: Bootstrap		http://getbootstrap.com
-					: Jquery			https://jquery.com/
-Icon			: https://www.freepik.com/free-photos-vectors/school" School vector created by Freepik
+Framework 	: Codeigniter 	https://codeigniter.com
+Desain		: Bootstrap	http://getbootstrap.com
+Jquery		: https://jquery.com/
+Icon		: https://www.freepik.com/free-photos-vectors/school" School vector created by Freepik
 
 ************
 Lisensi
