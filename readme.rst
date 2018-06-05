@@ -15,16 +15,16 @@ Terdapat juga proses penyusunan skripsi yang cukup ringkas sebagai berikut:
 Fitur Skripsi Online ?
 **************************
 
-Data Tersimpan Rapi
+Data Tersimpan Rapi : 
 Data skripsi mahasiswa akan tersimpan di dalam sistem yang memudahkan kepala program pendidikan atau admin dalam mencari data skripsi lama yang mungkin dibutuhkan untuk refrensi saat mahasiswa tingkat selanjutnya membutuhkan refrensi skripsi atau sekedar membandingkan dengan skripsi sebelumnya
 
-Efisien Waktu & Tenaga
+Efisien Waktu & Tenaga : 
 Pengajuan judul mahasiswa merupakan proses yang membutuhkan banyak waktu dan tenaga dimana mahasiswa harus datang ke kampus untuk melakukan pengajuan judul skripsi yang ingin diajukan dimana belum tentu skripsi tersebut akan disetujui oleh kaprodi, pengajuan secara online menghemat waktu dan tenaga mahasiswa dimana mahasiswa juga akan mendapatkan informasi diterima tidaknya judul yang diajukan
 
-Tidak Akan Ada Lagi Kehilangan Kartu Bimbingan 
+Tidak Akan Ada Lagi Kehilangan Kartu Bimbingan :  
 Kartu bimbingan merupakan hal wajib bagi setiap mahasiswa untuk melakukan bimbingan dengan dosen pembimbing, oleh karena itu kartu bimbingan dibuat online dimana dosen pembimbing bisa memberi catatan pada mahasiswa yang bisa dicetak saat dibutuhkan, yang dilengkapi dengan fitur QR_Code bisa dipastikan keaslian kartu bimbingan dan dosen maupun kaprodi bisa melihat perkembangan skripsi mahasiswa.
 
-Pemberitahuan 
+Pemberitahuan : 
 Terkadang kaprodi kesulitan memberikan informasi kepada mahasiswa maupun dosen pembimbing terkait jadwal seminar / sidang, pengajuan judul yang diterima dikarenakan banyaknya mahasiswa maupun dosen yang harus dihubungi belum lagi jika kaprodi tidak memiliki nomer yang bisa dihubungi, dengan memanfaatkan fitur ini mahasiswa akan mendapatkan pemberitahuan tentang jadwal maupun ide skripsi yang diajukan.
 
 *******************
