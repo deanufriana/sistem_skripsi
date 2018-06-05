@@ -1,70 +1,60 @@
 ###################
-What is CodeIgniter
+Apa itu Sistem Skripsi Online ?
 ###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+Proses skripsi menjadi lebih teratur dan cepat yang dilakukan secara online yang bisa diakses dimana saja melalui browser dengan bertujuan menghemat waktu, tenaga dan memudahkan mendapatkan informasi proses skripsi secara Online.
 
 *******************
-Release Information
+Proses Sistem Skripsi
 *******************
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
+Pengajuan judul skripsi -> Pengajuan proposal skripsi -> Seminar proposal skripsi -> Penelitian -> Setelah penulisan dianggap siap dan selesai, mahasiswa mempresentasikan hasil karya ilmiahnya tersebut pada Dosen Penguji (sidang tugas akhir) -> Mahasiswa yang hasil ujian skripsinya diterima dengan revisi, melakukan proses revisi sesuai dengan masukan Dosen Penguji.
+Terdapat juga proses penyusunan skripsi yang cukup ringkas sebagai berikut:
 
 **************************
-Changelog and New Features
+Fitur Skripsi Online ?
 **************************
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+Data Tersimpan Rapi
+Data skripsi mahasiswa akan tersimpan di dalam sistem yang memudahkan kepala program pendidikan atau admin dalam mencari data skripsi lama yang mungkin dibutuhkan untuk refrensi saat mahasiswa tingkat selanjutnya membutuhkan refrensi skripsi atau sekedar membandingkan dengan skripsi sebelumnya
+
+Efisien Waktu & Tenaga
+Pengajuan judul mahasiswa merupakan proses yang membutuhkan banyak waktu dan tenaga dimana mahasiswa harus datang ke kampus untuk melakukan pengajuan judul skripsi yang ingin diajukan dimana belum tentu skripsi tersebut akan disetujui oleh kaprodi, pengajuan secara online menghemat waktu dan tenaga mahasiswa dimana mahasiswa juga akan mendapatkan informasi diterima tidaknya judul yang diajukan
+
+Tidak Akan Ada Lagi Kehilangan Kartu Bimbingan
+Kartu bimbingan merupakan hal wajib bagi setiap mahasiswa untuk melakukan bimbingan dengan dosen pembimbing, oleh karena itu kartu bimbingan dibuat online dimana dosen pembimbing bisa memberi catatan pada mahasiswa yang bisa dicetak saat dibutuhkan, yang dilengkapi dengan fitur QR_Code bisa dipastikan keaslian kartu bimbingan dan dosen maupun kaprodi bisa melihat perkembangan skripsi mahasiswa.
+
+Pemberitahuan
+Terkadang kaprodi kesulitan memberikan informasi kepada mahasiswa maupun dosen pembimbing terkait jadwal seminar / sidang, pengajuan judul yang diterima dikarenakan banyaknya mahasiswa maupun dosen yang harus dihubungi belum lagi jika kaprodi tidak memiliki nomer yang bisa dihubungi, dengan memanfaatkan fitur ini mahasiswa akan mendapatkan pemberitahuan tentang jadwal maupun ide skripsi yang diajukan.
 
 *******************
-Server Requirements
-*******************
-
-PHP version 5.6 or newer is recommended.
-
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
-
-************
-Installation
-************
-
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
-
-*******
-License
-*******
-
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
-
-*********
 Resources
-*********
+*******************
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
+Framework : Codeigniter https://codeigniter.com
+Desain		: Bootstrap		http://getbootstrap.com
+					: Jquery			https://jquery.com/
+Icon			: https://www.freepik.com/free-photos-vectors/school" School vector created by Freepik
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+************
+Lisensi
+************
+
+/**
+ * Sistem Proses Skripsi Online
+ * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
+ * @copyright  (c) 2018
+ * @email      deanheart09@gmail.com
+ *
+ * PERINGATAN :
+ * 1. TIDAK DIPERKENANKAN MEMPERJUALBELIKAN APLIKASI INI TANPA SEIZIN DARI PIHAK PENGEMBANG APLIKASI.
+ * 2. TIDAK DIPERKENANKAN MENGHAPUS KODE SUMBER APLIKASI.
+ * 3. TIDAK MENYERTAKAN LINK KOMERSIL (JASA LAYANAN HOSTING DAN DOMAIN) YANG MENGUNTUNGKAN SEPIHAK.
+ * 4. JIKA MENEMUKAN BUG MOHON UNTUK MENGIRIM PESAN KE EMAIL. DAN SCREENSHOT BUG.
+ */
 
 ***************
 Acknowledgement
 ***************
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+Terima Kasih kepada semua pihak yang telah membantu dalam pengembangan sistem ini.
