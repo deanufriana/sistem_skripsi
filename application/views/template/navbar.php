@@ -41,38 +41,38 @@
 			});
 
 
-			$(".hapus").click(function(e) {
-				e.preventDefault();
-				var form = $(this);
-				var formdata = false;
-				if (window.FormData) {
-					formdata = new FormData(form[0]);
-				}	
-				swal({
-					title: "Apa Kau Yakin Ingin Mengapusnya?",
-					text: "Sekali dihapus, kau tidak akan bisa mengembalikannya kembali!",
-					icon: "warning",
-					buttons: true,
-					dangerMode: true,
-				})
-				.then((willDelete) => {
-					if (willDelete) {
-						$.ajax({
-							type: 'POST',
-							url: form.attr('href'),
-							data: formdata ? formdata: form.serialize(),
-							contentType: false,
-							processData: false,
-							cache: false,
-							success: function() {
-								location.reload();
-							}
-						});
-					} else {
-						swal("Tidak Jadi Di Hapus!");
-					}
-				});
-			});
+			// $(".hapus").click(function(e) {
+			// 	e.preventDefault();
+			// 	var form = $(this);
+			// 	var formdata = false;
+			// 	if (window.FormData) {
+			// 		formdata = new FormData(form[0]);
+			// 	}	
+			// 	swal({
+			// 		title: "Apa Kau Yakin Ingin Mengapusnya?",
+			// 		text: "Sekali dihapus, kau tidak akan bisa mengembalikannya kembali!",
+			// 		icon: "warning",
+			// 		buttons: true,
+			// 		dangerMode: true,
+			// 	})
+			// 	.then((willDelete) => {
+			// 		if (willDelete) {
+			// 			$.ajax({
+			// 				type: 'POST',
+			// 				url: form.attr('href'),
+			// 				data: formdata ? formdata: form.serialize(),
+			// 				contentType: false,
+			// 				processData: false,
+			// 				cache: false,
+			// 				success: function() {
+			// 					location.reload();
+			// 				}
+			// 			});
+			// 		} else {
+			// 			swal("Tidak Jadi Di Hapus!");
+			// 		}
+			// 	});
+			// });
 
 			$("#jurusan").change(function(){ 
 				$("#konsentrasi").hide();
@@ -111,84 +111,6 @@
 		$(document).ready(function () {
 			$("#txtConfirmPassword").keyup(checkPasswordMatch);
 		});
-
-		$(document).ready(function(){
-	// berfungsi untuk menghapus data
-	$("div#container").on('click', 'a.hapus', (function(e) {
-		e.preventDefault();
-		var form = $(this);
-		var formdata = false;
-		var id = $(this).attr("id");
-		var nama = $(this).attr('name');
-
-		if (window.FormData) {
-			formdata = new FormData(form[0]);
-		}	
-		swal({
-			title: "Apa kau yakin ingin menghapus?"+nama,
-			text: "sekali dihapus kau tidak akan dapat mengembalikannya lagi!",
-			icon: "warning",
-			buttons: true,
-			dangerMode: true,
-		})
-		.then((willDelete) => {
-			if (willDelete) {
-				$.ajax({
-					type: "POST",
-					url: form.attr("href"),
-					data: formdata ? formdata: form.serialize(),
-					contentType: false,
-					processData: false,
-					cache: false,
-					success: function() {
-						$(".tabel" + id).fadeOut("slow");
-					}
-				});
-			} else {
-				swal("Data Tidak Dihapus!");
-			}
-		});
-	}));
-
-	// btn view berfungsi untuk melihat data
-	$("div#container").on('click', 'a.btn_view', function(e) {
-		e.preventDefault();
-		var form = $(this);
-		var formdata = false;
-		var id = $(this).attr("id");
-
-		if (window.FormData) {
-			formdata = new FormData(form[0]);
-		}	
-		$.ajax({
-			type: 'POST',
-			url: form.attr('href'),
-			data: formdata ? formdata: form.serialize(),
-			contentType: false,
-			processData: false,
-			cache: false,
-			beforeSend: function() {
-				$('.loading').show();
-			},
-			success: function() {
-				$(".SH"+id).fadeIn('fast' ,function() {
-					$("#SH"+id).load(form.attr('href')).fadeIn('fast');
-					$('.loading').fadeOut('slow');
-				});
-			}
-		});
-	});
-});
-
-
-
-
-
-
-
-
-
-
 	</script>
 
 	<style type="text/css">
@@ -270,6 +192,35 @@
 		height:10rem;
 		width:35%;
 	}
+
+	.loader {
+		border: 16px solid #f3f3f3;
+		border-radius: 50%;
+		border-top: 16px solid blue;
+		border-right: 16px solid green;
+		border-bottom: 16px solid red;
+		width: 120px;
+		height: 120px;
+		-webkit-animation: spin 2s linear infinite;
+		animation: spin 2s linear infinite;
+		position: absolute;
+		right: 50%;
+		left: 50%;
+		position: absolute;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	@-webkit-keyframes spin {
+		0% { -webkit-transform: rotate(0deg); }
+		100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
 </style>
 </head>
 <body>

@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @version    1
  * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
  * @copyright  (c) 2018
- * @link       deanheart09@gmail.com
+ * @email       deanheart09@gmail.com
  *
  * PERINGATAN :
  * 1. TIDAK DIPERKENANKAN MEMPERJUALBELIKAN APLIKASI INI TANPA SEIZIN DARI PIHAK PENGEMBANG APLIKASI.

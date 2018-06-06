@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.0.10.20
+-- https://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: 15 Mei 2018 pada 16.39
--- Versi Server: 10.1.16-MariaDB
--- PHP Version: 5.6.24
+-- Host: localhost
+-- Generation Time: Jun 06, 2018 at 04:15 PM
+-- Server version: 5.7.19
+-- PHP Version: 7.1.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `sistem_skripsi`
@@ -23,17 +23,17 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE IF NOT EXISTS `admin` (
   `id_admin` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id_admin`, `username`, `password`) VALUES
@@ -42,27 +42,29 @@ INSERT INTO `admin` (`id_admin`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `dosen`
+-- Table structure for table `dosen`
 --
 
-CREATE TABLE `dosen` (
+CREATE TABLE IF NOT EXISTS `dosen` (
   `nik` bigint(20) NOT NULL,
   `nama_dosen` varchar(30) NOT NULL,
-  `id_jurusan_dosen` int(11) NOT NULL,
+  `id_jurusan_dsn` int(11) NOT NULL,
   `id_konsentrasi_dsn` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `nohp` int(11) NOT NULL,
+  `nohp_dsn` int(11) NOT NULL,
   `email_dsn` varchar(30) NOT NULL,
-  `foto` varchar(20) NOT NULL
+  `foto_dsn` varchar(20) NOT NULL,
+  PRIMARY KEY (`nik`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `dosen`
+-- Dumping data for table `dosen`
 --
 
-INSERT INTO `dosen` (`nik`, `nama_dosen`, `id_jurusan_dosen`, `id_konsentrasi_dsn`, `password`, `nohp`, `email_dsn`, `foto`) VALUES
-(92128123, 'Nur Tulus Ujianto', 56217831, 56127312, '827ccb0eea8a706c4c34a16891f84e7b', 2147483647, 'deanheart09@gmail.com', 'file_1524314216.png'),
-(564365776, 'Muhammad Bagas Gigih Y.P.S.T', 56217831, 56127312, '77cbc257e66302866cf6191754c0c8e3', 986646465, 'bagasgigih@gmail.com', 'file_1523525646.png'),
+INSERT INTO `dosen` (`nik`, `nama_dosen`, `id_jurusan_dsn`, `id_konsentrasi_dsn`, `password`, `nohp_dsn`, `email_dsn`, `foto_dsn`) VALUES
+(92128123, 'Nur Tulus', 56217831, 56127312, '827ccb0eea8a706c4c34a16891f84e7b', 2147483647, 'deanheart9@gmail.com', 'file_1524314216.png'),
+(182763182, 'Devi Adi', 6761257, 198298312, '27232b8582ae0f5a763c0b2f07b7cd16', 128317923, 'deanheart09@gmail.com', 'file_1527342421.png'),
+(564365776, 'Muhammad Bagas Gigih Y.P.S.T', 56217831, 56127312, '77cbc257e66302866cf6191754c0c8e3', 8666465, 'bagasgigi@gmail.com', 'file_1523525646.png'),
 (604197405, 'Nur Ariesanto Ramdhan, M.Kom', 56217831, 561273712, '827ccb0eea8a706c4c34a16891f84e7b', 2147483647, 'nurariesanto@yahoo.com', 'file_1523525646.png'),
 (5518261271, 'Ali Fikri, M.Kom', 55912823, 56127312, '827ccb0eea8a706c4c34a16891f84e7b', 876555672, 'deanheart09@gmail.com', 'file_1524881172.png'),
 (23456789876543, 'Dean Heart', 55912823, 44768887, '827ccb0eea8a706c4c34a16891f84e7b', 8766562, 'jhkahdk@gmail.com', 'file_1525655277.png');
@@ -70,37 +72,32 @@ INSERT INTO `dosen` (`nik`, `nama_dosen`, `id_jurusan_dosen`, `id_konsentrasi_ds
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `ide_skripsi`
+-- Table structure for table `ide_skripsi`
 --
 
-CREATE TABLE `ide_skripsi` (
+CREATE TABLE IF NOT EXISTS `ide_skripsi` (
   `id_ide` bigint(20) NOT NULL,
   `nim_mhs_ide` bigint(20) NOT NULL,
   `judul` varchar(100) NOT NULL,
   `deskripsi` text NOT NULL,
-  `tanggal` varchar(20) NOT NULL
+  `tanggal` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_ide`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `ide_skripsi`
---
-
-INSERT INTO `ide_skripsi` (`id_ide`, `nim_mhs_ide`, `judul`, `deskripsi`, `tanggal`) VALUES
-(1525160836, 5612728231123, 'Silky Heart', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'Selasa, 01 Mei 2018');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jurusan`
+-- Table structure for table `jurusan`
 --
 
-CREATE TABLE `jurusan` (
+CREATE TABLE IF NOT EXISTS `jurusan` (
   `id_jurusan` bigint(20) NOT NULL,
-  `jurusan` varchar(30) NOT NULL
+  `jurusan` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_jurusan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `jurusan`
+-- Dumping data for table `jurusan`
 --
 
 INSERT INTO `jurusan` (`id_jurusan`, `jurusan`) VALUES
@@ -113,184 +110,179 @@ INSERT INTO `jurusan` (`id_jurusan`, `jurusan`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `konsentrasi`
+-- Table structure for table `konsentrasi`
 --
 
-CREATE TABLE `konsentrasi` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `konsentrasi` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_jurusan_ksn` int(11) NOT NULL,
   `nik_kaprodi` bigint(20) NOT NULL,
-  `konsentrasi` varchar(40) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `konsentrasi` varchar(40) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=561273713 ;
 
 --
--- Dumping data untuk tabel `konsentrasi`
+-- Dumping data for table `konsentrasi`
 --
 
 INSERT INTO `konsentrasi` (`id`, `id_jurusan_ksn`, `nik_kaprodi`, `konsentrasi`) VALUES
 (762612, 55912823, 5518261271, 'Bahasa Indonesia'),
+(7261521, 871268212, 0, 'Teknologi Pangan'),
+(7261527, 871268212, 0, 'Agri Bisnis'),
 (44768887, 55912823, 23456789876543, 'Guru Sekolah Dasar'),
 (56127312, 56217831, 564365776, 'Informatika'),
-(198298312, 6761257, 0, 'Akutansi'),
+(198298312, 6761257, 92128123, 'Akutansi'),
 (561273712, 56217831, 604197405, 'Sipil');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `konsultasi`
+-- Table structure for table `konsultasi`
 --
 
-CREATE TABLE `konsultasi` (
-  `id_konsultasi` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `konsultasi` (
+  `id_konsultasi` int(11) NOT NULL AUTO_INCREMENT,
   `nim_mhs_ks` bigint(30) NOT NULL,
   `pembimbing` varchar(30) NOT NULL,
   `catatan` text NOT NULL,
-  `tanggal` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `tanggal` date NOT NULL,
+  PRIMARY KEY (`id_konsultasi`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=329 ;
 
 --
--- Dumping data untuk tabel `konsultasi`
+-- Dumping data for table `konsultasi`
 --
 
 INSERT INTO `konsultasi` (`id_konsultasi`, `nim_mhs_ks`, `pembimbing`, `catatan`, `tanggal`) VALUES
-(322, 552011400123, 'Nur Ariesanto Ramdhan, M.Kom', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2018-04-24'),
-(323, 552011400123, 'Nur Ariesanto Ramdhan, M.Kom', 'lsdnnskjncjeownjijacnkajndsjnkdasnkjdncownkjdcndksj', '2018-04-24'),
-(324, 552011400123, 'Nur Ariesanto Ramdhan, M.Kom', 'lsdnnskjncjeownjijacnkajndsjn', '2018-04-24');
+(328, 55201140012, 'Muhammad Bagas Gigih Y.P.S.T', 'Revisi Bab 1', '2018-06-06');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mahasiswa`
+-- Table structure for table `mahasiswa`
 --
 
-CREATE TABLE `mahasiswa` (
+CREATE TABLE IF NOT EXISTS `mahasiswa` (
   `nim` bigint(20) NOT NULL,
   `nama_mhs` varchar(30) NOT NULL,
-  `password_mhs` varchar(250) NOT NULL,
-  `id_skripsi_mhs` bigint(20) NOT NULL,
+  `pwd_mhs` varchar(200) NOT NULL,
   `id_jurusan_mhs` bigint(20) NOT NULL,
   `id_konsentrasi_mhs` bigint(20) NOT NULL,
-  `nohp_mhs` bigint(20) NOT NULL,
+  `id_skripsi_mhs` int(11) NOT NULL,
+  `nohp_mhs` varchar(20) NOT NULL,
   `email_mhs` varchar(30) NOT NULL,
-  `foto_mhs` varchar(20) NOT NULL,
-  `status_mhs` varchar(10) NOT NULL,
-  `QR_Code` varchar(100) NOT NULL
+  `foto_mhs` varchar(30) NOT NULL,
+  `QR_Code` varchar(100) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  PRIMARY KEY (`nim`),
+  KEY `id_skripsi_mhs` (`id_skripsi_mhs`),
+  KEY `id_jurusan_mhs` (`id_jurusan_mhs`),
+  KEY `id_konsentrasi_mhs` (`id_konsentrasi_mhs`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `mahasiswa`
+-- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`nim`, `nama_mhs`, `password_mhs`, `id_skripsi_mhs`, `id_jurusan_mhs`, `id_konsentrasi_mhs`, `nohp_mhs`, `email_mhs`, `foto_mhs`, `status_mhs`, `QR_Code`) VALUES
-(23424324, 'Devi Adi', '77cbc257e66302866cf6191754c0c8e3', 0, 56217831, 56127312, 85642612283, 'dea@gmail.com', 'file_1524583091.png', 'Proses Skr', '552011400123.png'),
-(55201140010, 'Nia Vera Mutiara', '827ccb0eea8a706c4c34a16891f84e7b', 0, 56217831, 56127312, 9261928621, 'niavera@gmail.com', 'file_1526087982.png', 'Proses Skr', '55201140010.png'),
-(552011400123, 'Devi Adi Nufriana', '971bf9e4215019c7e1c2319c25ed5977', 1524583220, 56217831, 56127312, 85642612283, 'deanheart09@gmail.com', 'file_1524583091.png', 'Proses Skr', '552011400123.png'),
-(5520114001231, 'Devi Adi', '77cbc257e66302866cf6191754c0c8e3', 0, 56217831, 56127312, 85642612283, 'deanheart9@gmail.com', 'file_1524583091.png', 'Proses Skr', '552011400123.png'),
-(5612728231123, 'Silky Heart', '77cbc257e66302866cf6191754c0c8e3', 0, 56217831, 561273712, 766434678, 'deanheart9@gmail.com', 'file_1525093584.png', 'Proses Skr', '5612728231123.png');
+INSERT INTO `mahasiswa` (`nim`, `nama_mhs`, `pwd_mhs`, `id_jurusan_mhs`, `id_konsentrasi_mhs`, `id_skripsi_mhs`, `nohp_mhs`, `email_mhs`, `foto_mhs`, `QR_Code`, `status`) VALUES
+(55201140012, 'Devi Adi Nufriana', '77cbc257e66302866cf6191754c0c8e3', 56217831, 56127312, 1528299403, '085642612283', 'deanheart09@gmail.com', 'file_1527257619.png', '55201140012.png', 'Alumni'),
+(55201140013, 'Waluyo Eka', '', 6761257, 198298312, 0, '0856728392', 'ekawaluyo@gmail.com', 'file_1528257545.jpg', '', 'Mahasiswa'),
+(55201140014, 'Nia Vera', '', 56217831, 561273712, 0, '085267126', 'niavera@gmail.com', 'file_1528258375.jpg', '', 'Mahasiswa'),
+(55201140015, 'Solihah', '', 55912823, 44768887, 0, '0852671223', 'solihah@gmail.com', 'file_1528258415.jpg', '', 'Mahasiswa');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pemberitahuan`
+-- Table structure for table `pemberitahuan`
 --
 
-CREATE TABLE `pemberitahuan` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pemberitahuan` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `pemberitahuan` varchar(300) NOT NULL,
   `catatan` text NOT NULL,
   `tanggal` varchar(40) NOT NULL,
   `penerima` bigint(20) NOT NULL,
   `pengirim` varchar(50) NOT NULL,
-  `status` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `status` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=94 ;
 
 --
--- Dumping data untuk tabel `pemberitahuan`
+-- Dumping data for table `pemberitahuan`
 --
 
 INSERT INTO `pemberitahuan` (`id`, `pemberitahuan`, `catatan`, `tanggal`, `penerima`, `pengirim`, `status`) VALUES
-(33, 'Rancang Bangun Sistem Informasi Skripsi', 'Anda Di Tetapkan Sebagai Dosen Pembimbing Devi Adi Nufriana Silahkan Lihat Di Data Skripsi', '2018-04-24', 92128123, '604197405', '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>'),
-(34, 'Rancang Bangun Sistem Informasi Skripsi', 'Anda Di Tetapkan Sebagai Dosen Pembimbing Devi Adi Nufriana Silahkan Lihat Di Data Skripsi', '2018-04-24', 604197405, '604197405', '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>');
+(89, 'Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi', 'Lanjutkan Proposal !', '2018-06-06', 55201140012, '564365776', '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>'),
+(90, 'Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi', 'Anda Di Tetapkan Sebagai Dosen Pembimbing <br>Devi Adi Nufriana<br> Silahkan Lihat Di Data Skripsi', '2018-06-06', 92128123, '564365776', '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>'),
+(91, 'Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi', 'Anda Di Tetapkan Sebagai Dosen Pembimbing <br>Devi Adi Nufriana<br> Silahkan Lihat Di Data Skripsi', '2018-06-06', 564365776, '564365776', '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>'),
+(92, 'Proposal Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi Telah Di ACC', 'Proposal Telah Di ACC Oleh : <br>Muhammad Bagas Gigih Y.P.S.T Sebagai Pembimbing 2', '2018-06-06', 55201140012, '564365776', '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> Proposal </span>'),
+(93, 'Kegiatan Seminar Proposal Telah Ditetapkan', '<i class="fas fa-clock mr-auto"></i>  12:40<br> <i class="fas fa-map-marker mr-auto"></i>  Tegal<br> <i class="fas fa-calendar-alt"></i> Senin, 04 Juni 2018', '2018-06-06', 55201140012, '564365776', '<span class="text-right badge badge-info"> <i class="fas fa-info"></i>Seminar Proposal</span>');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pembimbing`
+-- Table structure for table `pembimbing`
 --
 
-CREATE TABLE `pembimbing` (
-  `id_pmb` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `pembimbing` (
+  `id_pmb` int(11) NOT NULL AUTO_INCREMENT,
   `nim_mhs_pmb` bigint(20) NOT NULL,
   `nik_dsn_pmb` int(11) NOT NULL,
   `id_skripsi_pmb` int(11) NOT NULL,
   `status_proposal` varchar(20) NOT NULL,
   `status_skripsi` varchar(20) NOT NULL,
-  `level` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `level` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_pmb`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
--- Dumping data untuk tabel `pembimbing`
+-- Dumping data for table `pembimbing`
 --
 
 INSERT INTO `pembimbing` (`id_pmb`, `nim_mhs_pmb`, `nik_dsn_pmb`, `id_skripsi_pmb`, `status_proposal`, `status_skripsi`, `level`) VALUES
-(13, 552011400123, 92128123, 1524583220, 'Belum Disetujui', 'Belum Disetujui', 'Pembimbing 1'),
-(14, 552011400123, 604197405, 1524583220, 'Belum Disetujui', 'Belum Disetujui', 'Pembimbing 2');
+(3, 55201140012, 92128123, 1528299403, 'Belum Disetujui', 'Belum Disetujui', 'Pembimbing 1'),
+(4, 55201140012, 564365776, 1528299403, 'Disetujui', 'Belum Disetujui', 'Pembimbing 2');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pendaftaran`
+-- Table structure for table `skripsi`
 --
 
-CREATE TABLE `pendaftaran` (
-  `nim` bigint(20) NOT NULL,
-  `nama` varchar(30) NOT NULL,
-  `password` varchar(250) NOT NULL,
-  `id_jurusan` bigint(20) NOT NULL,
-  `id_konsentrasi` bigint(20) NOT NULL,
-  `nohp` bigint(20) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `foto` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `skripsi`
---
-
-CREATE TABLE `skripsi` (
-  `id_skripsi` bigint(20) NOT NULL,
-  `judul_skripsi` varchar(200) NOT NULL,
+CREATE TABLE IF NOT EXISTS `skripsi` (
+  `id_skripsi` int(20) NOT NULL,
   `nim_mhs_skripsi` bigint(20) NOT NULL,
+  `judul_skripsi` varchar(200) NOT NULL,
   `deskripsi` text NOT NULL,
-  `tanggal` varchar(20) NOT NULL,
-  `nilai` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL
+  `tanggal` varchar(200) NOT NULL,
+  `nilai` int(100) NOT NULL,
+  PRIMARY KEY (`id_skripsi`),
+  KEY `nim_mhs_skripsi` (`nim_mhs_skripsi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `skripsi`
+-- Dumping data for table `skripsi`
 --
 
-INSERT INTO `skripsi` (`id_skripsi`, `judul_skripsi`, `nim_mhs_skripsi`, `deskripsi`, `tanggal`, `nilai`, `status`) VALUES
-(1524583220, 'Rancang Bangun Sistem Informasi Skripsi', 552011400123, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\r\n	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\r\n	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\r\n	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\r\n	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\r\n	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2018-04-24', 100, '');
+INSERT INTO `skripsi` (`id_skripsi`, `nim_mhs_skripsi`, `judul_skripsi`, `deskripsi`, `tanggal`, `nilai`) VALUES
+(1528299403, 55201140012, 'Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi', 'Proses skripsi menjadi lebih teratur dan cepat yang dilakukan secara online yang bisa diakses dimana saja melalui browser dengan bertujuan menghemat waktu, tenaga dan memudahkan mendapatkan informasi proses skripsi secara Online.', '2018-06-06', 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tokens`
+-- Table structure for table `tokens`
 --
 
-CREATE TABLE `tokens` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `token` varchar(255) NOT NULL,
   `user_id` bigint(20) NOT NULL,
-  `created` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `created` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=51 ;
 
 --
--- Dumping data untuk tabel `tokens`
+-- Dumping data for table `tokens`
 --
 
 INSERT INTO `tokens` (`id`, `token`, `user_id`, `created`) VALUES
@@ -319,107 +311,18 @@ INSERT INTO `tokens` (`id`, `token`, `user_id`, `created`) VALUES
 (37, '24896ef117f20f61ea160dded89d14', 552011400123, '2018-04-29'),
 (38, '440e39952ad3dbb3e495dcee1086c3', 552011400123, '2018-04-29'),
 (39, '20c14a2678018ea84f7cf523fb378e', 552011400123, '2018-04-29'),
-(40, '4f9445d59c8f7a2f2ac9e3805d6b9d', 552011400123, '2018-04-29');
+(40, '4f9445d59c8f7a2f2ac9e3805d6b9d', 552011400123, '2018-04-29'),
+(41, 'd12fee69155ea852693140fcdb4a1b', 55201140012, '2018-05-25'),
+(42, '87e80718c661f99d0bbe6369c27007', 55201140012, '2018-05-25'),
+(43, '356b6eeaea4a3a9d267e5d15e12f45', 55201140012, '2018-05-25'),
+(44, '45268970710e946fd1e25584a88fab', 55201140012, '2018-05-25'),
+(45, 'e3a3b9de42db9d3632780c7941fec7', 55201140012, '2018-05-25'),
+(46, 'cf394fec07008a70127c0401ad73fa', 55201140012, '2018-05-25'),
+(47, 'ad0bcba23361d9504d448b7359666e', 55201140012, '2018-05-26'),
+(48, '50d3a7cde9b021fcccd00a4443488a', 55201140012, '2018-05-26'),
+(49, 'd340c0c6b83b489bbc7f2dacd0aabf', 55201140012, '2018-05-26'),
+(50, 'a94e8a2bf56923c051bdd1e64efbcf', 55201140012, '2018-05-26');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `dosen`
---
-ALTER TABLE `dosen`
-  ADD PRIMARY KEY (`nik`);
-
---
--- Indexes for table `ide_skripsi`
---
-ALTER TABLE `ide_skripsi`
-  ADD PRIMARY KEY (`id_ide`);
-
---
--- Indexes for table `jurusan`
---
-ALTER TABLE `jurusan`
-  ADD PRIMARY KEY (`id_jurusan`);
-
---
--- Indexes for table `konsentrasi`
---
-ALTER TABLE `konsentrasi`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `konsultasi`
---
-ALTER TABLE `konsultasi`
-  ADD PRIMARY KEY (`id_konsultasi`);
-
---
--- Indexes for table `mahasiswa`
---
-ALTER TABLE `mahasiswa`
-  ADD PRIMARY KEY (`nim`);
-
---
--- Indexes for table `pemberitahuan`
---
-ALTER TABLE `pemberitahuan`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `pembimbing`
---
-ALTER TABLE `pembimbing`
-  ADD PRIMARY KEY (`id_pmb`);
-
---
--- Indexes for table `pendaftaran`
---
-ALTER TABLE `pendaftaran`
-  ADD PRIMARY KEY (`nim`);
-
---
--- Indexes for table `skripsi`
---
-ALTER TABLE `skripsi`
-  ADD PRIMARY KEY (`id_skripsi`);
-
---
--- Indexes for table `tokens`
---
-ALTER TABLE `tokens`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `konsentrasi`
---
-ALTER TABLE `konsentrasi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=561273713;
---
--- AUTO_INCREMENT for table `konsultasi`
---
-ALTER TABLE `konsultasi`
-  MODIFY `id_konsultasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=325;
---
--- AUTO_INCREMENT for table `pemberitahuan`
---
-ALTER TABLE `pemberitahuan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
---
--- AUTO_INCREMENT for table `pembimbing`
---
-ALTER TABLE `pembimbing`
-  MODIFY `id_pmb` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
---
--- AUTO_INCREMENT for table `tokens`
---
-ALTER TABLE `tokens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

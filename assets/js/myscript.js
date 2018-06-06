@@ -5,13 +5,12 @@ $(document).ready(function(){
 		var form = $(this);
 		var formdata = false;
 		var id = $(this).attr("id");
-		var nama = $(this).attr('nama');
-
+		
 		if (window.FormData) {
 			formdata = new FormData(form[0]);
 		}	
 		swal({
-			title: "Apa kau yakin ingin menghapus?"+nama,
+			title: "Apa kau yakin ingin menghapus?",
 			text: "sekali dihapus kau tidak akan dapat mengembalikannya lagi!",
 			icon: "warning",
 			buttons: true,

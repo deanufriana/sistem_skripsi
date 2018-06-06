@@ -1,5 +1,38 @@
 <head>
-	<script type="text/javascript" src="<?= base_url('assets/js/myscript.js');?>">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("div#container").on('click', 'a.hapus', (function(e) {
+				e.preventDefault();
+				var form = $(this);
+				var formdata = false;
+				var id = $(this).attr("id");
+
+				if (window.FormData) {
+					formdata = new FormData(form[0]);
+				}	
+				swal("Apa Kau Yakin ?", {
+					buttons: true,
+					dangerMode: true,
+				})
+				.then((willDelete) => {
+					if (willDelete) {
+						$.ajax({
+							type: "POST",
+							url: form.attr("href"),
+							data: formdata ? formdata: form.serialize(),
+							contentType: false,
+							processData: false,
+							cache: false,
+							success: function() {
+								$(".tabel" + id).fadeOut("slow");
+							}
+						});
+					} else {
+						swal("Data Tidak Dihapus!");
+					}
+				});
+			}));
+		});
 	</script>
 </head>
 <?php foreach ($pemberitahuan->result() as $p) {

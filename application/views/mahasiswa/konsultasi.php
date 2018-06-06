@@ -53,18 +53,20 @@
 					</tr>
 				</thead>
 				<tbody>
-					<?php $no = '1'; ?>
-					<?php foreach ($konsultasi as $k) {	?>
-						<tr>
-							<td><?php echo $no++;?></td>
-							<td><?php echo longdate_indo($k->tanggal);?></td>
-							<td><?php echo $k->pembimbing;?></td>
-						</tr>
-						<tr>
-							<th>Catatan</th>
-							<td colspan="3"><?php echo $k->catatan;?></td>
-						</tr>
-					<?php } ?>
+					<?php if (!empty($konsultasi)): ?>
+						<?php $no = '1'; ?>
+						<?php foreach ($konsultasi as $k) {	?>
+							<tr>
+								<td><?php echo $no++;?></td>
+								<td><?php echo longdate_indo($k->tanggal);?></td>
+								<td><?php echo $k->pembimbing;?></td>
+							</tr>
+							<tr>
+								<th>Catatan</th>
+								<td colspan="3"><?php echo $k->catatan;?></td>
+							</tr>
+						<?php } ?>
+					<?php endif ?>
 				</tbody>	
 			</table>
 		</div>

@@ -1,6 +1,15 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function(){
+			
+			$(document).ajaxStart(function () {
+				$(".loader").css("display", "block");
+			})
+
+			$(document).ajaxComplete(function () {
+				$("loader").css("display", "none");
+			})
+
 			$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
 			$('#form_ide').load('<?php echo base_url('Mahasiswa/form_ide');?>');
 			$('#myprofil').load('<?php echo base_url('Mahasiswa/myprofil');?>');
@@ -46,14 +55,14 @@
 								</div>
 							</div>
 							<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-								<div class="card border-primary" style="height: auto;">
+								<div class="card border-primary">
 									<div class="card-body">
 										<div class="row">
 											<div <?php if ($this->session->userdata('id_skripsi_mhs') != '0') {
-												echo "style='display: none;'"; } ?> class="col-md-5 mb-3" id="form_ide">
+												echo "style='display: none;'"; } ?> class="col-md-5 mb-1" id="form_ide">
 											</div>
 
-											<div id="ide_skripsi" class="col-md scroll">
+											<div id="ide_skripsi" class="col-md" style="overflow: scroll; height: 26rem">
 											</div>
 										</div>
 									</div>

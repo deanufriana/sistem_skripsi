@@ -63,5 +63,5 @@
       <input type="password" class="form-control" id="pass_baru" name="pass_baru" placeholder="Password">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-pass">Submit</button>
+  <button type="submit" class="btn btn-primary btn-pass" disabled>Submit</button>
 </form> 

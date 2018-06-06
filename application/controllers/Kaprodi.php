@@ -5,7 +5,7 @@
  * @version    1
  * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
  * @copyright  (c) 2018
- * @link       deanheart09@gmail.com
+ * @email      deanheart09@gmail.com
  *
  * PERINGATAN :
  * 1. TIDAK DIPERKENANKAN MEMPERJUALBELIKAN APLIKASI INI TANPA SEIZIN DARI PIHAK PENGEMBANG APLIKASI.
@@ -113,12 +113,20 @@ function tabel_mhs_kaprodi()
 
 function nilai()
 {
+  
   $id= $this->input->post("id");
-    $value= $this->input->post("value");
-    $modul= $this->input->post("modul");
-    $data[$modul] = $value;
-    $this->M_data->update('id_skripsi', $id, 'skripsi', $data);
-    echo "{}";
+  $value= $this->input->post("value");
+  $modul= $this->input->post("modul");
+
+  $mahasiswa = $this->M_data->find('mahasiswa', '', 'id_skripsi_mhs', $id);
+  foreach ($mahasiswa as $m) {
+    $nim = $m->nim;
+    $status = array('status' => 'Alumni');
+    $this->M_data->update('nim', $nim, 'mahasiswa', $status);
+  }
+  $data[$modul] = $value;
+  $this->M_data->update('id_skripsi', $id, 'skripsi', $data);
+  echo "{}";
 }
 
 function daftar()
@@ -191,7 +199,8 @@ function aksi_daftar($nim)
       	$where = array('nim_mhs_pmb' => $nim,);
       	$data['pembimbing'] = $this->M_data->find('pembimbing',$where, '', '', '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
       	
-        $data['mahasiswa'] = $this->M_data->find('mahasiswa','', '', '', '', '', 'skripsi', 'skripsi.id_skripsi = mahasiswa.id_skripsi_mhs');
+        $data['mahasiswa'] = $this->M_data->find('mahasiswa','', 'nim', $nim, '', '', 'skripsi', 'skripsi.id_skripsi = mahasiswa.id_skripsi_mhs');
+
         $data['konsultasi'] = $this->M_data->find('konsultasi', '' , 'nim_mhs_ks', $nim);
 
         $this->load->view('dosen/mhs_profil', $data);

@@ -17,84 +17,31 @@
 				}
 			});
 		}
-		$(document).ready(function(){
+
+		$(function(){
+
+			$(document).ajaxStart(function () {
+				$(".loader").css("display", "block");
+			});
+
+			$(document).ajaxComplete(function () {
+				$(".loader").css("display", "none");
+			})
 
 			$('#ide_skripsi').load('<?php echo base_url('kaprodi/ide_skripsi');?>');
 			$('#tabel_mhs_kaprodi').load('<?php echo base_url('kaprodi/tabel_mhs_kaprodi');?>');
 			$('#form_kegiatan').load('<?php echo base_url('kaprodi/form_kegiatan');?>');
-			// $('#daftar').load('<?php echo base_url('kaprodi/daftar');?>');
 			$('#profil').load('<?php echo base_url('dosen/profil');?>');
-
-			$("#dosen_button").click(function(event) {
+			$("#dosen_button").on('click', function() {
 				$("#data_dosen").toggle('fast');
 				$("#form_dosen").toggle('slow');
 			});
-
-
-			$("#percobaan").click(function(event) {
+			$("#myprofil").on('click', function() {
 				$("#profil").toggle('slow');
 			});
-
-			$(".btn-login").click(function(){
-				var formAction = $(".ubah_pass").attr('action');
-				var datalogin = {
-					pass_lama: $(".pass_lama").val(),
-					pass_baru: $(".pass_baru").val()
-				};
-
-				if (!$(".pass_lama").val() || !$(".pass_baru").val()) {
-					$(".warning").show('fast').delay(2000).hide('fast');
-					return false;
-				} else {
-					$.ajax({
-						type: "POST",
-						url: formAction,
-						data: datalogin,
-						success: function(result) {
-							if(result == 1) {
-								$(".success").show('fast').delay(2000).hide('slow', function() {
-									$("#Ubah").modal('toggle');						
-								});;
-							}
-							else {
-								$(".failed").show('fast').delay(2000).hide('fast');
-								$('.pass_lama').val('');
-								$('.pass_baru').val('');
-								return false;
-							}
-						}
-					});
-					return false;
-				}
-			});    
-
-			$(".acc").on('submit',
-
-				function(e) {
-					e.preventDefault();
-					var form = $(this);
-					var formdata = false;
-
-					if (window.FormData) {
-						formdata = new FormData(form[0]);
-					}
-
-					var formAction = form.attr('action');
-
-					$.ajax({
-						type: 'POST',
-						url: formAction,
-						data: formdata ? formdata: form.serialize(),
-						contentType: false,
-						processData: false,
-						cache: false,
-						success: function() {
-							swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success")
-							$('#data_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
-						}
-					});
-				});
 		});
+
+
 	</script>
 </head>
 <body>
@@ -104,7 +51,7 @@
 				<div>
 					<div>
 						<div class="nav nav-pills mb-2 flex-column flex-sm-row" id="list-tab" role="tablist">
-							<a class="nav-link" href="#" id="percobaan"><i class="fas fa-bars"></i></a>
+							<a class="nav-link" href="#" id="myprofil"><i class="fas fa-bars"></i></a>
 							<a class="nav-item nav-link active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home"> <i class="fas fa-envelope"></i> Ide Skripsi </a>
 							<a class="nav-item nav-link" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile"> <i class="fas fa-users"></i>  Skripsi </a>
 							<a class="nav-link nav-item" id="list-settings-list" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings"> <i class="fas fa-calendar-alt"></i> Kegiatan </a>
@@ -113,7 +60,6 @@
 					</div>
 				</div>
 				<hr>
-
 				<div class="row">
 					<div class="col-md-3" id="profil">
 					</div>
@@ -154,10 +100,7 @@
 											<div id="SHpembimbing">
 											</div>	
 										</div>
-
-
 									</div>
-
 								</div>
 								
 								<div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="
@@ -189,11 +132,9 @@
 
 								</div>
 							</div>
-
 						</div>
 					</div>	
 				</div>
-
 			</div>
 		</div>
 	</body>

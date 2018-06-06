@@ -34,17 +34,17 @@
 		<div class="tab-pane fade show active" id="pills-dosen" role="tabpanel" aria-labelledby="pills-home-tab">
 			<div class="form-row">
 				<div class="form-group col-md">
-					<input class="form-control" id="keywords_dsn" type="text" name="tabel_dsn_admin/" placeholder="Cari Dosen" onkeyup="cari_dsn()"/>
+					<input class="form-control form-control-sm" id="keywords_dsn" type="text" name="tabel_dsn_admin/" placeholder="Cari Dosen" onkeyup="cari_dsn()"/>
 				</div>
 				<div class="form-group col-md-2">
-					<select class="form-control sortBy" id="cari_dsn" name="cari_dsn" onchange="cari_dsn()">
+					<select class="form-control form-control-sm sortBy" id="cari_dsn" name="cari_dsn" onchange="cari_dsn()">
 						<option value="nik">NIK</option>
 						<option value="nama_dosen">Nama</option>
 						<option value="jurusan">Jurusan</option>
 					</select>
 				</div>
 				<div class="form-group col-md-2">
-					<select class="form-control sortBy" id="sortBy_dsn" onchange="cari_dsn()">
+					<select class="form-control form-control-sm sortBy" id="sortBy_dsn" onchange="cari_dsn()">
 						<option value="">Sort By</option>
 						<option value="asc">Ascending</option>
 						<option value="desc">Descending</option>
