@@ -94,17 +94,17 @@
 	<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 		<div class="form-row">
 			<div class="form-group col-md">
-				<input class="form-control" id="keywords_mhs" type="text" placeholder="Cari Mahasiswa" onkeyup="cari_mhs()"/>
+				<input class="form-control form-control-sm" id="keywords_mhs" type="text" placeholder="Cari Mahasiswa" onkeyup="cari_mhs()"/>
 			</div>
 			<div class="form-group col-md-2">
-				<select class="form-control" id="cari_mhs" name="cari_mhs" onchange="cari_mhs()">
+				<select class="form-control form-control-sm" id="cari_mhs" name="cari_mhs" onchange="cari_mhs()">
 					<option value="nim">NIM</option>
 					<option value="nama_mhs">Nama</option>
 					<option value="jurusan">Jurusan</option>
 				</select>
 			</div>
 			<div class="form-group col-md-2">
-				<select class="form-control " id="sortBy_mhs" onchange="cari_mhs()">
+				<select class="form-control form-control-sm " id="sortBy_mhs" onchange="cari_mhs()">
 					<option value="asc">Ascending</option>
 					<option value="desc">Descending</option>
 				</select>

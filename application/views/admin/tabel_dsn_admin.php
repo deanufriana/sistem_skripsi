@@ -1,4 +1,6 @@
 <head>
+		<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>">
+	</script>
 </head>
 <table class="table">
 	<thead>

@@ -43,7 +43,7 @@
 		</table>
 	</div>
 	<div id="table-wrapper">
-		<div class="mt-2" style="overflow:auto;">
+		<div class="mt-2" style="overflow:auto; height: 15rem">
 			<table class="table table-sm small">
 				<thead>
 					<tr>
@@ -58,7 +58,7 @@
 						<tr>
 							<td><?php echo $no++;?></td>
 							<td><?php echo longdate_indo($k->tanggal);?></td>
-							<td style="width: 10rem"><?php echo $k->pembimbing;?></td>
+							<td><?php echo $k->pembimbing;?></td>
 						</tr>
 						<tr>
 							<th>Catatan</th>

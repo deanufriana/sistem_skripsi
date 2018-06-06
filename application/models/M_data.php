@@ -135,4 +135,9 @@ class M_data extends CI_Model {
 
 	}
 
+	public function ambil()
+	{
+		$query = $this->db->get('ide_skripsi')->result_array();
+		return $query;
+	}
 }

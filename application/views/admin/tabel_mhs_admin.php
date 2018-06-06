@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table small">
 	<thead>
 		<tr>
 			<th scope="col">NIM</th>

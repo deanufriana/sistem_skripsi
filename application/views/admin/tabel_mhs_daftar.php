@@ -25,7 +25,8 @@
 						processData: false,
 						cache: false,
 						success: function() {
-							$(".hapus_daftar" + id).fadeOut('slow');
+							$("#daftar" + id).fadeOut('slow');
+							$("#tabel_mhs_admin").load('<?php echo base_url('admin/tabel_mhs_admin'); ?>');
 						}
 					});
 				} else {
@@ -37,7 +38,7 @@
 						processData: false,
 						cache: false,
 						success: function() {
-							$(".hapus_daftar" + id).fadeOut('slow');
+							$("#daftar" + id).fadeOut('slow');
 						}
 					});
 				}
@@ -52,7 +53,7 @@
 		var cari_mhs = $('#cari_mhs').val();
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo base_url(); ?>Admin/page_mhs_daftar/'+page_num,
+			url: '<?php echo base_url(); ?>Admin/tabel_mhs_daftar/'+page_num,
 			data:'page='+page_num+'&keywords_mhs='+keywords_mhs+'&sortBy_mhs='+sortBy_mhs+'&cari_mhs='+cari_mhs,
 			beforeSend: function () {
 				$('.loading').show();
@@ -78,7 +79,7 @@
 	</thead>
 	<tbody>	
 		<?php if (!empty($mhs)): foreach ($mhs as $m): ?>
-			<tr class="list-item">
+			<tr class="list-item" id="daftar<?=$m->nim;?>">
 				<td><?php echo $m->nim;?></td>
 				<td><?php echo $m->nama_mhs;?></td>
 				<td><?php echo $m->jurusan;?></td>

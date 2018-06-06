@@ -1,5 +1,17 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+/**
+ * Sistem Skripsi Online Berbasis Web
+ * @version    1
+ * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
+ * @copyright  (c) 2018
+ * @link       deanheart09@gmail.com
+ *
+ * PERINGATAN :
+ * 1. TIDAK DIPERKENANKAN MEMPERJUALBELIKAN APLIKASI INI TANPA SEIZIN DARI PIHAK PENGEMBANG APLIKASI.
+ * 2. TIDAK DIPERKENANKAN MENGHAPUS KODE SUMBER APLIKASI.
+ * 3. TIDAK MENYERTAKAN LINK KOMERSIL (JASA LAYANAN HOSTING DAN DOMAIN) YANG MENGUNTUNGKAN SEPIHAK.
+ */
 
 class Kaprodi extends CI_Controller {
 

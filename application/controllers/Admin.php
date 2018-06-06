@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
 		}
 
         //Menghitung Keseluruaan 
-		$totalRec = count($this->M_data->find('mahasiswa'));
+		$totalRec = count($this->M_data->find('mahasiswa', '', 'status <>', 'daftar'));
 
         //Mengkofigurasi Pagination
 		$config['target']      = '#tabel_mhs_admin';
@@ -144,7 +144,7 @@ class Admin extends CI_Controller {
 		}
 
         //Menghitung Keseluruaan 
-		$totalRec = count($this->M_data->find('mahasiswa'));
+		$totalRec = count($this->M_data->find('mahasiswa', '', 'status', 'daftar'));
 
         //Mengkofigurasi Pagination
 		$config['target']      = '#tabel_mhs_daftar';

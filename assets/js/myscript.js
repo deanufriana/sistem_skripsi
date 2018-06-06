@@ -1,4 +1,4 @@
--$(document).ready(function(){
+$(document).ready(function(){
 	// berfungsi untuk menghapus data
 	$("div#container").on('click', 'a.hapus', (function(e) {
 		e.preventDefault();

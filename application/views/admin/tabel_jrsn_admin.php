@@ -1,6 +1,5 @@
 <head>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>">
-	</script>
+	
 </head>
 <div id="container" class="row">
 	<div class="col-md table-responsive">

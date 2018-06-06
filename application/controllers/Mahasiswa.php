@@ -1,6 +1,19 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * Sistem Skripsi Online Berbasis Web
+ * @version    1
+ * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
+ * @copyright  (c) 2018
+ * @link       deanheart09@gmail.com
+ *
+ * PERINGATAN :
+ * 1. TIDAK DIPERKENANKAN MEMPERJUALBELIKAN APLIKASI INI TANPA SEIZIN DARI PIHAK PENGEMBANG APLIKASI.
+ * 2. TIDAK DIPERKENANKAN MENGHAPUS KODE SUMBER APLIKASI.
+ * 3. TIDAK MENYERTAKAN LINK KOMERSIL (JASA LAYANAN HOSTING DAN DOMAIN) YANG MENGUNTUNGKAN SEPIHAK.
+ */
+
 class Mahasiswa extends CI_Controller {
 
 	private $konsul = 'konsultasi';
@@ -116,6 +129,26 @@ class Mahasiswa extends CI_Controller {
 		$data[$modul] = $value;
 		$this->M_data->update('nim', $id, 'mahasiswa', $data);
 		echo "{}";
+	}
+
+	public function ambil()
+	{
+		$data = $this->M_data->ambil();
+		if (!empty($data)) {
+			foreach ($data as $d) {
+				$json[] = array(
+					'ide_id' -> $d['id_ide'],
+					'nim_mhs_ide' -> $d['nim_mhs_ide'],
+					'judul' -> $d['judul'],
+					'deskripsi' -> $d['deskripsi'],
+					'tanggal' -> $d['tanggal']
+				 );
+			}		
+		} else {
+			$json = array();
+		}
+
+		echo json_encode($json);
 	}
 
 }

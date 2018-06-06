@@ -18,7 +18,7 @@
 					<td> <?php echo $k->konsentrasi;?> </td>
 					<td> <?php if (empty($k->nama_dosen)) {
 						?>
-						<form method="POST" action="<?php echo base_url('Admin/ubah_kaprodi/'.$k->id);?>" id="kaprodi">
+						<form method="POST" action="<?php echo base_url('Admin/submit_kaprodi/'.$k->id);?>" id="kaprodi<?=$k->id;?>">
 							<div class="form-row align-items-center">
 								<div class="col-md mb-4">
 									<select name="kaprodi" class="custom-select mr-sm-2">
@@ -42,12 +42,13 @@
 				</td>
 			</tr>		
 		</tbody>
+		<div class="SHkaprodi<?=$k->id;?>" style="display: none">
+			<div id="SHkaprodi">
+
+			</div>
+		</div>	
+
 	<?php } ?>
 </table>
 
-<div class="SHkaprodi" style="display: none">
-	<div id="SHkaprodi">
-
-	</div>
-</div>	
 </div>

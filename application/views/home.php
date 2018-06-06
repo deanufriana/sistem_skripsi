@@ -51,17 +51,15 @@
 				});
 
 			$(".daftar").click(function(event) {
-				$("#umus").toggle('fast', function () {
-					$("#form_daftar").toggle('slow');
-					$("#form-login").toggle('slow');
-					$("#log").toggle('fast');
-				});
+				$("#form_daftar").toggle('slow');
+				$("#form-login").toggle('slow');
+				$("#log").toggle('slow');
 			});
 
-			$("#btn-forget").click(function(event) {
-				$("#form-forget").toggle('slow');
-				$("#form-login").toggle('fast');
-			});
+			// $("#btn-forget").click(function(event) {
+			// 	$("#form-forget").toggle('slow');
+			// 	$("#form-login").toggle('fast');
+			// });
 
 
 			$('#form_daftar').load('<?= base_url('home/pendaftaran');?>');
@@ -164,177 +162,154 @@
 </head>
 <body class="m-3">
 	<div class="container-fluid">
-		<div class="col-md">
-			<h4><i class="fas fa-book"></i> SISTEM SKRIPSI ONLINE</h4>
-		</div>
-		<hr>
 		<div class="row"> 
-			<div id="umus" class="col-md text-justify">
+			<div id="deskripsi" class="col-md text-justify">
 				<div> 
-					<header>Alur Skripsi Online</header>
-					<p> 
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-					</p>
-				</div>
-				<br>
-			</div>
-
-			<div class="col-md">
-				<div class="modal-content">
-					<div class="modal-body">
-						<div id="loading" class="modal" style="display:none;">
-							<div class="modal-dialog modal-dialog-centered ">
-								<div class="alert alert-info alert-white rounded modal-content">
-									<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
-								</div>
+					<div>
+						<div class="row">
+							<div class="col-md">
+								<h4><i class="fas fa-book fa-sm"></i> SISTEM INFORMASI SKRIPSI ONLINE </h4>
+								Proses skripsi menjadi lebih teratur dan cepat yang dilakukan secara online yang bisa diakses dimana saja melalui browser dengan bertujuan menghemat waktu, tenaga dan memudahkan mendapatkan informasi proses skripsi secara Online.
 							</div>
-						</div>
-
-
-						<div id="success" class="modal" style="display:none;">
-							<div class="modal-dialog modal-dialog-centered ">
-								<div class="alert alert-success alert-white rounded modal-content">
-									<strong> <i class="fas fa-check"></i> Login Success !</strong>
-									Halaman akan dialihkan dalam waktu 3 detik! 
-								</div>
-							</div>
-						</div>
-
-						
-						<div id="warning" class="modal" style="display:none;">
-							<div class="modal-dialog modal-dialog-centered ">
-								<div class="alert alert-warning alert-white rounded modal-content">
-									<strong> <i class="fas fa-exclamation"></i> Peringatan !</strong>
-									Nama akun dan/atau kata sandi tidak boleh kosong!
-								</div>
-							</div>
-						</div>
-
-						<div id="failed" class="modal" style="display:none;">
-							<div class="modal-dialog modal-dialog-centered ">
-								<div class="alert alert-failed alert-white rounded modal-content">
-									<strong><i class="fas fa-user-times"></i> Login gagal !</strong>
-									Nama akun dan/atau kata sandi salah!
-								</div>
-							</div>
-						</div>
-
-						<div id="not" class="modal" style="display:none;">
-							<div class="modal-dialog modal-dialog-centered ">
-								<div class="alert alert-failed alert-white rounded modal-content">
-									<strong><i class="fas fa-user-times"></i> Pendaftaran Belum Di Konfirmasi / Anda Belum Skripsi !</strong>
-									Silahkan Cek Ke Fakultas Untuk Informasi Lebih Lanjut!
-								</div>
-							</div>
-						</div>				
-
-
-						<form id="form-login" method="POST" action="<?= base_url('Home/session');?>">
 							
-							<div class="form-group">
-								<input type="text" placeholder="NIM / Email" class="form-control" id="nim" name="nim">
+						</div>
+						<hr>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row m-1">
+			<div class="col-md-6">
+				<div class="form-row">
+					<div class="form-group col-md-2 col-2 m-1">
+						<img class="img-fluid" src="<?= base_url('assets/images/fix/book.png');?>">
+					</div>
+
+					<div class="form-group col small">
+						<h6>Data Tersimpan Rapi</h6>
+						Data skripsi mahasiswa akan tersimpan di dalam sistem yang memudahkan kepala program pendidikan atau admin dalam mencari data skripsi lama yang mungkin dibutuhkan untuk refrensi saat mahasiswa tingkat selanjutnya membutuhkan refrensi skripsi atau sekedar membandingkan dengan skripsi sebelumnya
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-row">
+					<div class="form-group col-md-2 col-2 m-1">
+						<img class="img-fluid" src="<?= base_url('assets/images/fix/kartu.png');?>">
+					</div>
+
+					<div class="form-group col small">
+						<h6>Tidak Akan Ada Lagi Kehilangan Kartu Bimbingan</h6>
+						Kartu bimbingan merupakan hal wajib bagi setiap mahasiswa untuk melakukan bimbingan dengan dosen pembimbing, oleh karena itu kartu bimbingan dibuat online dimana dosen pembimbing bisa memberi catatan pada mahasiswa yang bisa dicetak saat dibutuhkan, yang dilengkapi dengan fitur QR_Code bisa dipastikan keaslian kartu bimbingan dan dosen maupun kaprodi bisa melihat perkembangan skripsi mahasiswa.
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-6">
+				<div class="form-row">
+					<div class="form-group col-md-2 col-2 m-1">
+						<img class="img-fluid" src="<?= base_url('assets/images/fix/waktu.png');?>">
+					</div>
+
+					<div class="form-group col small">
+						<h6>Efisien Waktu & Tenaga</h6>
+						Pengajuan judul mahasiswa merupakan proses yang membutuhkan banyak waktu dan tenaga dimana mahasiswa harus datang ke kampus untuk melakukan pengajuan judul skripsi yang ingin diajukan dimana belum tentu skripsi tersebut akan disetujui oleh kaprodi, pengajuan secara online menghemat waktu dan tenaga mahasiswa dimana mahasiswa juga akan mendapatkan informasi diterima tidaknya judul yang diajukan
+					</div>
+				</div>
+
+			</div>
+			<div class="col-md-6">
+				<div class="form-row">
+					<div class="form-group col-md-2 col-2 m-1">
+						<img class="img-fluid" src="<?= base_url('assets/images/fix/pemberitahuan.png');?>">
+					</div>
+
+					<div class="form-group col small">
+						<h6> Pemberitahuan </h6>
+						Terkadang kaprodi kesulitan memberikan informasi kepada mahasiswa maupun dosen pembimbing terkait jadwal seminar / sidang, pengajuan judul yang diterima dikarenakan banyaknya mahasiswa maupun dosen yang harus dihubungi belum lagi jika kaprodi tidak memiliki nomer yang bisa dihubungi, dengan memanfaatkan fitur ini mahasiswa akan mendapatkan pemberitahuan tentang jadwal maupun ide skripsi yang diajukan.
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md">
+			<div>
+				<div class="modal-body">
+					<div id="loading" class="modal" style="display:none;">
+						<div class="modal-dialog modal-dialog-centered ">
+							<div class="alert alert-info alert-white rounded modal-content">
+								<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
 							</div>
+						</div>
+					</div>
+					<div id="success" class="modal" style="display:none;">
+						<div class="modal-dialog modal-dialog-centered ">
+							<div class="alert alert-success alert-white rounded modal-content">
+								<strong> <i class="fas fa-check"></i> Login Success !</strong>
+								Halaman akan dialihkan dalam waktu 3 detik! 
+							</div>
+						</div>
+					</div>
+					<div id="warning" class="modal" style="display:none;">
+						<div class="modal-dialog modal-dialog-centered ">
+							<div class="alert alert-warning alert-white rounded modal-content">
+								<strong> <i class="fas fa-exclamation"></i> Peringatan !</strong>
+								Nama akun dan/atau kata sandi tidak boleh kosong!
+							</div>
+						</div>
+					</div>
+
+					<div id="failed" class="modal" style="display:none;">
+						<div class="modal-dialog modal-dialog-centered ">
+							<div class="alert alert-failed alert-white rounded modal-content">
+								<strong><i class="fas fa-user-times"></i> Login gagal !</strong>
+								Nama akun dan/atau kata sandi salah!
+							</div>
+						</div>
+					</div>
+					<div id="not" class="modal" style="display:none;">
+						<div class="modal-dialog modal-dialog-centered ">
+							<div class="alert alert-failed alert-white rounded modal-content">
+								<strong><i class="fas fa-user-times"></i> Pendaftaran Belum Di Konfirmasi / Anda Belum Skripsi !</strong>
+								Silahkan Cek Ke Fakultas Untuk Informasi Lebih Lanjut!
+							</div>
+						</div>
+					</div>				
+					<div>
+						<form id="form-login" method="POST" action="<?= base_url('Home/session');?>">
 							<div class="form-row">
 								<div class="form-group col-md">
-									<input type="Password" id="password" placeholder="Password" name="password" class="form-control">
-									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas <br> Atau malah lupa passwordnya? <a href="#" id="btn-forget">Reset Password</a> </small>
+									<input type="text" placeholder="NIM / Email" class="form-control" id="nim" name="nim">
 								</div>
-								<div class="form-group">
-									<button type="submit" class="btn btn-primary float-right" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
-								</div>
-							</div>
-						</form>
-
-						<form id="form_forget" action="<?= base_url('home/lupa');?>" style="display: none">
-							<div id="lupa" class="row">
 								<div class="form-group col-md">
-									<input class="form-control" type="email" name="email" placeholder="Masukan Email">
-									<small>Silahkan Masukan Email Untuk Mereset Password</small>
+									<input type="Password" id="password" placeholder="Password" name="password" class="form-control">
 								</div>
-								<div class="form-group col-3">
-									<input class="btn btn-primary" type="submit" name="btnSubmit" value="Submit" />								
-								</div>
-
 							</div>
-						</form>   
+							<div class="text-center">
+								<button type="submit" class="btn btn-primary float-right" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
+							</div>
+							<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
+						</form>
+					</div>
 
-						<div id="form_daftar" style="display: none;">
+					<form id="form_forget" action="<?= base_url('home/lupa');?>" style="display: none">
+						<div id="lupa" class="row">
+							<div class="form-group col-md">
+								<input class="form-control" type="email" name="email" placeholder="Masukan Email">
+								<small>Silahkan Masukan Email Untuk Mereset Password</small>
+							</div>
+							<div class="form-group col-3">
+								<input class="btn btn-primary" type="submit" name="btnSubmit" value="Submit" />				
+							</div>
 						</div>
-						<div id="log" style="display: none;">
-							<small class="form-text text-muted" id="text-login"> Sudah Punya Akun? Silahkan <a href="#" class="daftar" > Login </a>  </small>	
-						</div>
+					</form>   
+					<div id="form_daftar" style="display: none;">
+					</div>
+					<div id="log" style="display: none;">
+						<small class="form-text text-muted" id="text-login"> Sudah Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Login </a>  
+						</small>	
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="row mt-3">
-			<div class="col-md">
-				<div class="form-row">
-					<div class="form-group col-md-2">
-						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
-					</div>
-
-					<div class="form-group col">
-						<h6>Header</h6>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation 
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md">
-				<div class="form-row">
-					<div class="form-group col-md-2">
-						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
-					</div>
-					
-					<div class="form-group col">
-						<h6>Header</h6>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation 
-					</div>
-				</div>
-				
-			</div>
-		</div>
-		<div class="row mt-3">
-			<div class="col-md">
-				<div class="form-row">
-					<div class="form-group col-md-2">
-						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
-					</div>
-
-					<div class="form-group col">
-						<h6>Header</h6>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation 
-					</div>
-				</div>
-
-			</div>
-			<div class="col-md">
-				<div class="form-row">
-					<div class="form-group col-md-2">
-						<img class="img-thumbnail" src="<?= base_url('assets/images/avatar.png');?>">
-					</div>
-					<div class="form-group col">
-						<h6>Header</h6>
-						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-						quis nostrud exercitation 
-					</div>
-				</div>	
 			</div>
 		</div>
 	</div>	
 </body>
-<br>
 </html>
