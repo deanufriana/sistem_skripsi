@@ -12,6 +12,31 @@ Pengajuan judul skripsi -> Pengajuan proposal skripsi -> Seminar proposal skrips
 Terdapat juga proses penyusunan skripsi yang cukup ringkas sebagai berikut:
 
 **************************
+Pengguna
+**************************
+
+Admin :
+*Dapat Melihat Data Mahasiswa & Dosen & Jurusan 
+*Dapat Menambah Data Dosen & Jurusan
+*Dapat Menerima Pendaftaran Mahasiswa & Mengubah Status Mahasiswa
+
+Mahasiswa :
+*Dapat Mengajukan Ide Skripsi
+*Dapat Melihat Pemberitahuan / Informasi
+*Dapat Mencetak Kartu Bimbingan & Profil Mahasiswa
+
+Dosen :
+*Dapat Meng'Acc Proposal / Skripsi Mahasiswa
+*Dapat Melihat Profil Mahasiswa yang diajukan
+*Dapat Menerima Pemberitahuan
+
+Kaprodi :
+*Dapat Merangkap Sebagai Dosen Pembimbing
+*Dapat Melihat Skripsi Mahasiswa
+*Dapat Menerima Pengajuan Ide Skripsi Mahasiswa
+*Dapat Mengirim Pemberitahuan Jadwal Seminar Maupun Sidang
+
+**************************
 Fitur Skripsi Online ?
 **************************
 
