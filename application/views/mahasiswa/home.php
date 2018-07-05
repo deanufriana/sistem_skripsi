@@ -2,13 +2,13 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 			
-			$(document).ajaxStart(function () {
+			/*$(document).ajaxStart(function () {
 				$(".loader").css("display", "block");
 			})
 
 			$(document).ajaxComplete(function () {
 				$("loader").css("display", "none");
-			})
+			})*/
 
 			$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
 			$('#form_ide').load('<?php echo base_url('Mahasiswa/form_ide');?>');

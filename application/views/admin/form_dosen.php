@@ -39,9 +39,13 @@
 						contentType: false,
 						processData: false,
 						cache: false,
-						success: function() {
+						success: function(result) {
+							if (result == 1) {
 							swal("Dosen Berhasil Di Tambahkan", "Pesan Password Telah Terkirim Ke Email Dosen", "success");
-							$('#dosen').load('<?php echo base_url('Admin/dosen');?>');
+							$('#dosen').load('<?php echo base_url('Admin/dosen');?>');	
+							} else {
+							swal("Dosen Tidak Berhasil Ditambahkan", "Silahkan Cek Internet Anda Atau Hubungi Layanan Server", "error");	
+							}
 						}
 					});
 				});

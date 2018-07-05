@@ -314,8 +314,12 @@ class Admin extends CI_Controller {
 						'foto_dsn' => $foto['file_name']
 					);
 
-					$this->M_data->save($data, 'dosen');
-
+					if ($this->M_data->save($data, 'dosen');) {
+						echo 1;
+					} else {
+						echo 0;
+					}
+				
 				} else {
 
 					echo 0;

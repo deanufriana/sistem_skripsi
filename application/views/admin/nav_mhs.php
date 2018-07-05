@@ -84,7 +84,7 @@
 		<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Data Mahasiswa</a>
 	</li>
 	<li class="nav-item col-md  btn-sm">
-		<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#tabel_mhs_daftar" role="tab" aria-controls="pills-profile" aria-selected="false">Pendaftaran Mahasiswa</a>
+		<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#tabel_mhs_daftar" role="tab" aria-controls="pills-profile" aria-selected="false"> Data Pendaftar </a>
 	</li>
 </ul>
 
