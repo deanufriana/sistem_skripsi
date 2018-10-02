@@ -1,69 +1,6 @@
-<script type="text/javascript">
-	$(document).ready(function(){
-			$(".btn-action").click(function(e) {
-				e.preventDefault();
-				var form = $(this);
-				var formdata = false;
-				var id = $(this).attr("id");
-
-				if (window.FormData) {
-					formdata = new FormData(form[0]);
-				}	
-				swal({
-					text: "Mahasiswa Mengajukan Pendaftaran Skripsi, ACC?",
-					icon: "warning",
-					buttons: ["Tolak ?", "Terima?"],
-					dangerMode: true,
-				})
-				.then((willDelete) => {
-					if (willDelete) {
-						$.ajax({
-							type: 'POST',
-							url: form.attr('href'),
-							data: formdata ? formdata: form.serialize(),
-							contentType: false,
-							processData: false,
-							cache: false,
-							success: function() {
-								$(".hapus_daftar" + id).fadeOut('slow');
-							}
-						});
-					} else {
-						$.ajax({
-							type: 'POST',
-							url: form.attr('action'),
-							data: formdata ? formdata: form.serialize(),
-							contentType: false,
-							processData: false,
-							cache: false,
-							success: function() {
-								$(".hapus_daftar" + id).fadeOut('slow');
-							}
-						});
-					}
-				});
-			});
-		});
-
-	function search_daftar(page_num) {
-		page_num = page_num?page_num:0;
-		var keywords_mhs = $('#keywords_mhs').val();
-		var sortBy_mhs = $('#sortBy_mhs').val();
-		var cari_mhs = $('#cari_mhs').val();
-		$.ajax({
-			type: 'POST',
-			url: '<?php echo base_url(); ?>Admin/page_mhs_daftar/'+page_num,
-			data:'page='+page_num+'&keywords_mhs='+keywords_mhs+'&sortBy_mhs='+sortBy_mhs+'&cari_mhs='+cari_mhs,
-			beforeSend: function () {
-				$('.loading').show();
-			},
-			success: function (html) {
-				$('#tabel_mhs_daftar').html(html);
-				$('.loading').fadeOut("slow");
-			}
-		});
-	}
-</script>
+<head>
+	<script type="text/javascript" src="<?= base_url('assets/js/mySkrips.js');?>"></script>
+</head>
 <div class="form-row">
 
 	<div class="form-group col-md">
@@ -101,13 +38,13 @@
 		</thead>
 		<tbody>
 			<?php if (!empty($mhs)): foreach ($mhs as $m): ?>
-				<tr class="list-item hapus_daftar<?= $m->nim;?>">
-					<td><?php echo $m->nim;?></td>
-					<td><?php echo $m->nama_mhs;?></td>
-					<td><?php echo $m->jurusan;?></td>
-					<td><?php echo $m->konsentrasi;?></td>
-					<td><?php echo $m->nohp_mhs;?></td>
-					<td><a id="<?php echo $m->nim;?>" class="btn-action" href="<?php echo base_url('Admin/aksi_daftar/'.$m->nim);?>" action="<?php echo base_url('Admin/delete_daftar/'.$m->nim) ;?>"> <button class="btn-action btn-sm btn btn-outline-primary"> Aksi </button> </a></td>
+				<tr class="list-item tabel<?= $m->nim;?>">
+					<td><?= $m->nim;?></td>
+					<td><?= $m->nama_mhs;?></td>
+					<td><?= $m->jurusan;?></td>
+					<td><?= $m->konsentrasi;?></td>
+					<td><?= $m->nohp_mhs;?></td>
+					<td><a id="<?= $m->nim;?>" class="btn-action" action="<?= base_url('Admin/aksi_daftar/');?>"> <button class="btn-action btn-sm btn btn-outline-primary"> Aksi </button> </a></td>
 				</tr>	
 			<?php endforeach; else: ?>
 			<p>Belum Ada Data.</p>
@@ -116,5 +53,5 @@
 	</tbody>
 
 </table>
-<?php echo $this->ajax_pagination->create_links(); ?>
+<?= $this->ajax_pagination->create_links(); ?>
 </div>

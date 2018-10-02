@@ -14,53 +14,6 @@
 	<script type="text/javascript">
 
 		$(document).ready(function(){
-			$("#form-lupa").on('submit',
-				function(e) {
-					e.preventDefault();
-					var form = $(this);
-					var formdata = false;
-					if (window.FormData) {
-						formdata = new FormData(form[0]);
-					}
-
-					var formAction = form.attr('action');
-
-					$.ajax({
-						type: 'POST',
-						url: formAction,
-						data: formdata ? formdata: form.serialize(),
-						contentType: false,
-						processData: false,
-						cache: false,
-						beforeSend: function() {
-							$('#form-lupa').hide('slow');
-							$('#loading').show();
-						},
-						success: function(result) {
-							if (result == 1) {
-								swal("Pengaturan Ulang Password Telah Di Kirim Ke Email Anda!", "Silahkan masuk ke email", "success");
-								$('#loading').hide();
-								$('#form-login').fadeIn('slow');
-							} else {
-								swal("Gagal!", "Silahkan Cek Internet Anda / Coba Lagi Nanti", "error");
-								$('#loading').hide();
-								$('#form-lupa').show('fast');
-							}
-						}
-					});
-				});
-
-			$(".daftar").click(function(event) {
-				$("#form_daftar").toggle('slow');
-				$("#form-login").toggle('slow');
-				$("#log").toggle('slow');
-			});
-
-			// $("#btn-forget").click(function(event) {
-			// 	$("#form-forget").toggle('slow');
-			// 	$("#form-login").toggle('fast');
-			// });
-
 
 			$('#form_daftar').load('<?= base_url('home/pendaftaran');?>');
 
@@ -69,8 +22,6 @@
 					$('#success').toggle('fast').delay(9000);
 				});
 			})
-
-
 
 			$("#btn-login").click(function(){
 				var formAction = $("#form-login").attr('action');
@@ -91,74 +42,40 @@
 							$('#loading').fadeIn();
 						},
 						success: function(result) {
-							if(result == 1) {
-								$('#loading').fadeOut('slow');
-								$("#success").fadeIn('fast');
-								setTimeout(function() {
-									window.location = '<?= base_url('Dosen');?>'
-								}, 1000);
+							$('#loading').fadeOut('slow');
+							if (result <= 4) {
+								$("#success").fadeIn('fast');	
 							} else {
-								if (result == 2) {
-									$('#loading').fadeOut('slow');
-									$("#success").show('fast');
-									setTimeout(function() {
-										window.location = '<?= base_url('Mahasiswa');?>'
-									}, 1000);
-								} else {
-									if (result == 3) {
-										$('#loading').fadeOut('slow');
-										$("#success").fadeIn('fast');
-										setTimeout(function() {
-											window.location = '<?= base_url('Kaprodi');?>'
-										}, 1000);
-									} else {
-										if (result == 4) {
-											$('#loading').fadeOut('slow');
-											$("#success").fadeIn('fast');
-											setTimeout(function() {
-												window.location = '<?= base_url('Admin');?>'
-											}, 1000);
-										} else {
-											if (result == 0) {
-												$('#loading').fadeOut('slow');
-												$("#not").fadeIn('fast').delay(2000).fadeOut('fast');
-												return false;	
-											} else {
-												$('#loading').fadeOut('slow');
-												$("#failed").fadeIn('fast').delay(2000).fadeOut('fast');
-												return false;	
-											}
-											
-										}
-										
-									}
-								} 
-							} 
+								$("#failed").fadeIn('fast').delay(2000).fadeOut('fast');
+							}
+							var user;
+							switch (result) {
+								case '1': 
+								user = 'Dosen';
+								break;
+								case '2':
+								user = 'Mahasiswa';
+								break;
+								case '3':
+								user = 'Kaprodi';
+								break;
+								case '4':
+								user = 'Admin';
+								break;
+								default:
+								return false;
+							}
+							setTimeout(function() {
+								window.location = "<?= base_url();?>"+user
+							}, 1000);
+
 						}
 					});
 					return false;
 				}
 			});
 		});
-
 	</script>
-
-	<style type="text/css">
-	
-	.bs-docs-footer {
-		padding-top: 3rem;
-		padding-bottom: 5.5rem;
-		margin-top: 6rem;
-		color: #99979c;
-		text-align: left;
-		background-color: #2a2730;
-	}
-
-	.hr {
-		display: block;
-		padding: .5rem 1rem;
-	}
-</style>
 </head>
 <body class="m-3">
 	<div class="container-fluid">
@@ -168,10 +85,25 @@
 					<div>
 						<div class="row">
 							<div class="col-md">
-								<h4><i class="fas fa-book fa-sm"></i> SISTEM INFORMASI SKRIPSI ONLINE </h4>
+								<h5><i class="fas fa-book fa-sm"></i> SISTEM INFORMASI SKRIPSI ONLINE </h5>
 								Proses skripsi menjadi lebih teratur dan cepat yang dilakukan secara online yang bisa diakses dimana saja melalui browser dengan bertujuan menghemat waktu, tenaga dan memudahkan mendapatkan informasi proses skripsi secara Online.
 							</div>
-							
+							<div class="col-md-5">
+								<form id="form-login" method="POST" action="<?= base_url('Home/session');?>">
+									<div class="form-row mt-3">
+										<div class="form-group col-md">
+											<input type="text" placeholder="NIM / Email" class="form-control" id="nim" name="nim">
+										</div>
+										<div class="form-group col-md">
+											<input type="Password" id="password" placeholder="Password" name="password" class="form-control">
+										</div>
+									</div>
+									<div class="text-center">
+										<button type="submit" class="btn btn-primary float-right ml-3" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
+									</div>
+									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
+								</form>
+							</div>
 						</div>
 						<hr>
 					</div>
@@ -273,23 +205,7 @@
 							</div>
 						</div>
 					</div>				
-					<div>
-						<form id="form-login" method="POST" action="<?= base_url('Home/session');?>">
-							<div class="form-row">
-								<div class="form-group col-md">
-									<input type="text" placeholder="NIM / Email" class="form-control" id="nim" name="nim">
-								</div>
-								<div class="form-group col-md">
-									<input type="Password" id="password" placeholder="Password" name="password" class="form-control">
-								</div>
-							</div>
-							<div class="text-center">
-								<button type="submit" class="btn btn-primary float-right" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
-							</div>
-							<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
-						</form>
-					</div>
-
+					
 					<form id="form_forget" action="<?= base_url('home/lupa');?>" style="display: none">
 						<div id="lupa" class="row">
 							<div class="form-group col-md">

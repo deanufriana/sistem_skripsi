@@ -1,15 +1,6 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
-			/*$(document).ajaxStart(function () {
-				$(".loader").css("display", "block");
-			})
-
-			$(document).ajaxComplete(function () {
-				$("loader").css("display", "none");
-			})*/
-
 			$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
 			$('#form_ide').load('<?php echo base_url('Mahasiswa/form_ide');?>');
 			$('#myprofil').load('<?php echo base_url('Mahasiswa/myprofil');?>');
@@ -25,7 +16,7 @@
 	<div class="container-fluid">
 		<div>
 			<div>
-				<div class="nav nav-pills mb-3 nav-justified flex-column flex-sm-row" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				<div class="nav nav-pills mb-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 					<a href="#" class="btn-menu nav-link"><i class="fas fa-bars"></i></a>
 					<a class="nav-item nav-link active" id="v-pills-home-tab" data-toggle="tab" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-envelope fa-sm"></i> Pemberitahuan 
 					</a>
@@ -41,17 +32,26 @@
 
 				<div class="row">
 					<div class="col-md-3 mb-3" id="mhs_profil">
-						<div class="card" id="myprofil">
+						<div class="card " id="myprofil">
 						</div>
 					</div>
 
 					<div class="col-md mb-3">
 						<div class="tab-content" id="v-pills-tabContent">
 							<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-								<div class="border-primary card" style="height: auto;">
-									<div id="Pemberitahuan" class="scroll">
+								<div class="scroll card border-primary" style="height: 37rem">
+									<?php if ($pemberitahuan->num_rows() > 0) { ?>
+										<div id="Pemberitahuan">
 
-									</div>
+										</div>
+										<?php	
+									} else { ?>
+										<div class="text-center">
+											Tidak Ada Pemberitahuan	
+										</div>
+										
+									<?php } ?>
+
 								</div>
 							</div>
 							<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
@@ -62,14 +62,14 @@
 												echo "style='display: none;'"; } ?> class="col-md-5 mb-1" id="form_ide">
 											</div>
 
-											<div id="ide_skripsi" class="col-md" style="overflow: scroll; height: 26rem">
+											<div id="ide_skripsi" class="col-md" style="overflow-y: auto; height: 35rem">
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 							<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-								<div class="card border-primary mb-3" id="konsultasi">
+								<div class="mb-3 card" id="konsultasi" style="height: 35rem">
 								</div>
 							</div>		
 						</div>

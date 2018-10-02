@@ -78,7 +78,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form class="login" method="POST" action="<?php echo base_url('Dosen/update_password');?>">
+				<form class="login" method="POST" action="<?= base_url('C_global/ubahPassword/'.$this->session->userdata('nik').'/dosen');?>">
 					<div class="content">
 						<div id="success" class="alert alert-success alert-white rounded" style="display:none;">
 							<strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>

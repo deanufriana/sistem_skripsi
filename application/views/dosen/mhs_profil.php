@@ -90,7 +90,7 @@
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
-					<div class="col-md-2 mr-auto">
+					<div class="col-md-2 mr-3">
 						<img class="card-img-top" src="<?= base_url('assets/images/'.$u->foto_mhs) ;?>">
 					</div>
 					<div class="col-md">
@@ -111,38 +111,58 @@
 							</div>
 						</div>
 						<?php if ($this->uri->segment(1) != 'Kaprodi') { ?>
-							<div class="row">				
-								<div class="col">
-									<label> Proposal </label>
-									<div class="form-row">
-										<div class="form-group col-md">
-											<form class="status" id="<?= $u->id_pmb;?>" nama="Proposal" method="POST" action="<?= base_url('Dosen/acc_proposal/'.$u->id_pmb);?>">
-												<input type="submit" class="btn<?= $u->id_pmb;?> btn btn-outline-primary btn-sm" value="Accept" <?php if ($u->status_proposal === 'Disetujui') {
-													echo 'disabled';
-												} ?>>
-											</form>
-										</div> 
-									</div>
-								</div>	
-								<i class="fas fa-spinner fa-pulse loading" style="display: none"> </i> 
-
-								<div class="col text-right">
-
-									<label>Skripsi</label>
+							
+							<div class="form-row">
+								<div class="form-group">
+									<a class="btn-sm"
+									<?php if (empty($u->file_proposal)) {
+										echo "";
+									} else {
+										echo "href=".base_url("ControllerGlobal/downloadFile/".$u->file_proposal);
+									} ?>> <i class="fa fa-download"></i> </a>
+								</div>
+								<div class="form-group ml-2">
+									<form class="status" id="<?= $u->id_pmb;?>" nama="Proposal" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->id_pmb.'/proposal');?>">
+										<input type="submit" class="btn<?= $u->id_pmb;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" <?php if ($u->status_proposal === 'Disetujui') {
+											echo 'disabled';
+										} ?>>
+									</form>
+								</div> 
+								<div class="form-group ml-2">
+									<a class="btn-sm"
+									<?php if (empty($u->file_skripsi)) {
+										echo "";
+									} else {
+										echo "href=".base_url("ControllerGlobal/downloadFile/".$u->file_skripsi);
+									} ?>> <i class="fa fa-download"></i> </a>
+								</div>
+								<div class="form-group ml-2">
 									<div id="Skripsi" class="form-row" <?php if ($u->status_proposal === 'Belum Disetujui') {
 										echo 'style="display: none"';	} ?>>
 										<div class="form-group col-md"> 
-											<form id="<?= $u->id_pmb;?>" class="status" nama="Skripsi" method="POST" action="<?= base_url('Dosen/acc_skripsi/'.$u->id_pmb);?>">
-												<input type="submit" class="btn<?= $u->id_pmb;?> btn btn-outline-primary btn-sm" value="Accept" <?php if ($u->status_skripsi === 'Disetujui') {
+											<form id="<?= $u->id_pmb;?>" class="status" nama="Skripsi" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->id_pmb.'/skripsi');?>">
+												<input type="submit" class="btn<?= $u->id_pmb;?> btn btn-outline-primary btn-sm" value="Menyetujui Skripsi" 
+												<?php if ($prop->num_rows() === 1) {
 													echo 'disabled';
+													$status = 'Proposal Telah diSetujui mohon tunggu acc dari pemmbimbing yang lain untuk dapat mengacc Skripsi';
+												} else {
+													if ($u->status_skripsi === 'Disetujui') {
+														echo 'disabled';
+														$status = '';
+													} else {
+														echo '';
+														$status = '';
+													}
 												} ?>>
 											</form>
 										</div>
 									</div>
 								</div>
+								<div class="form-group ml-5">
+									<?= $status ?>
+								</div>
 							</div>
 						<?php } ?>
-						
 					</div>
 				</div>
 				<?php if ($this->uri->segment(1) != 'Kaprodi') { ?>
@@ -162,7 +182,7 @@
 					<div class="form-group col-8">
 						<h5> <i class="fas fa-pencil-alt fa-xs"></i> Kartu Bimbingan </h5>	
 					</div>
-					
+
 					<?php if($this->uri->segment(1) === "Kaprodi") {
 						foreach ($mahasiswa as $p); 
 					} else {
@@ -198,7 +218,7 @@
 									</tr>
 								<?php } ?>	
 							<?php endif ?>
-							
+
 						</tbody>
 					</table>
 				</div>

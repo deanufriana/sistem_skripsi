@@ -13,7 +13,7 @@
 						<img class="card-img-top" src="<?php echo base_url('assets/images/'.$p->foto_dsn);?>" alt="Card image">
 					</div>
 					<div class="form-group col">
-						<h6 class="card-title"> <?php echo $p->pemberitahuan ;?> <a id="<?php echo $p->id;?>" class="hapus" href="<?php echo base_url('Dosen/hapus_pemberitahuan/'.$p->id);?>"><i class="fas fa-trash-alt fa-sm"></i></a> <?php echo $p->status ?></h6>
+						<h6 class="card-title"> <?php echo $p->pemberitahuan ;?> <a id="<?php echo $p->id;?>" class="hapus" href="<?php echo base_url('ControllerGlobal/deleteNotifikasi/'.$p->id);?>"><i class="fas fa-trash-alt fa-sm"></i></a> <?php echo $p->status ?></h6>
 
 						<div class="form-group">
 							<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar fa-sm"></i> <?php echo longdate_indo($p->tanggal);?> <i class="fas fa-users fa-sm"></i> <?php echo $p->nama_dosen;?> </h6>

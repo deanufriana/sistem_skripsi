@@ -85,7 +85,7 @@
 				<td><?php echo $m->jurusan;?></td>
 				<td><?php echo $m->konsentrasi;?></td>
 				<td><?php echo $m->nohp_mhs;?></td>
-				<td><a id="<?php echo $m->nim;?>" class="btn-action" href="<?php echo base_url('Admin/submit_daftar/'.$m->nim);?>" action="<?php echo base_url('Admin/delete_daftar/'.$m->nim) ;?>"> <button class="btn-action btn-sm btn btn-outline-primary"> Aksi </button> </a>
+				<td><a id="<?php echo $m->nim;?>" class="btn-action" href="<?php echo base_url('Admin/submit_daftar/'.$m->nim.'/tidak');?>" action="<?php echo base_url('Admin/submit_daftar/'.$m->nim.'/ya') ;?>"> <button class="btn-action btn-sm btn btn-outline-primary"> Aksi </button> </a>
 				</td>
 			</tr>				
 		</tbody>

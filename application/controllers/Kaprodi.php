@@ -25,14 +25,20 @@ class Kaprodi extends CI_Controller {
     $this->perPage = 3;
   }
 
-  public function index()
+  function index()
   {
     $this->load->view('template/navbar');
   }
 
-  public function beranda()
+  function beranda()
   {
-    $this->load->view('kaprodi/home');
+    $id = $this->session->userdata('id');
+
+    $where = array('id_konsentrasi_mhs' => $id);
+
+    $data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
+
+    $this->load->view('kaprodi/home', $data);
   }
 
   function pmb(){
@@ -50,31 +56,8 @@ class Kaprodi extends CI_Controller {
    echo json_encode($callback);
  }
 
- function update_password()
+ function tabel_mhs_kaprodi()
  {
-  $id = $this->session->userdata('nik');
-  $where = array('id' => $id);
-  $pass_lama = $this->input->post('pass_lama');
-
-  $data['pass_jurusan'] = md5($this->input->post('pass_baru'));
-
-  $cek = $this->M_data->find('dosen', $where);
-
-  foreach ($cek->result() as $c) {
-
-   $pass = $c->password;
-
-   if (md5($pass_lama) === $pass) {
-    $this->M_data->update('id', $id, 'jurusan', $data);
-    echo 1;
-  } else {
-    echo 0;
-  }
-}
-}
-
-function tabel_mhs_kaprodi()
-{
   $page = $this->input->post('page');
   if (!$page) {
     $offset = 0;
@@ -113,7 +96,7 @@ function tabel_mhs_kaprodi()
 
 function nilai()
 {
-  
+
   $id= $this->input->post("id");
   $value= $this->input->post("value");
   $modul= $this->input->post("modul");
@@ -139,210 +122,180 @@ function daftar()
 
 function aksi_daftar($nim)
 {
-		 $this->load->library('ciqrcode'); //pemanggilan library QR CODE
+ $this->load->library('ciqrcode');
 
-        $config['cacheable']    = true; //boolean, the default is true
-        $config['cachedir']     = './assets/'; //string, the default is application/cache/
-        $config['errorlog']     = './assets/'; //string, the default is application/logs/
-        $config['imagedir']     = './assets/images/'; //direktori penyimpanan qr code
-        $config['quality']      = true; //boolean, the default is true
-        $config['size']         = '1024'; //interger, the default is 1024
-        $config['black']        = array(224,255,255); // array, default is array(255,255,255)
-        $config['white']        = array(70,130,180); // array, default is array(0,0,0)
-        $this->ciqrcode->initialize($config);
-
-
-
-        $where = array('nim' => $nim);
-        $Get['pendaftaran'] = $this->M_data->find('pendaftaran', '' ,'nim', $nim);
-        foreach ($Get['pendaftaran'] as $p) {
-        	
-		    $image_name=$p->nim.'.png';            //buat name dari qr code sesuai dengan nim
-
-       		$params['data'] = base_url('Cetak/kartu/'.$p->nim); //data yang akan di jadikan QR CODE
-        	$params['level'] = 'H'; //H=High
-        	$params['size'] = 10;
-        	$params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
-      		$this->ciqrcode->generate($params); // fungsi untuk generate QR CODE
-
-      		$data['nim'] = $p->nim;
-      		$data['nama_mhs'] = $p->nama;
-      		$data['password_mhs'] = md5($p->password);
-      		$data['id_jurusan_mhs'] = $p->id_jurusan;
-      		$data['id_konsentrasi_mhs'] = $p->id_konsentrasi;
-      		$data['nohp_mhs'] = $p->nohp;
-      		$data['email_mhs'] = $p->email;
-      		$data['foto_mhs'] = $p->foto;
-      		$data['status_mhs'] = 'Proses Skripsi';
-      		$data['QR_Code'] = $image_name;
-
-      		$this->M_data->save($data, 'mahasiswa');
-      		$this->M_data->delete($where, 'pendaftaran');
-      	}
-      }
-
-      function pembimbing($id)
-      {
-      	$data['pembimbing'] = $this->M_data->find('pembimbing','', 'id_skripsi', $id, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
-      	$this->load->view('kaprodi/dosen', $data);
-      }
-
-      function form_kegiatan()
-      {	
-      	$data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'id_konsentrasi_mhs', $this->session->userdata('id'));
-      	$this->load->view('kaprodi/form_kegiatan', $data);
-      }
-
-      function profil_mhs($nim)
-      {
-      	$this->load->view('template/navbar');
-      	$where = array('nim_mhs_pmb' => $nim,);
-      	$data['pembimbing'] = $this->M_data->find('pembimbing',$where, '', '', '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
-      	
-        $data['mahasiswa'] = $this->M_data->find('mahasiswa','', 'nim', $nim, '', '', 'skripsi', 'skripsi.id_skripsi = mahasiswa.id_skripsi_mhs');
-
-        $data['konsultasi'] = $this->M_data->find('konsultasi', '' , 'nim_mhs_ks', $nim);
-
-        $this->load->view('dosen/mhs_profil', $data);
+ $config['cacheable']    = true;
+ $config['cachedir']     = './assets/'; 
+ $config['errorlog']     = './assets/'; 
+ $config['imagedir']     = './assets/images/'; 
+ $config['quality']      = true; 
+ $config['size']         = '1024'; 
+ $config['black']        = array(224,255,255); 
+ $config['white']        = array(70,130,180); 
+ $this->ciqrcode->initialize($config);
 
 
-      }
 
-      public function form_dosen()
-      {
-      	$data['dosen'] = $this->M_data->find('dosen');
-      	$this->load->view('kaprodi/form_dosen', $data);
-      }
+ $where = array('nim' => $nim);
+ $Get['pendaftaran'] = $this->M_data->find('pendaftaran', '' ,'nim', $nim);
+ foreach ($Get['pendaftaran'] as $p) {
 
-      public function profildosen($nik)
-      {
-      	$where = array('nik' => $nik);
-      	$data['pembimbing'] = $this->M_data->find('pembimbing','', 'nik', $nik, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
-      	$data['dosen'] = $this->M_data->find('dosen', $where);
-      	$this->load->view('template/navbar')->view('kaprodi/profildosen', $data);
-      }
+  $image_name=$p->nim.'.png';            
 
-      public function ide_skripsi()
-      {
+  $params['data'] = base_url('Cetak/kartu/'.$p->nim); 
+  $params['level'] = 'H'; 
+  $params['size'] = 10;
+  $params['savename'] = FCPATH.$config['imagedir'].$image_name; 
+  $this->ciqrcode->generate($params);
 
-      	$id = $this->session->userdata('id');
-        $where = array('id_konsentrasi_mhs' => $id);
-        
-        $data['dosen'] = $this->M_data->find('dosen', '', 'id_konsentrasi_dsn', $id);
+  $data['nim'] = $p->nim;
+  $data['nama_mhs'] = $p->nama;
+  $data['password_mhs'] = md5($p->password);
+  $data['id_jurusan_mhs'] = $p->id_jurusan;
+  $data['id_konsentrasi_mhs'] = $p->id_konsentrasi;
+  $data['nohp_mhs'] = $p->nohp;
+  $data['email_mhs'] = $p->email;
+  $data['foto_mhs'] = $p->foto;
+  $data['status_mhs'] = 'Proses Skripsi';
+  $data['QR_Code'] = $image_name;
 
-        $data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
+  $this->M_data->save($data, 'mahasiswa');
+  $this->M_data->delete($where, 'pendaftaran');
+}
+}
 
-        $this->load->view('kaprodi/ide_skripsi', $data);
-      }
+function pembimbing($id)
+{
+ $data['pembimbing'] = $this->M_data->find('pembimbing','', 'id_skripsi', $id, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
+ $this->load->view('kaprodi/dosen', $data);
+}
 
-      public function disetujui($id_skripsi)
-      {
+function form_kegiatan()
+{	
+ $data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'id_konsentrasi_mhs', $this->session->userdata('id'));
+ $this->load->view('kaprodi/form_kegiatan', $data);
+}
 
-        $where = array('id_ide' => $id_skripsi);
-        $cek = $this->M_data->find('ide_skripsi', $where, '', '', '', '', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
+function profil_mhs($nim)
+{
+ $this->load->view('template/navbar');
+ $where = array('nim_mhs_pmb' => $nim,);
+ $data['pembimbing'] = $this->M_data->find('pembimbing',$where, '', '', '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
 
-        if ($cek->num_rows() > 0) {
+ $data['mahasiswa'] = $this->M_data->find('mahasiswa','', 'nim', $nim, '', '', 'skripsi', 'skripsi.id_skripsi = mahasiswa.id_skripsi_mhs');
 
-          foreach ($cek->result() as $s) {
+ $data['konsultasi'] = $this->M_data->find('konsultasi', '' , 'nim_mhs_ks', $nim);
 
-           $pmb1 = $this->input->post('pmb1');
-           $pmb2 = $this->input->post('pmb2');
-
-           $head = $s->judul;
-           $catatan = $this->input->post('catatan');
-           $catatan_dosen = 'Anda Di Tetapkan Sebagai Dosen Pembimbing <br>'.$s->nama_mhs.'<br> Silahkan Lihat Di Data Skripsi';
-           $deskripsi = $s->deskripsi;
-           $penerima = $s->nim;
-           $tanggal = date('Y-m-d');
-           $pengirim = $this->session->userdata('nik');;
-           $status = '<span class="text-right badge badge-success"> <i class="fas fa-thumbs-up"></i> Diterima </span>';
-
-           $dosen1 = array('nik_dsn_pmb' => $pmb1, 'id_skripsi_pmb' => $s->id_ide, 'nim_mhs_pmb' => $penerima, 'status_proposal' => 'Belum Disetujui', 'status_skripsi' => 'Belum Disetujui' , 'level' => 'Pembimbing 1');
-           $dosen2 = array('nik_dsn_pmb' => $pmb2, 'status_proposal' => 'Belum Disetujui', 'status_skripsi' => 'Belum Disetujui', 'id_skripsi_pmb' => $s->id_ide, 'nim_mhs_pmb' => $penerima, 'level' => 'Pembimbing 2');
-           $sh = array('id_skripsi' => $s->id_ide ,'judul_skripsi' => $head, 'deskripsi' => $deskripsi, 'nim_mhs_skripsi' => $penerima, 'tanggal' => $tanggal);
-
-           $pemberitahuan = array('pemberitahuan' => $head, 'catatan' => $catatan, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $penerima, 'status' => $status);
-
-           $pemberitahuan2 = array('pemberitahuan' => $head, 'catatan' => $catatan_dosen, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $pmb1, 'status' => $status);
+ $this->load->view('dosen/mhs_profil', $data);
 
 
-           $pemberitahuan3 = array('pemberitahuan' => $head, 'catatan' => $catatan_dosen, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $pmb2, 'status' => $status);
+}
 
-           $id = array('id_skripsi_mhs' => $id_skripsi);
+function form_dosen()
+{
+ $data['dosen'] = $this->M_data->find('dosen');
+ $this->load->view('kaprodi/form_dosen', $data);
+}
 
-           $where = array('nim_mhs_ide' => $penerima);
-           $this->M_data->update('nim', $s->nim, 'mahasiswa', $id);
-           $this->M_data->save($sh, 'skripsi');
-           $this->M_data->save($dosen1, 'pembimbing');
-           $this->M_data->save($dosen2, 'pembimbing');
-           $this->M_data->save($pemberitahuan, 'pemberitahuan');
-           $this->M_data->save($pemberitahuan2, 'pemberitahuan');
-           $this->M_data->save($pemberitahuan3, 'pemberitahuan');      			
-           $this->M_data->delete($where, 'ide_skripsi');
+function profildosen($nik)
+{
+ $where = array('nik' => $nik);
+ $data['pembimbing'] = $this->M_data->find('pembimbing','', 'nik', $nik, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
+ $data['dosen'] = $this->M_data->find('dosen', $where);
+ $this->load->view('template/navbar')->view('kaprodi/profildosen', $data);
+}
 
-         }
+function ide_skripsi()
+{
 
+ $id = $this->session->userdata('id');
+ $where = array('id_konsentrasi_mhs' => $id);
 
-       }
-       redirect('kaprodi');
-     }
+ $data['dosen'] = $this->M_data->find('dosen', '', 'id_konsentrasi_dsn', $id);
 
-     function ditolak($id_skripsi)
-     {
-       $where = array('id_ide' => $id_skripsi);
+ $data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
 
-       $cek = $this->M_data->find('ide_skripsi', $where, '', '', '', '', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
+ $this->load->view('kaprodi/ide_skripsi', $data);
+}
 
-       if ($cek->num_rows() > 0) {
+function acceptSkripsi($idSkripsi, $status)
+{
+  $catatan = $this->input->post('catatan');
+  $where['id_ide'] = $idSkripsi;
 
-        foreach ($cek->result() as $s) {
+  $idIde = '';
+  $judul = '';
+  $deskripsi = '';
+  $penerima = '';
 
-         $head = $s->judul;
-         $catatan = $this->input->post('catatan');
-         $deskripsi = $s->deskripsi;
-         $penerima = $s->nim;
-         $tanggal = date('Y-m-d');
-         $pengirim = $this->session->userdata('nik');;
-         $status = '<span class="text-right badge badge-danger"> <i class="fas fa-thumbs-down"></i> Ditolak </span>';
+  $pengirim = $this->session->userdata('nik');
+  $tanggal = date('Y-m-d');
 
+  $ideSkripsi = $this->M_data->find('ide_skripsi', $where, '', '', '', '', 'mahasiswa', 'mahasiswa.nim = ide_skripsi.nim_mhs_ide');
 
-         $pemberitahuan = array('pemberitahuan' => $head, 'catatan' => $catatan, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $penerima, 'status' => $status);
-
-         $id = array('skripsi' => $id_skripsi);
-
-         $this->M_data->save($pemberitahuan, 'pemberitahuan');
-         $this->M_data->delete($where, 'ide_skripsi');
-       }
-     }
-   }
-
-   function aksi_kegiatan()
-   {
-     $kegiatan = $this->input->post('kegiatan');
-     $jam = $this->input->post('jam');
-     $tempat = $this->input->post('tempat');
-     $penerima = $this->input->post('penerima');
-     $tanggal = $this->input->post('tanggal');
-
-     $data['pemberitahuan'] = 'Kegiatan '.$kegiatan.' Telah Ditetapkan';
-     $data['catatan'] = '<i class="fas fa-clock mr-auto"></i>  '.$jam.'<br> <i class="fas fa-map-marker mr-auto"></i>  '.$tempat.'<br> <i class="fas fa-calendar-alt"></i> '.longdate_indo($tanggal);
-     $data['pengirim'] = $this->session->userdata('nik');
-     $data['penerima'] = $penerima;
-     $data['tanggal'] = date('Y-m-d');
-     $data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i>'.$kegiatan.'</span>';
-
-     $this->M_data->save($data, 'pemberitahuan');
-   }
-
-   function delete_daftar($nim)
-   {
-     $where = array('nim' => $nim);
-     $cek = $this->M_data->find('pendaftaran', $where);
-
-     foreach ($cek->result() as $c) {
-      unlink('./assets/images/'.$c->foto);
-      $this->M_data->delete($where, 'pendaftaran');
-    }
+  foreach ($ideSkripsi->result() as $i) {
+    $idIde = $i->id_ide;
+    $judul = $i->judul;
+    $deskripsi = $i->deskripsi;
+    $penerima = $i->nim_mhs_ide;
+    $nama = $i->nama_mhs;
   }
+
+  if ($status === 'diterima') {
+
+    $pmb1 = $this->input->post('pmb1');
+    $pmb2 = $this->input->post('pmb2');
+
+    $catatan_dosen = 'Anda Di Tetapkan Sebagai Dosen Pembimbing <br>'.$nama.'<br> Silahkan Lihat Di Data Skripsi';
+
+    $dosen1 = array('nik_dsn_pmb' => $pmb1, 'id_skripsi_pmb' => $idIde, 'nim_mhs_pmb' => $penerima, 'status_proposal' => 'Belum Disetujui', 'status_skripsi' => 'Belum Disetujui' , 'level' => 'Pembimbing 1');
+    $dosen2 = array('nik_dsn_pmb' => $pmb2, 'status_proposal' => 'Belum Disetujui', 'status_skripsi' => 'Belum Disetujui', 'id_skripsi_pmb' => $idIde, 'nim_mhs_pmb' => $penerima, 'level' => 'Pembimbing 2');
+    $sh = array('id_skripsi' => $idIde ,'judul_skripsi' => $judul, 'deskripsi' => $deskripsi, 'nim_mhs_skripsi' => $penerima, 'tanggal' => $tanggal);
+
+    $pemberitahuan = array('pemberitahuan' => $judul, 'catatan' => $catatan, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $penerima, 'status' => $status);
+
+    $pemberitahuan2 = array('pemberitahuan' => $judul, 'catatan' => $catatan_dosen, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $pmb1, 'status' => $status);
+
+    $pemberitahuan3 = array('pemberitahuan' => $judul, 'catatan' => $catatan_dosen, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $pmb2, 'status' => $status);
+
+    $id = array('id_skripsi_mhs' => $idSkripsi);
+
+    $whereIde['nim_mhs_ide'] = $penerima;
+
+    $this->M_data->update('nim', $penerima, 'mahasiswa', $id);
+    $this->M_data->save($sh, 'skripsi');
+    $this->M_data->save($dosen1, 'pembimbing');
+    $this->M_data->save($dosen2, 'pembimbing');
+    $this->M_data->save($pemberitahuan, 'pemberitahuan');
+    $this->M_data->save($pemberitahuan2, 'pemberitahuan');
+    $this->M_data->save($pemberitahuan3, 'pemberitahuan');           
+    $this->M_data->delete($whereIde, 'ide_skripsi');
+
+  } else {
+
+   $pemberitahuan = array('pemberitahuan' => $judul, 'catatan' => $catatan, 'penerima' => $penerima, 'tanggal' => $tanggal, 'pengirim' => $pengirim, 'penerima' => $penerima, 'status' => $status);
+
+   $this->M_data->save($pemberitahuan, 'pemberitahuan');
+   $this->M_data->delete($where, 'ide_skripsi');
+ }
+}
+
+function aksi_kegiatan()
+{
+ $kegiatan = $this->input->post('kegiatan');
+ $jam = $this->input->post('jam');
+ $tempat = $this->input->post('tempat');
+ $penerima = $this->input->post('penerima');
+ $tanggal = $this->input->post('tanggal');
+
+ $data['pemberitahuan'] = 'Kegiatan '.$kegiatan.' Telah Ditetapkan';
+ $data['catatan'] = '<i class="fas fa-clock mr-auto"></i>  '.$jam.'<br> <i class="fas fa-map-marker mr-auto"></i>  '.$tempat.'<br> <i class="fas fa-calendar-alt"></i> '.longdate_indo($tanggal);
+ $data['pengirim'] = $this->session->userdata('nik');
+ $data['penerima'] = $penerima;
+ $data['tanggal'] = date('Y-m-d');
+ $data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i>'.$kegiatan.'</span>';
+
+ $this->M_data->save($data, 'pemberitahuan');
+}
 
 }

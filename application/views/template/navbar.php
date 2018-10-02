@@ -166,8 +166,7 @@
 		/* the rest of your styling */
 	}
 	.scroll {
-		overflow: scroll;
-		height: 28rem;
+		overflow-y: auto;
 	}
 
 	.navigasi{
@@ -233,7 +232,8 @@
 				<span class="text-right col"><i class="fas fa-calendar-alt"> </i>   
 					<?php echo longdate_indo(date('Y-m-d'));?> </span>	
 				</div>
-				<div <?php if (!(($this->uri->segment(1) == "Kaprodi") AND ($this->uri->segment(3) == ""))) {
+				<div 
+				<?php if (!(($this->uri->segment(1) == "Kaprodi") AND ($this->uri->segment(3) == ""))) {
 					echo "style='display: none'";
 				}?>>
 				<select class="custom-select" id="status">

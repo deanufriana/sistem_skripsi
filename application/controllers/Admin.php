@@ -242,14 +242,6 @@ class Admin extends CI_Controller {
 		$this->load->view('admin/form_jurusan');
 	}
 
-	function save_jurusan()
-	{
-		$data['id_jurusan'] = $this->input->post('id_jurusan');
-		$data['jurusan'] = $this->input->post('jurusan');
-
-		$this->M_data->save($data, 'jurusan');
-	}
-
 	function filter_kaprodi()
 	{
 		$id_jurusan = $this->input->post('id_jurusan');
@@ -263,6 +255,14 @@ class Admin extends CI_Controller {
 		}
 		$callback = array('list' => $lists);
 		echo json_encode($callback);
+	}
+
+	function save_jurusan()
+	{
+		$data['id_jurusan'] = $this->input->post('id_jurusan');
+		$data['jurusan'] = $this->input->post('jurusan');
+
+		$this->M_data->save($data, 'jurusan');
 	}
 
 	function save_dosen() // Menyimpan Form Dosen
@@ -314,12 +314,12 @@ class Admin extends CI_Controller {
 						'foto_dsn' => $foto['file_name']
 					);
 
-					if ($this->M_data->save($data, 'dosen');) {
+					if ($this->M_data->save($data, 'dosen')) {
 						echo 1;
 					} else {
 						echo 0;
 					}
-				
+
 				} else {
 
 					echo 0;
@@ -334,15 +334,26 @@ class Admin extends CI_Controller {
 
 	}
 
-	function submit_daftar($nim) // 
-	
+	function submit_daftar($nim, $hapus)
 	{
+		if ($hapus) {
 
-		$data['status'] = 'Mahasiswa';
+			$data['status'] = 'Mahasiswa';
 
-		$this->M_data->update('nim', $nim, 'mahasiswa', $data);
+			$this->M_data->update('nim', $nim, 'mahasiswa', $data);
+			
+		} else {
+
+			$where = array('nim' => $nim);
+			$cek = $this->M_data->find('mahasiswa', $where);
+
+			foreach ($cek->result() as $c) {
+				unlink('./assets/images/'.$c->foto);
+				$this->M_data->delete($where, 'mahasiswa');
+			}
+
+		}
 	}
-
 
 	function status($nim) // Mengubah Status Mahasiswa
 	{
@@ -397,30 +408,6 @@ class Admin extends CI_Controller {
 	function pengaturan() // Halaman Pengaturan
 	{
 		$this->load->view('admin/pengaturan');
-	}
-
-	function submit_pwd()
-	{
-		$id = $this->session->userdata('id_admin');
-		$where = array('id_admin' => $id);
-		$pass_lama = $this->input->post('pass_lama');
-
-		$data['password'] = md5($this->input->post('pass_baru'));
-		$data['username'] = $this->input->post('username');
-
-		$cek = $this->M_data->find('admin', $where);
-
-		foreach ($cek->result() as $c) {
-
-			$pass = $c->password;
-
-			if (md5($pass_lama) === $pass) {
-				$this->M_data->update('id_admin', $id, 'admin', $data);
-				echo 1;
-			} else {
-				echo 0;
-			}
-		}
 	}
 
 	function update(){

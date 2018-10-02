@@ -33,7 +33,7 @@
 			}
 		});   
 
-		$(function(){
+	/*	$(function(){
 
 			$(document).on("click","div.small",function(){
 				$(this).find("span[class~='caption']").hide();
@@ -71,7 +71,7 @@
 				}
 
 			});
-		});
+		});*/
 
 	</script>
 </head>
@@ -80,7 +80,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form id="login" method="POST" action="<?php echo base_url('Mahasiswa/update_password');?>">
+				<form id="login" method="POST" action="<?php echo base_url('Global/ubahPassword/'.$this->session->userdata('nim').'/mahasiswa');?>">
 					<div class="content">
 						<div id="success" class="alert alert-success alert-white rounded" style="display:none;">
 							<strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>
@@ -115,7 +115,7 @@
 
 <img class="card-img-top img-rounded img-fluid" src="<?php echo base_url('assets/images/').$this->session->userdata('foto_mhs');?>">
 
-<div class="card-body">
+<div class="card-body col-xl">
 	<?php foreach ($mahasiswa as $m) {
 		echo $this->session->userdata('jurusan')." ".$this->session->userdata('konsentrasi');
 		?>
@@ -123,6 +123,7 @@
 		<hr>
 
 		<a href="#" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm float-right"><i class="fas fa-edit"></i> Password </a>
+
 		<div class="card-text small">	<span class='span-email caption' data-id='<?= $this->session->userdata('nim');?>'> <?= $m->email_mhs;?> </span> <input type='email' class='field-email col-7 form-control-sm form-control editor' value='<?= $m->email_mhs;?>' data-id='<?= $this->session->userdata('nim');?>' style="display: none;"/> 
 		</div> 
 		<div class="card-text small"> <span class='span-phone caption' data-id='<?= $this->session->userdata('nim');?>'> <?= $m->nohp_mhs;?> </span> <input type='text' class='field-phone col-7 form-control-sm form-control editor' value='<?= $m->nohp_mhs;?>' data-id='<?= $this->session->userdata('nim');?>' style="display: none;"/>

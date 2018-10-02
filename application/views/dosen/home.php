@@ -30,9 +30,18 @@
 					<div class="tab-content" id="nav-tabContent">
 						<div class="tab-pane fade show active" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
 							<div class="scroll">
-								<div id="pemberitahuan">
+								<?php if ($pemberitahuan->num_rows() > 0) {
+									?>
+									<div id="pemberitahuan">
 
-								</div>
+									</div> 
+									<?php 
+								} else { 
+									echo "<div class='mx-auto' style='width: 200px;'>
+									Tidak Ada Pemberitahuan
+									</div>";
+								}?>
+
 							</div>
 						</div>
 						<div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">

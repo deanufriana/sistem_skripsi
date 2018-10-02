@@ -42,7 +42,7 @@
 				</td>
 			</tr>		
 		</tbody>
-		<div class="SHkaprodi<?=$k->id;?>" style="display: none">
+		<div class="SHkaprodi" style="display: none">
 			<div id="SHkaprodi">
 
 			</div>

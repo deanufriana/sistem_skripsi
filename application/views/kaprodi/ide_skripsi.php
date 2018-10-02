@@ -29,7 +29,7 @@
 								processData: false,
 								cache: false,
 								success: function() {
-									$("#pengajuan"+id).fadeOut("slow");
+									$(".pengajuan"+nim).fadeOut("slow");
 								}
 							});
 						} else {
@@ -41,7 +41,7 @@
 								processData: false,
 								cache: false,
 								success: function() {
-									$(".pengajuan"+nim).fadeOut("slow");
+									$("#pengajuan"+id).fadeOut("slow");
 								}
 							});
 						}
@@ -87,7 +87,7 @@
 			<hr>
 		</div>
 		<p class="card-text text-justify"> <i class="fas fa-sticky-note"></i> <?php echo $u->deskripsi;?> </p>
-		<form id="<?= $u->id_ide;?>" method="POST" name="<?= $u->nim;?>" href="<?php echo base_url('Kaprodi/ditolak/'.$u->id_ide);?>" action="<?php echo base_url('Kaprodi/disetujui/'.$u->id_ide);?>" class="ide_skripsi">
+		<form id="<?= $u->id_ide;?>" method="POST" name="<?= $u->nim;?>" href="<?php echo base_url('Kaprodi/acceptSkripsi/'.$u->id_ide.'/ditolak');?>" action="<?php echo base_url('Kaprodi/acceptSkripsi/'.$u->id_ide.'/diterima');?>" class="ide_skripsi">
 			<div class="form-group">
 				<textarea class="form-control" name="catatan" placeholder="Catatan Untuk Mahasiswa" required></textarea>
 			</div>

@@ -43,25 +43,25 @@
 				<div class="form-group col-2 col-md-1">
 					<img class="card-img-top img-rounded img-fluid" src="<?= base_url('assets/images/'.$p->foto_dsn);?>" alt="Card image">
 				</div>
-				<div class="form-group col">
-					<h6 class="card-title"> <?= $p->pemberitahuan;?>  <?= $p->status;?> </h6>
-					<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar"></i> <?= longdate_indo($p->tanggal);?> <i class="fas fa-users"></i> <?= $p->nama_dosen;?></h6>
-				</div>
-				
-				<div class="form-group col-1 text-right">
-					<a id="<?= $p->id;?>" class="hapus" name="<?= $p->pemberitahuan;?>" href="<?= base_url('Mahasiswa/hapus/'.$p->id);?>"><i class="fas fa-trash-alt"></i></a>
-				</div>
-				<br>
-				<div class="form-group col-md-3">
-					<ul class="nav flex-column">
-						<div><h6>Deskripsi</h6></div>
-						<li class="nav-item">
-							<?= $p->catatan;?>
-						</li>
-					</ul>
-				</div>
+				<div class="form-group col col-md">
+					<h6 class="card-title"> <?= $p->pemberitahuan;?>  <?php if ($p->status === 'diterima') { ?>
+						<span class="badge badge-success"> Diterima </span>
+					<?php } elseif ($p->status === 'ditolak') { ?>
+						<span class="badge badge-danger"> Ditolak </span>
+					<?php } else { ?>
+						<span class="badge badge-info"> Informasi </span>
+					<?php }	?> 
+				</h6>
+				<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar"></i> <?= longdate_indo($p->tanggal);?> <i class="fas fa-users"></i> <?= $p->nama_dosen;?></h6>
+			</div>
+			<div class="form-group col-1 text-right">
+				<a id="<?= $p->id;?>" class="hapus" name="<?= $p->pemberitahuan;?>" href="<?= base_url('ControllerGlobal/deleteNotifikasi/'.$p->id);?>"><i class="fas fa-trash-alt"></i></a>
+			</div>
+			<div class="form-group col-md-3">
+				<h6>Deskripsi</h6>
+				<?= $p->catatan;?>					
 			</div>
 		</div>
-		<hr>
 	</div>
-	<?php } ?>
+</div>
+<?php } ?>

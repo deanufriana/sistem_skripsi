@@ -17,58 +17,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mahasiswa extends CI_Controller {
 
 	private $konsul = 'konsultasi';
-	public function __construct()
+	function __construct()
 	{
 		parent::__construct();
 		if ($this->session->userdata('status') != "mahasiswa") {
 			redirect(base_url("Home"));
 		}
 		
+		
 	}
 
-	public function index()
+	function index()
 	{
+		$where = array('penerima' => $this->session->userdata('nim'));
+		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', 'id', 'DESC', 'dosen','dosen.nik = pemberitahuan.pengirim');
 		$data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
 		$this->load->view('template/navbar')->view('mahasiswa/home',$data);
 	}
 
-	public function myprofil()
+	function myprofil()
 	{
 		$data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
-		$this->load->view('mahasiswa/myprofil', $data);
+		$this->load->view('mahasiswa/myProfil', $data);
 	}
 
-	function update_password()
-	{
-		$nim = $this->session->userdata('nim');
-		$data = array('pwd_mhs' => md5($this->input->post('pass_baru')));
-		$pass_lama = md5($this->input->post('pass_lama'));
-		$where = array('nim' => $nim);
-
-		$pass = $this->session->userdata('pwd_mhs');
-		$cek = $this->M_data->find('mahasiswa', $where);
-
-		foreach ($cek->result() as $c) {
-			$pass = $c->pwd_mhs;
-
-			if ($pass === $pass_lama ) {
-				$this->M_data->update('nim', $nim, 'mahasiswa', $data);
-				echo 1;
-			} else {
-				echo 0;
-			}	
-
-		}
-	}
-
-	public function pemberitahuan()
+	function pemberitahuan()
 	{
 		$where = array('penerima' => $this->session->userdata('nim'));
 		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', 'id', 'DESC', 'dosen','dosen.nik = pemberitahuan.pengirim');
 		$this->load->view('mahasiswa/pemberitahuan', $data);
 	}
 
-	public function pengajuan()
+	function pengajuan()
 	{
 		$id_ide = time(); 
 		$judul = $this->input->post('judul');
@@ -91,7 +71,7 @@ class Mahasiswa extends CI_Controller {
 
 	function form_ide()
 	{
-		$this->load->view('mahasiswa/form_ide');
+		$this->load->view('mahasiswa/formIde');
 	}
 
 	function ide_skripsi()
@@ -99,19 +79,21 @@ class Mahasiswa extends CI_Controller {
 		$where = array('nim_mhs_ide' => $this->session->userdata('nim'));
 		$data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC');
 
-		$this->load->view('mahasiswa/ide_skripsi', $data);
-	}
-
-	function hapus($id)
-	{
-		$where = array('id' => $id);
-		$this->M_data->delete($where, 'pemberitahuan');
+		$this->load->view('mahasiswa/ideSkripsi', $data);
 	}
 
 	function konsultasi()
 	{
 		$data['skripsi'] = $this->M_data->find('skripsi', '', 'nim_mhs_skripsi', $this->session->userdata('nim'), '', '', 'mahasiswa', 'mahasiswa.id_skripsi_mhs = skripsi.id_skripsi');
+		
 		$data['konsultasi'] = $this->M_data->find('konsultasi', '', 'nim_mhs_ks', $this->session->userdata('nim'));
+
+		$nim = $this->session->userdata('nim');
+		$proposal = 'Disetujui';
+
+		$where = "nim_mhs_pmb='$nim' AND status_proposal='$proposal'";
+
+		$data['pmb'] = $this->M_data->find('pembimbing', $where);
 
 		
 		$mahasiswa = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
@@ -119,7 +101,7 @@ class Mahasiswa extends CI_Controller {
 			$data['pembimbing'] = $this->M_data->find('pembimbing','', 'id_skripsi', $m->id_skripsi_mhs, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
 		}
 		
-		$this->load->view('mahasiswa/konsultasi', $data);
+		$this->load->view('mahasiswa/mySkripsi', $data);
 	}
 
 	function update(){
@@ -131,24 +113,35 @@ class Mahasiswa extends CI_Controller {
 		echo "{}";
 	}
 
-	public function ambil()
-	{
-		$data = $this->M_data->ambil();
-		if (!empty($data)) {
-			foreach ($data as $d) {
-				$json[] = array(
-					'ide_id' -> $d['id_ide'],
-					'nim_mhs_ide' -> $d['nim_mhs_ide'],
-					'judul' -> $d['judul'],
-					'deskripsi' -> $d['deskripsi'],
-					'tanggal' -> $d['tanggal']
-				 );
-			}		
-		} else {
-			$json = array();
-		}
+	function uploadData($sesi) {
+		$filename = "file_".time('upload');
+		$nim = $this->session->userdata('nim');
+		$level = $this->session->userdata('file_'.$sesi);
 
-		echo json_encode($json);
+		$config['upload_path'] = './assets/'.$sesi.'/';
+		$config['allowed_types'] = 'pdf';
+		$config['file_name'] = $filename;
+
+		
+		$this->load->library('upload', $config);
+		
+		if ( ! $this->upload->do_upload($sesi)){
+			$error = array('error' => $this->upload->display_errors());
+			echo var_dump($error);
+
+		} else {
+			if (empty($level)) {
+				echo 0;
+			} else {
+				unlink('./assets/'.$sesi.'/'.$level);
+			}
+
+			$file = $this->upload->data();
+			$data = array('file_'.$sesi =>  $file['file_name']);
+
+			$this->M_data->update('nim', $nim, 'mahasiswa', $data);
+			echo "Berhasil";
+		}
 	}
 
 }

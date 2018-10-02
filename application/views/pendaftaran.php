@@ -15,56 +15,36 @@
 						$("#konsen").show('fast', function() {
 							$("#konsentrasi").html(response.list).show();	
 						});
-						
 					},
 				});
 			});
+
+			$("#myform").on('submit',
+				function(e) {
+					e.preventDefault();
+					var form = $(this);
+					var formdata = false;
+					if (window.FormData) {
+						formdata = new FormData(form[0]);
+					}
+
+					var formAction = form.attr('action');
+
+					$.ajax({
+						type: 'POST',
+						url: formAction,
+						data: formdata ? formdata: form.serialize(),
+						contentType: false,
+						processData: false,
+						cache: false,
+						success: function() {
+							swal("Pendaftaran Berhasil!", "Silahkan Konfirmasi Ke Fakultas Untuk Mendapatkan Validasi", "success");
+							var formdata = '';
+						}
+					});
+				});
 		});
 
-/*		function validatePassword() {
-			var validator = $("#myform").validate({
-				rules: {
-					pass: "required",
-					confirmpassword: {
-						equalTo: "#pass"
-					}
-				},
-				messages: {
-					pass: "Enter Password",
-					confirmpassword: "<small>Masukan Password Yang Sama</small>"
-				}
-			});
-			*/		/*	if (validator.form()) {
-				*/
-				$(document).ready(function(){
-					$("#myform").on('submit',
-						function(e) {
-							e.preventDefault();
-							var form = $(this);
-							var formdata = false;
-							if (window.FormData) {
-								formdata = new FormData(form[0]);
-							}
-
-							var formAction = form.attr('action');
-
-							$.ajax({
-								type: 'POST',
-								url: formAction,
-								data: formdata ? formdata: form.serialize(),
-								contentType: false,
-								processData: false,
-								cache: false,
-								success: function() {
-									swal("Pendaftaran Berhasil!", "Silahkan Konfirmasi Ke Fakultas Untuk Mendapatkan Validasi", "success");
-									var formdata = '';
-								}
-							});
-						});
-				});
-				
-		// 	}
-		// }
 	</script>
 </head>
 <body>
@@ -96,59 +76,48 @@
 					</div>
 					<div class="form-row">
 					</div>  
-					<!-- <div class="form-row">
-					
+
+					<div class="form-row">
 						<div class="form-group col-md">
-
-							<input type="password" id="pass" name="password" placeholder="Password" class="form-control" required>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span id="nohp" class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
+								</div>
+								<div class="custom-file">
+									<input name="nohp" type="number" class="form-control" placeholder="No HP" required>
+								</div>
+							</div>
 						</div>
 						<div class="form-group col-md">
-							<input name="confirmpassword" id="confirmpassword" placeholder="Ulang Password" type="password" class="form-control" required>
-							<small></small>
-						</div>
-					</div>
-				-->
-				<div class="form-row">
-					<div class="form-group col-md">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span id="nohp" class="input-group-text"><i class="fas fa-mobile-alt"></i></span>
-							</div>
-							<div class="custom-file">
-								<input name="nohp" type="number" class="form-control" placeholder="No HP" required>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+								</div>
+								<div class="custom-file">
+									<input id="email" name="email" type="email" placeholder="Email" class="form-control"required>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="form-group col-md">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-envelope"></i></span>
+						<div class="form-group col-md">
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<span class="input-group-text"><i class="fas fa-image"></i></span>
+								</div>
+								<div class="custom-file">
+									<input id="foto" name="foto" type="file" class="custom-file-input" id="inputGroupFile01" value="$foto['file_name']" required>
+									<label for="foto" class="custom-file-label" for="inputGroupFile01">Pilih Gambar</label>
+								</div>
 							</div>
-							<div class="custom-file">
-								<input id="email" name="email" type="email" placeholder="Email" class="form-control"required>
-							</div>
-						</div>
-					</div>
-					<div class="form-group col-md">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text"><i class="fas fa-image"></i></span>
-							</div>
-							<div class="custom-file">
-								<input id="foto" name="foto" type="file" class="custom-file-input" id="inputGroupFile01" value="$foto['file_name']" required>
-								<label for="foto" class="custom-file-label" for="inputGroupFile01">Pilih Gambar</label>
-							</div>
-						</div>
 
+						</div>
 					</div>
-				</div>
 
-				<div class="float-right">
-					<button class="btn btn-primary" type="submit" id="daftar"> <i class="fas fa-sign-in-alt"></i> Daftar </button>					
-				</div>
-			</form>
+					<div class="float-right">
+						<button class="btn btn-primary" type="submit" id="daftar"> <i class="fas fa-sign-in-alt"></i> Daftar </button>					
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 </body>
 </html>

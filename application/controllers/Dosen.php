@@ -33,7 +33,9 @@ class Dosen extends CI_Controller {
 
 	function beranda()
 	{
-		$this->load->view('dosen/home');
+		$where = array('penerima' => $this->session->userdata('nik'));
+		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', '', '', 'dosen', 'dosen.nik = pemberitahuan.pengirim');
+		$this->load->view('dosen/home', $data);
 	}
 
 	function profil()
@@ -43,33 +45,6 @@ class Dosen extends CI_Controller {
 		$this->load->view('dosen/profil', $data);
 	}
 
-	function update_password()
-	{
-		$nik = $this->session->userdata('nik');
-		$data = array('password' => md5($this->input->post('pass_baru')));
-		$pass_lama = md5($this->input->post('pass_lama'));
-		$where = array('nik' => $nik);
-
-		$cek = $this->M_data->find('dosen', $where);
-
-		foreach ($cek->result() as $c) {
-			$pass = $c->password;
-
-			if ($pass === $pass_lama) {
-				$this->M_data->update('nik', $nik, 'dosen', $data);
-				echo 1;
-			} else {
-				echo 0;
-			}	
-
-		}
-	}
-
-	function hapus_pemberitahuan($id)
-	{
-		$where = array('id' => $id);
-		$this->M_data->delete($where, 'pemberitahuan');
-	}
 
 	function pemberitahuan()
 	{
@@ -88,67 +63,43 @@ class Dosen extends CI_Controller {
 	function mhs_profil($id_pmb)
 	{
 		$this->load->view('template/navbar');
-		$where = array('id_pmb' => $id_pmb,);
+		$where = array('id_pmb' => $id_pmb);
 		
 		$data['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb');
 		
 		foreach ($data['pembimbing']->result() as $c) {
 
-			$nim = $c->nim; 
+			$nim = $c->nim;
+			$prop = 'Disetujui';
+			$where_prop = "nim_mhs_pmb='$nim' AND status_proposal='$prop'";
 
 			$data['konsultasi'] = $this->M_data->find('konsultasi', '' ,'nim_mhs_ks', $nim);
+
+			$data['prop'] = $this->M_data->find('pembimbing', $where_prop);
 
 			$this->load->view('dosen/mhs_profil', $data);
 
 		}
 	}
 
-
-	function acc_proposal($id_pmb)
+	function accUsers($idPmb, $users)
 	{
-		$where = array('id_pmb' => $id_pmb,);
-		
+		$where['id_pmb'] = $idPmb;
+
 		$cek['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb');
-		
-		if ($cek['pembimbing']->num_rows() > 0) {
 
-			foreach ($cek['pembimbing']->result() as $c) {
+		foreach ($cek['pembimbing']->result() as $c) {
+			$data['pemberitahuan'] = $users.''.$c->judul_skripsi.' Telah Di ACC';
+			$data['catatan'] = $users.' Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').' Sebagai '.$c->level;
+			$data['penerima'] = $c->nim;
+			$data['pengirim'] = $this->session->userdata('nik');
+			$data['tanggal'] = date('Y-m-d');
+			$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> '.$users.' </span>';
 
-				$data['pemberitahuan'] = 'Proposal '.$c->judul_skripsi.' Telah Di ACC';
-				$data['catatan'] = 'Proposal Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').' Sebagai '.$c->level;
-				$data['penerima'] = $c->nim;
-				$data['pengirim'] = $this->session->userdata('nik');
-				$data['tanggal'] = date('Y-m-d');
-				$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> Proposal </span>';
+			$accept['status_'.$users] = 'Disetujui';
 
-				$ACC = array('status_proposal' => 'Disetujui');
-				$this->M_data->update('id_pmb', $id_pmb, 'pembimbing', $ACC);
-				$this->M_data->save($data, 'pemberitahuan');
-			}
-		}
-	}
-	function acc_skripsi($id_pmb)
-	{
-		$where = array('id_pmb' => $id_pmb,);
-		
-		$cek['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb');
-		
-		if ($cek['pembimbing']->num_rows() > 0) {
-
-			foreach ($cek['pembimbing']->result() as $c) {
-
-				$data['pemberitahuan'] = 'Skripsi '.$c->judul_skripsi.' Telah Di ACC';
-				$data['catatan'] = 'Skripsi Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').'<br> Sebagai '.$c->level;
-				$data['penerima'] = $c->nim;
-				$data['pengirim'] = $this->session->userdata('nik');
-				$data['tanggal'] = date('Y-m-d');
-				$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> Skripsi </span>';
-
-				$ACC = array('status_skripsi' => 'Disetujui');
-
-				$this->M_data->update('id_pmb', $id_pmb, 'pembimbing', $ACC);
-				$this->M_data->save($data, 'pemberitahuan');
-			}
+			$this->M_data->update('id_pmb', $idPmb, 'pembimbing', $accept);
+			$this->M_data->save($data, 'pemberitahuan'); 
 		}
 	}
 

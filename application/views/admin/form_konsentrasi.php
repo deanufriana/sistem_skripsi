@@ -38,7 +38,6 @@
             $("#view").show('fast', function() {
               $("#dsn").html(response.list).show();  
             });
-            
           },
         });
       });
@@ -61,16 +60,16 @@
         <option selected>Jurusan</option>
         <?php foreach ($jurusan as $j) { ?>  
           <option value="<?php echo $j->id_jurusan;?>"><?php echo $j->jurusan;?></option>
-          <?php } ?>
-        </select>
-      </div>
-      <div class="col-md mb-4" style="display: none" id="view">
-        <select name="prodi" class="custom-select mr-sm-2 form-control-sm" id="dsn">
-          <option selected>Pilih Kepala Jurusan</option>
-        </select>
-      </div>
-      <div class="col-auto">
-        <button type="submit" class="btn btn-primary mb-4 btn-sm">Submit</button>
-      </div>
+        <?php } ?>
+      </select>
     </div>
-  </form>
+    <div class="col-md mb-4" style="display: none" id="view">
+      <select name="prodi" class="custom-select mr-sm-2 form-control-sm" id="dsn">
+        <option selected>Pilih Kepala Jurusan</option>
+      </select>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary mb-4 btn-sm">Submit</button>
+    </div>
+  </div>
+</form>

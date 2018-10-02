@@ -68,14 +68,18 @@
 							<div class="tab-content" id="nav-tabContent">
 								<div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
 									<div class="card border-primary scroll">
-										<div class="card-body" >
-											<div id="ide_skripsi"></div>
+										<div class="card-body" style="height: 35rem">
+											<?php if ($ide_skripsi->num_rows() > 0) {
+												echo "<div id='ide_skripsi'></div>";											
+											} else {
+												echo "Tidak Ada Mahasiswa Yang Mengajukan Judul";
+											} ?>
 										</div>
 									</div>
 								</div>
 
 								<div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-									<div style="height: 17rem" id="container">
+									<div style="height: 37rem" id="container">
 										<div class="form-row">
 
 											<div class="form-group col-md">

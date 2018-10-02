@@ -33,7 +33,7 @@
     });    
   </script>
 </head>
-<form class="mb-3" id="pass_admin" method="post" action="<?php echo base_url('Admin/submit_pwd');?>">
+<form class="mb-3" id="pass_admin" method="post" action="<?= base_url('Global/ubahPassword/'.$this->session->userdata('id_admin').'/admin');?>">
   <div class="content">
     <div id="success" class="alert alert-success alert-white rounded" style="display:none;">
       <strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>
@@ -63,5 +63,5 @@
       <input type="password" class="form-control" id="pass_baru" name="pass_baru" placeholder="Password">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-pass" disabled>Submit</button>
+  <button type="submit" class="btn btn-primary btn-pass">Submit</button>
 </form> 
