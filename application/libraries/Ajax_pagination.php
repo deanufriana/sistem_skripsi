@@ -18,12 +18,12 @@ class Ajax_pagination{
     var $prev_link       = '&laquo;';
     var $last_link       = false;
     var $uri_segment     = 3;
-    var $full_tag_open   = '<div class="pagging text-center"><nav><ul class="pagination">';
-    var $full_tag_close  = '</ul></nav></div>';
-    var $first_tag_open  = '<li class="page-item">';
-    var $first_tag_close = '</li>';
-    var $last_tag_open   = '<li class="page-item">;';
-    var $last_tag_close  = '</li>';
+    var $full_tag_open   = '<nav><ul class="pagination">';
+    var $full_tag_close  = '</ul></nav>';
+    var $first_tag_open  = '<li class="page-item"><span class="page-link">';
+    var $first_tag_close = '<span class="sr-only">(current)</span></span></li>';
+    var $last_tag_open   = '<li class="page-item"><span class="page-link">';
+    var $last_tag_close  = '<span class="sr-only">(current)</span></span></li>';
     var $cur_tag_open    = '<li class="page-item active"><span class="page-link">';
     var $cur_tag_close   = '<span class="sr-only">(current)</span></span></li>';
     var $next_tag_open   = '<li class="page-item"><span class="page-link">';

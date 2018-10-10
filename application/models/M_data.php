@@ -51,7 +51,7 @@ class M_data extends CI_Model {
 			return $this->db->get_where($table, $where);
 		} else {
 			$query = $this->db->get($table);
-			return ($query->num_rows() > 0)?$query->result():FALSE;	
+			return ($query->num_rows() > 0)?$query:FALSE;	
 		}
 	}
 

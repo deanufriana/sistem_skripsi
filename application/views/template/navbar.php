@@ -6,7 +6,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	
-	<title></title>
+	<title>Sistem Skripsi Online</title>
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/fix/book.ico');?>" />
 
 	<script src="<?php echo base_url('assets/js/fontawesome-all.js');?>"></script> 
 	
@@ -40,40 +41,6 @@
 				$(".menu").toggle('slow');
 			});
 
-
-			// $(".hapus").click(function(e) {
-			// 	e.preventDefault();
-			// 	var form = $(this);
-			// 	var formdata = false;
-			// 	if (window.FormData) {
-			// 		formdata = new FormData(form[0]);
-			// 	}	
-			// 	swal({
-			// 		title: "Apa Kau Yakin Ingin Mengapusnya?",
-			// 		text: "Sekali dihapus, kau tidak akan bisa mengembalikannya kembali!",
-			// 		icon: "warning",
-			// 		buttons: true,
-			// 		dangerMode: true,
-			// 	})
-			// 	.then((willDelete) => {
-			// 		if (willDelete) {
-			// 			$.ajax({
-			// 				type: 'POST',
-			// 				url: form.attr('href'),
-			// 				data: formdata ? formdata: form.serialize(),
-			// 				contentType: false,
-			// 				processData: false,
-			// 				cache: false,
-			// 				success: function() {
-			// 					location.reload();
-			// 				}
-			// 			});
-			// 		} else {
-			// 			swal("Tidak Jadi Di Hapus!");
-			// 		}
-			// 	});
-			// });
-
 			$("#jurusan").change(function(){ 
 				$("#konsentrasi").hide();
 				$.ajax({
@@ -90,21 +57,6 @@
 						$("#konsentrasi").html(response.list_kota).show();
 					},
 				});
-			});
-
-
-			
-			<?php if ($this->uri->segment('1') == "Kaprodi") {
-				echo "var status = $('#status').val();
-				$('#beranda').load('".base_url()."'+status);";
-			} ?>
-
-			
-
-			$("#status").change(function(){ 
-				var status = $("#status").val();
-				$('#beranda').load('<?php echo base_url();?>'+status);					
-
 			});
 		});
 
@@ -232,25 +184,13 @@
 				<span class="text-right col"><i class="fas fa-calendar-alt"> </i>   
 					<?php echo longdate_indo(date('Y-m-d'));?> </span>	
 				</div>
-				<div 
-				<?php if (!(($this->uri->segment(1) == "Kaprodi") AND ($this->uri->segment(3) == ""))) {
-					echo "style='display: none'";
-				}?>>
-				<select class="custom-select" id="status">
-					<option value="kaprodi/beranda">Kaprodi</option>
-					<option value="dosen/beranda">Dosen</option>
-				</select>
+				<div class="m-1 float-right">
+					<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt"></i> Keluar </a>
+				</div>
 			</div>
-			<div class="m-1 float-right">
-				<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt"></i> Keluar </a>
-			</div>
-		</div>
-	</nav>
-	<div id="beranda" <?php if ($this->uri->segment(3) != '') {
-		echo "style='display: none'";
-	} 
-	?> >
+		</nav>
+		<div id="beranda">
 
-</div>
-</body>
-</html>
+		</div>
+	</body>
+	</html>

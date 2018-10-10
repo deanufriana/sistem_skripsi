@@ -1,25 +1,27 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$("#tabel_jrsn_admin").load('<?php echo base_url('admin/tabel_jrsn_admin'); ?>');	
-			$("#nav_mhs").load('<?php echo base_url('admin/nav_mhs'); ?>');
-			$("#nav_dsn").load('<?php echo base_url('admin/nav_dsn'); ?>');	
-			$("#pengaturan").load('<?php echo base_url('admin/pengaturan'); ?>');	
+
+			$("#tabelJurusanAdmin").load('<?php echo base_url('admin/tabelJrsnAdmin'); ?>');
+			$("#nav_mhs").load('<?php echo base_url('admin/navigasiUsers/Mahasiswa'); ?>');
+			$("#nav_dsn").load('<?php echo base_url('admin/navigasiUsers/Dosen'); ?>');
+			$("#pengaturan").load('<?php echo base_url('admin/navigasiUsers/Settings'); ?>');	
 			
 			$("#btn_jrsn").click(function(event) {
 				$("#form_konsentrasi").fadeOut('slow', function() {
 					$("#form_jurusan").fadeIn('fast');			
+					$("#form_jurusan").load('<?php echo base_url('admin/formJurusan'); ?>');	
 				});
 			});
 
 			$("#btn_konsentrasi").click(function(event) {
 				$("#form_jurusan").fadeOut('slow', function() {
-					$("#form_konsentrasi").fadeIn('fast');	
+					$("#form_konsentrasi").fadeIn('fast');
+					$("#form_konsentrasi").load('<?php echo base_url('admin/formKonsentrasi'); ?>');	
 				});
 			});
 			
-			$("#form_konsentrasi").load('<?php echo base_url('admin/form_konsentrasi'); ?>');
-			$("#form_jurusan").load('<?php echo base_url('admin/form_jurusan'); ?>');	
+			
 		});	
 	</script>
 </head>
@@ -71,7 +73,7 @@
 							</div>
 
 						</div>
-						<div id="tabel_jrsn_admin">
+						<div id="tabelJurusanAdmin">
 
 						</div>
 					</div>

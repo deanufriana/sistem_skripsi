@@ -26,39 +26,39 @@ class Home extends CI_Controller {
 		$this->load->view('home');
 	}
 
-	function pendaftaran()
+	function formDaftar()
 	{
 		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('pendaftaran', $data);
+		$this->load->view('formDaftar', $data);
 	}
 
-	function konsentrasi(){
+	function filterKonsentrasi(){
 
-		$id_fakultas = $this->input->post('id_fakultas');
-		$where = array('id_jurusan_ksn' => $id_fakultas );
+		$IDJurusan = $this->input->post('IDJurusan');
+		$where = array('IDJurusanKsn' => $IDJurusan );
 		$data = $this->M_data->find('konsentrasi', $where);
 		$lists = "<option value=''>Pilih</option>";
 
 		foreach($data->result() as $u){
-			$lists .= "<option value='".$u->id."'>".$u->konsentrasi."</option>"; 
+			$lists .= "<option value='".$u->IDKonsentrasi."'>".$u->Konsentrasi."</option>"; 
 		}
 
 		$callback = array('list'=> $lists); 
 		echo json_encode($callback);
 	}
 
-	function mendaftar()
+	function daftarMahasiswa()
 	{
-		$nim = $this->input->post('nim');
-		$nama = $this->input->post('nama');
-		$jurusan = $this->input->post('jurusan');
-		$konsentrasi = $this->input->post('konsentrasi');
-		$nohp = $this->input->post('nohp');
-		$email = $this->input->post('email');
+		$ID = $this->input->post('nim');
+		$Nama = $this->input->post('nama');
+		$Jurusan = $this->input->post('jurusan');
+		$Konsentrasi = $this->input->post('konsentrasi');
+		$NoHP = $this->input->post('nohp');
+		$Email = $this->input->post('email');
 
 		$filename = "file_".time('upload');
 
-		$config['upload_path'] = './assets/images/';
+		$config['upload_path'] = './assets/images/User/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['file_name']	= $filename;
 
@@ -67,24 +67,25 @@ class Home extends CI_Controller {
 		if ( ! $this->upload->do_upload('foto'))
 		{
 			$error = array('error' => $this->upload->display_errors());
+			echo 0;
 
 		}
 		else {
 
 			$foto = $this->upload->data();
-
-			$data = array('nim' => $nim,
-				'nama_mhs' => $nama,
-				'id_jurusan_mhs' => $jurusan,
-				'id_konsentrasi_mhs' => $konsentrasi,
-				'nohp_mhs' => $nohp,
-				'email_mhs' => $email, 
-				'foto_mhs' => $foto['file_name'],
-				'status' => 'daftar'
+			
+			$data = array(
+				'ID' => $ID,
+				'Nama' => $Nama,
+				'IDJurusanUser' => $Jurusan,
+				'IDKonsentrasiUser' => $Konsentrasi,
+				'NoHP' => $NoHP,
+				'Email' => $Email, 
+				'Foto' => $foto['file_name'],
+				'Status' => 'Daftar'
 			);
-
-			$this->M_data->save($data, 'mahasiswa');
-
+			$this->M_data->save($data, 'users');
+			echo 1;
 		}
 
 	}
@@ -94,69 +95,39 @@ class Home extends CI_Controller {
 		$username = $this->input->post('nim');
 		$password = md5($this->input->post('password'));
 
-		$where_mhs = "(nim='$username' OR email_mhs='$username') AND pwd_mhs='$password'";
-		$where_dosen = "(nik='$username' OR email_dsn='$username') AND password='$password'";
-		$where_admin = "username='$username' AND password='$password'";
+		$where = "ID='$username' AND Password='$password'";
 
-		$dosen = $this->M_data->find('dosen', $where_dosen, '', '', '', '', 'konsentrasi', 'konsentrasi.id = dosen.id_konsentrasi_dsn', 'jurusan','jurusan.id_jurusan = dosen.id_jurusan_dsn');
-		
-		$mhs = $this->M_data->find('mahasiswa', $where_mhs, '', '', '', '', 'jurusan','jurusan.id_jurusan = mahasiswa.id_jurusan_mhs', 'konsentrasi', 'konsentrasi.id = mahasiswa.id_konsentrasi_mhs');
+		$where_admin = "username='$username' AND Password='$password'";
+
+		$users = $this->M_data->find('users', $where, '', '', '', '', 'konsentrasi','konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 
 		$admin = $this->M_data->find('admin', $where_admin);
 
-		if ($dosen->num_rows() > 0) {
+		if ($users->num_rows() > 0) {
 
-			foreach ($dosen->result() as $u) {
+			foreach ($users->result() as $u) {
 
 				$data = array(
-					'nik' => $u->nik,
-					'nama_dosen' => $u->nama_dosen,
-					'nohp' => $u->nohp_dsn,
-					'email_dsn' => $u->email_dsn,
-					'foto' => $u->foto_dsn,
-					'id' => $u->id,
-					'konsentrasi' => $u->konsentrasi,
-					'jurusan' => $u->jurusan,
-					'nik_kaprodi' => $u->nik_kaprodi
-				);		
+					'ID' => $u->ID,
+					'Status' => $u->Status,
+					'Nama' => $u->Nama,
+				);
 				
-				if ($u->nik === $u->nik_kaprodi) {
-					$data['status'] ="Kaprodi";
+				$status = $u->Status;
+				if ($u->ID === $u->IDDosen) {
+					$data['Kaprodi'] = 1;
 					echo 3;
+				} elseif($status === 'Dosen') {
+					$data['Kaprodi'] = 0;
+					echo 1;
 				} else {
-					$data['status'] = "Dosen";
-					echo 1;					
+					echo 2;
 				}
 
 				$this->session->set_userdata($data);
 
 			}
 
-		} elseif ($mhs->num_rows() > 0) {
-			
-			foreach ($mhs->result() as $a) {
-				$data = array(
-					'nim' => $a->nim,
-					'nama_mhs' => $a->nama_mhs,
-					'pwd_mhs' => $a->pwd_mhs,
-					'jurusan' => $a->jurusan,
-					'konsentrasi' => $a->konsentrasi,
-					'id_skripsi_mhs' => $a->id_skripsi_mhs,
-					'nohp_mhs' => $a->nohp_mhs,
-					'email_mhs' => $a->email_mhs,
-					'foto_mhs' => $a->foto_mhs,
-					'file_proposal' => $a->file_proposal,
-					'file_skripsi' => $a->file_skripsi,
-					'status' => 'mahasiswa',
-				);
-
-				if ($a->status === 'daftar') {
-					echo 0;
-				} else {
-					$this->session->set_userdata($data);
-					echo 2;
-				}
-			} 
 		} elseif ($admin->num_rows() > 0) {
 
 			foreach ($admin->result() as $b) {
@@ -164,7 +135,7 @@ class Home extends CI_Controller {
 				$data = array(
 					'id_admin' => $b->id_admin,
 					'username' => $b->username,
-					'password' => $b->password,
+					'password' => $b->Password,
 					'status' => 'Admin',
 				);
 

@@ -19,106 +19,176 @@ class Dosen extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$status = $this->session->userdata('status');
+		$status = $this->session->userdata('Status');
 		if (!(($status == "Dosen") OR ($status == "Kaprodi"))) {
 			redirect(base_url("Home"));
 		}
+		$this->load->library('Ajax_pagination');
+		$this->perPage = 2;
 	}
 
 	function index()
 	{
-		$this->load->view('template/navbar');
-		$this->load->view('dosen/home');
-	}
+		
+		$id = array('ID' => $_SESSION['ID']);
+		
+		$Penerima = array('IDPenerima' => $_SESSION['ID']);
+		
+		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+		
+		$kaprodi = $this->M_data->find('users', $id);
 
-	function beranda()
-	{
-		$where = array('penerima' => $this->session->userdata('nik'));
-		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', '', '', 'dosen', 'dosen.nik = pemberitahuan.pengirim');
+		$result = $kaprodi->row();
+		$where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
+
+		$data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, '', '', 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+
+		$this->load->view('template/navbar');
 		$this->load->view('dosen/home', $data);
 	}
 
-	function profil()
+	function tabelSkripsi()
 	{
-		$where = array('nik' => $this->session->userdata('nik'));
-		$data['dosen'] = $this->M_data->find('dosen',$where);
-		$this->load->view('dosen/profil', $data);
+
+		$ID = $_SESSION['ID'];
+
+		$where = array('ID' => $ID);
+
+		$page = $this->input->post('page');
+		if (!$page) {
+			$offset = 0;
+		} else {
+			$offset = $page;
+		}
+
+		$keywords = $this->input->post('keywords');
+		$search = $this->input->post('search');
+
+		if(!empty($keywords)){
+			$conditions['search']['keywords'] = $keywords;
+		}
+		if(!empty($sortBy)){
+			$conditions['search']['sortBy'] = $sortBy;
+		}
+
+		$conditions['start'] = $offset;
+		$conditions['limit'] = $this->perPage;
+
+		$users = $this->M_data->find('users', $where); 
+
+		foreach ($users->result() as $u) {
+			$IDKonsentrasi = $u->IDKonsentrasiUser;
+			$Status = $u->Status;
+
+			$whereID = array(
+				'IDKonsentrasiUser' => $u->IDKonsentrasiUser
+			);
+		}	
+
+
+		$data['users'] = $this->M_data->find('skripsi', $whereID, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi', '', '', '','', $conditions, $search);
+
+		$total = $this->M_data->find('skripsi', $whereID, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
+
+		$totalData = $total->num_rows();
+
+		$config['target'] = '#tabel_mhs_kaprodi';
+		$config['base_url'] = base_url().'Kaprodi/tabelSkripsi';
+		$config['total_rows'] = $totalData;
+		$config['per_page'] = $this->perPage;
+		$config['link_func']   = 'searchmhs';
+
+		$this->ajax_pagination->initialize($config);
+
+
+		$data['pembimbing'] = $this->M_data->find('pembimbing', '', '', '', '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
+
+		$this->load->view('dosen/tabelSkripsi', $data, false);  
+
 	}
 
-
-	function pemberitahuan()
+	function detailDosen($nik)
 	{
-		$where = array('penerima' => $this->session->userdata('nik'));
-		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', '', '', 'dosen', 'dosen.nik = pemberitahuan.pengirim');
-		$this->load->view('dosen/pemberitahuan', $data);
+		$where = array('ID' => $nik);
+		$wherep = array('IDDosenPmb' => $nik);
+		$data['pembimbing'] = $this->M_data->find('pembimbing',$wherep, '', '', '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb', 'skripsi', 'skripsi.IDSkripsi = pembimbing.IDSkripsiPmb');
+		$data['dosen'] = $this->M_data->find('users', $where);
+		$this->load->view('template/navbar')->view('kaprodi/detailDosen', $data);
 	}
 
-	function tabel_skripsi()
+	function detailMahasiswa($ID) 
 	{
-		$where = array('nik' => $this->session->userdata('nik'));
-		$data['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb');
-		$this->load->view('dosen/tabel_skripsi', $data);	
-	}
+		$where = array(
+			'IDMahasiswaSkripsi' => $ID,
+		);
 
-	function mhs_profil($id_pmb)
-	{
+		$data['skripsi'] = $this->M_data->find('skripsi', $where, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
+
+		foreach ($data['skripsi']->result() as $s) {
+
+			$wherepmb = array(
+				'IDSkripsiPmb' => $s->IDSkripsi,
+				'IDDosenPmb' => $_SESSION['ID'],
+			);
+
+			$data['pembimbing'] = $this->M_data->find('pembimbing', $wherepmb);
+
+			foreach ($data['pembimbing']->result() as $p) {
+				$whereProp = array('StatusProposal' => $p->StatusProposal);
+
+				$data['proposal'] =  $this->M_data->find('pembimbing', $whereProp);
+
+			}
+
+		}
+		$data['konsultasi'] = $this->M_data->find('kartubimbingan', '' , 'IDKartuMahasiswa', $ID, '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
+
 		$this->load->view('template/navbar');
-		$where = array('id_pmb' => $id_pmb);
-		
-		$data['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb');
-		
-		foreach ($data['pembimbing']->result() as $c) {
+		$this->load->view('dosen/detailMahasiswa', $data); 
+	}
 
-			$nim = $c->nim;
-			$prop = 'Disetujui';
-			$where_prop = "nim_mhs_pmb='$nim' AND status_proposal='$prop'";
+	function accUsers($ID, $users)
+	{
+		$where = array(
+			'IDSkripsiPmb' => $ID,
+			'IDDosenPmb' => $_SESSION['ID']
+		);
 
-			$data['konsultasi'] = $this->M_data->find('konsultasi', '' ,'nim_mhs_ks', $nim);
+		$cek['Pembimbing'] = $this->M_data->find('skripsi', $where, '', '', '', '', 'pembimbing', 'pembimbing.IDSkripsiPmb = skripsi.IDSkripsi');	
 
-			$data['prop'] = $this->M_data->find('pembimbing', $where_prop);
+		foreach ($cek['Pembimbing']->result() as $c) {
 
-			$this->load->view('dosen/mhs_profil', $data);
+			$data['Notifikasi'] = $users.''.$c->JudulSkripsi.' Telah Di ACC';
+			$data['Catatan'] = $users.' Telah Di ACC Oleh : <br>'.$this->session->userdata('Nama').' Sebagai Pembimbing '.$c->StatusPembimbing;
+			$data['IDPenerima'] = $c->IDMahasiswaSkripsi;
+			$data['IDPengirim'] = $_SESSION['ID'];
+			$data['TanggalNotifikasi'] = date('Y-m-d');
+			$data['StatusNotifikasi'] = $users;
+
+			$accept['Status'.$users] = 1;
+
+			$this->M_data->update('IDPembimbing', $c->IDPembimbing, 'pembimbing', $accept);
+			$this->M_data->save($data, 'Notifikasi'); 
 
 		}
 	}
 
-	function accUsers($idPmb, $users)
+	function catatan($ID)
 	{
-		$where['id_pmb'] = $idPmb;
-
-		$cek['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', '', '', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'mahasiswa', 'mahasiswa.nim = pembimbing.nim_mhs_pmb');
-
-		foreach ($cek['pembimbing']->result() as $c) {
-			$data['pemberitahuan'] = $users.''.$c->judul_skripsi.' Telah Di ACC';
-			$data['catatan'] = $users.' Telah Di ACC Oleh : <br>'.$this->session->userdata('nama_dosen').' Sebagai '.$c->level;
-			$data['penerima'] = $c->nim;
-			$data['pengirim'] = $this->session->userdata('nik');
-			$data['tanggal'] = date('Y-m-d');
-			$data['status'] = '<span class="text-right badge badge-info"> <i class="fas fa-info"></i> '.$users.' </span>';
-
-			$accept['status_'.$users] = 'Disetujui';
-
-			$this->M_data->update('id_pmb', $idPmb, 'pembimbing', $accept);
-			$this->M_data->save($data, 'pemberitahuan'); 
-		}
-	}
-
-	function catatan()
-	{
-		$data['tanggal'] = date('Y-m-d');
-		$data['catatan'] = $this->input->post('note');
-		$data['pembimbing'] = $this->session->userdata('nama_dosen');
-		$data['nim_mhs_ks'] = $this->input->post('mhs');
-		$this->M_data->save($data, 'konsultasi');
+		$data['TanggalBimbingan'] = date('Y-m-d');
+		$data['Catatan'] = $this->input->post('note');
+		$data['IDDosenPembimbing'] = $_SESSION['ID'];
+		$data['IDKartuMahasiswa'] = $ID;
+		$this->M_data->save($data, 'kartubimbingan');
 	}
 
 	function update(){
-		$id= $this->input->post("id");
+		$id= $_SESSION['ID'];
 		$value= $this->input->post("value");
 		$modul= $this->input->post("modul");
 		$data[$modul] = $value;
 
-		$this->M_data->update('nik', $id, 'dosen', $data);
+		$this->M_data->update('ID', $id, 'users', $data);
 		echo "{}";
 	}
 }

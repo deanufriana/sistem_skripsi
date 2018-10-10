@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 		var ajax = $.ajax({
 			type: 'POST',
-			url: action+id+willDelete,
+			url: action+id+'/'+willDelete,
 			data: formdata ? formdata: form.serialize(),
 			contentType: false,
 			processData: false,

@@ -16,36 +16,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller {
 
-	private $konsul = 'konsultasi';
 	function __construct()
 	{
 		parent::__construct();
-		if ($this->session->userdata('status') != "mahasiswa") {
+		$status = $this->session->userdata('Status');
+		if (!(($status == "Mahasiswa") OR ($status == "Skripsi"))) {
 			redirect(base_url("Home"));
 		}
-		
-		
 	}
 
 	function index()
 	{
-		$where = array('penerima' => $this->session->userdata('nim'));
-		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', 'id', 'DESC', 'dosen','dosen.nik = pemberitahuan.pengirim');
-		$data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
-		$this->load->view('template/navbar')->view('mahasiswa/home',$data);
-	}
+		$where = array('IDPenerima' => $_SESSION['ID']);
+		$skrip = array('IDMahasiswaSkripsi' => $_SESSION['ID']);
+		$data['pemberitahuan'] = $this->M_data->find('notifikasi', $where, '', '', 'IDNotifikasi', 'DESC', 'users','users.ID = Notifikasi.IDPengirim');
 
-	function myprofil()
-	{
-		$data['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
-		$this->load->view('mahasiswa/myProfil', $data);
-	}
-
-	function pemberitahuan()
-	{
-		$where = array('penerima' => $this->session->userdata('nim'));
-		$data['pemberitahuan'] = $this->M_data->find('pemberitahuan', $where, '', '', 'id', 'DESC', 'dosen','dosen.nik = pemberitahuan.pengirim');
-		$this->load->view('mahasiswa/pemberitahuan', $data);
+		$data['skripsi'] = $this->M_data->find('skripsi', $skrip);
+		$this->load->view('template/navbar')->view('mahasiswa/home', $data);
 	}
 
 	function pengajuan()
@@ -54,18 +41,18 @@ class Mahasiswa extends CI_Controller {
 		$judul = $this->input->post('judul');
 		$deskripsi = $this->input->post('deskripsi');
 		$tanggal = longdate_indo(date('Y-m-d'));
-		$nim = $this->session->userdata('nim');
+		$nim = $_SESSION['ID'];
 
-		$ide = array('id_ide' => $id_ide, 'nim_mhs_ide' => $nim, 'judul' => $judul, 'deskripsi' => $deskripsi, 'tanggal' => $tanggal);
+		$ide = array('IDIde' => $id_ide, 'IDIdeMahasiswa' => $nim, 'JudulIde' => $judul, 'DeskripsiIde' => $deskripsi, 'Tanggalide' => $tanggal);
 
-		$where = array('judul_skripsi' => $judul);
+		$where = array('JudulSkripsi' => $judul);
 
 		$skripsi = $this->M_data->find('skripsi', $where);
 
 		if ($skripsi->num_rows() > 0) {
 			echo 1;
 		} else {
-			$this->M_data->save($ide, 'ide_skripsi');
+			$this->M_data->save($ide, 'ideskripsi');
 		}
 	}
 
@@ -74,31 +61,35 @@ class Mahasiswa extends CI_Controller {
 		$this->load->view('mahasiswa/formIde');
 	}
 
-	function ide_skripsi()
+	function ideSkripsi()
 	{
-		$where = array('nim_mhs_ide' => $this->session->userdata('nim'));
-		$data['ide_skripsi'] = $this->M_data->find('ide_skripsi', $where, '', '', 'id_ide', 'DESC');
+		$where = array('IDIdeMahasiswa' => $_SESSION['ID']);
+		$data['ide_skripsi'] = $this->M_data->find('ideskripsi', $where, '', '', 'IDIde', 'DESC');
 
 		$this->load->view('mahasiswa/ideSkripsi', $data);
 	}
 
 	function konsultasi()
 	{
-		$data['skripsi'] = $this->M_data->find('skripsi', '', 'nim_mhs_skripsi', $this->session->userdata('nim'), '', '', 'mahasiswa', 'mahasiswa.id_skripsi_mhs = skripsi.id_skripsi');
+		$data['skripsi'] = $this->M_data->find('skripsi', '', 'IDMahasiswaSkripsi', $_SESSION['ID'], '', '', 'users', 'users.ID = skripsi.IDSkripsi');
 		
-		$data['konsultasi'] = $this->M_data->find('konsultasi', '', 'nim_mhs_ks', $this->session->userdata('nim'));
+		$data['konsultasi'] = $this->M_data->find('kartubimbingan', '', 'IDKartuMahasiswa', $_SESSION['ID'], '', '', 'users', 'users.ID = kartubimbingan.IDKartuMahasiswa');
 
-		$nim = $this->session->userdata('nim');
-		$proposal = 'Disetujui';
-
-		$where = "nim_mhs_pmb='$nim' AND status_proposal='$proposal'";
-
-		$data['pmb'] = $this->M_data->find('pembimbing', $where);
-
+		$nim = $_SESSION['ID'];
 		
-		$mahasiswa = $this->M_data->find('mahasiswa', '', 'nim', $this->session->userdata('nim'));
-		foreach ($mahasiswa as $m) {
-			$data['pembimbing'] = $this->M_data->find('pembimbing','', 'id_skripsi', $m->id_skripsi_mhs, '', '', 'mahasiswa' ,'mahasiswa.nim = pembimbing.nim_mhs_pmb', 'skripsi', 'skripsi.id_skripsi = pembimbing.id_skripsi_pmb', 'dosen', 'dosen.nik = pembimbing.nik_dsn_pmb');
+		foreach ($data['skripsi']->result() as $s) {
+			$proposal = true;	
+			$ID = $s->IDSkripsi;
+			$where = array(
+				'IDSkripsiPmb' => $ID,
+				'StatusProposal' => $proposal
+			);
+			$data['pmb'] = $this->M_data->find('pembimbing', $where);
+
+		}
+		
+		foreach ($data['skripsi']->result() as $m) {
+			$data['pembimbing'] = $this->M_data->find('pembimbing','', 'IDSkripsiPmb', $m->IDSkripsi, '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb');
 		}
 		
 		$this->load->view('mahasiswa/mySkripsi', $data);
@@ -109,14 +100,13 @@ class Mahasiswa extends CI_Controller {
 		$value= $this->input->post("value");
 		$modul= $this->input->post("modul");
 		$data[$modul] = $value;
-		$this->M_data->update('nim', $id, 'mahasiswa', $data);
+		$this->M_data->update('ID', $id, 'mahasiswa', $data);
 		echo "{}";
 	}
 
-	function uploadData($sesi) {
+	function uploadData($sesi, $ID) {
 		$filename = "file_".time('upload');
-		$nim = $this->session->userdata('nim');
-		$level = $this->session->userdata('file_'.$sesi);
+		$level = $this->session->userdata('File'.$sesi);
 
 		$config['upload_path'] = './assets/'.$sesi.'/';
 		$config['allowed_types'] = 'pdf';
@@ -137,9 +127,9 @@ class Mahasiswa extends CI_Controller {
 			}
 
 			$file = $this->upload->data();
-			$data = array('file_'.$sesi =>  $file['file_name']);
+			$data = array('File'.$sesi =>  $file['file_name']);
 
-			$this->M_data->update('nim', $nim, 'mahasiswa', $data);
+			$this->M_data->update('IDSkripsi', $ID, 'skripsi', $data);
 			echo "Berhasil";
 		}
 	}

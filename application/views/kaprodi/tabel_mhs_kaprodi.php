@@ -53,20 +53,20 @@
 			<?php if (!empty($skripsi)): foreach ($skripsi as $u):
 				?>
 				<tr class="text-left list-item">
-					<td><?php echo $u->nim;?></td>
-					<td><a href="<?php echo base_url('Kaprodi/profil_mhs/'.$u->nim);?>"><?php echo $u->nama_mhs ?></a></td>
-					<td><?= $u->nohp_mhs;?></td>
-					<td><?= $u->email_mhs;?></td>
-					<td>  <?php if ($u->nilai === '0') {
-						echo "<input data-id=".$u->id_skripsi." class='form-control form-control-sm field-name edit' type='number' name='nilai' min='0' max='100' value=".$u->nilai.">";
+					<td><?php echo $u->IDMahasiswaSkripsi;?></td>
+					<td><a href="<?php echo base_url('Dosen/detailMahasiswa/'.$u->IDMahasiswaSkripsi);?>"><?php echo $u->Nama ?></a></td>
+					<td><?= $u->NoHP;?></td>
+					<td><?= $u->Email;?></td>
+					<td>  <?php if ($u->Nilai === '0') {
+						echo "<input data-id=".$u->IDSkripsi." class='form-control form-control-sm field-name edit' type='number' name='nilai' min='0' max='100' value=".$u->Nilai.">";
 					} else {
-						echo "<span class='caption'>".$u->nilai."</span>";
-					} ?> 	<span class='span-name caption' data-id='<?= $u->id_skripsi ?>' style="display: none"> <?= $u->nilai;?> </span>		</td>
+						echo "<span class='caption'>".$u->Nilai."</span>";
+					} ?> 	<span class='span-name caption' data-id='<?= $u->IDSkripsi ?>' style="display: none"> <?= $u->Nilai;?> </span>		</td>
 				</tr>
 				<tr class="list-item">
 					<th scope="col">Judul</th>
-					<td colspan="4"><a class="btn_view" id="pembimbing" href="<?php echo base_url('Kaprodi/pembimbing/'.$u->id_skripsi);?>">
-						<?php echo $u->judul_skripsi;?>
+					<td colspan="4"><a class="btn_view" id="pembimbing" href="<?php echo base_url('Kaprodi/pembimbing/'.$u->IDSkripsi);?>">
+						<?php echo $u->JudulSkripsi;?>
 					</a></td>
 				</tr>
 			<?php endforeach; else: ?>

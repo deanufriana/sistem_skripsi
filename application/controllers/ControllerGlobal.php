@@ -8,24 +8,34 @@ class ControllerGlobal extends CI_Controller {
 		
 	}
 
+	function myProfil()
+	{
+		$where = array('ID' => $this->session->userdata('ID'));
+		$data['users'] = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+		$this->load->view('global/myProfil', $data);
+	}
+
+	function notifikasi()
+	{
+		$where = array('IDPenerima' => $this->session->userdata('ID'));
+		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $where, '', '', '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+		$this->load->view('global/notifikasi', $data);
+	}
+
 	function ubahPassword($id, $user)
 	{
 		switch ($user) {
 			case 'admin': 
 			$key = 'id_admin';
-			break;
-			case 'mahasiswa':
-			$key = 'nim';
-			break;
 			default:
-			$key = 'nik';
+			$key = 'ID';
 			break;
 		}
 
 		$where = array($key => $id);
 		$pass_lama = md5($this->input->post('pass_lama'));
 
-		$data['password'] = md5($this->input->post('pass_baru'));
+		$data['Password'] = md5($this->input->post('pass_baru'));
 
 		if (!(empty($this->input->post('username')))) {
 			$data['username'] = $this->input->post('username');
@@ -33,19 +43,16 @@ class ControllerGlobal extends CI_Controller {
 
 		$cek = $this->M_data->find($user, $where);
 
-		foreach ($cek->result() as $c) {
+		$result = $cek->row();
 
-			$pass = $c->password;
-
-			if ($pass_lama === $pass) {
-				$this->M_data->update($key, $id, $user, $data);
-				echo 1;
-			} else {
-				echo 0;
-			}
+		if ($pass_lama === $result->Password) {
+			$this->M_data->update($key, $id, $user, $data);
+			echo 1;
+		} else {
+			echo 0;
 		}
 	}
-
+	
 	function downloadFile($filename)
 	{
 		$this->load->helper('download');
@@ -55,8 +62,8 @@ class ControllerGlobal extends CI_Controller {
 
 	function deleteNotifikasi($id)
 	{
-		$where = array('id' => $id);
-		$this->M_data->delete($where, 'pemberitahuan');
+		$where = array('IDNotifikasi' => $id);
+		$this->M_data->delete($where, 'Notifikasi');
 	}
 
 }

@@ -16,256 +16,174 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
 
-	private $table = 'mahasiswa';
-	private $dsn = 'dosen';
-
-	public function __construct()
+	function __construct()
 	{
 		parent::__construct();
 		if ($this->session->userdata('status') != "Admin") {
 			redirect(base_url("Home"));
 		}
 		$this->load->library('Ajax_pagination');
-		$this->perPage = 3;
+		$this->perPage = 2;
 	}
 
-	public function index()
+	function index()
 	{
 		$this->load->view('template/navbar');
 		$this->load->view('admin/home');
 	}
 
-	function tabel_jrsn_admin()
+	function navigasiUsers($nav)
+	{
+		$this->load->view('admin/nav'.$nav);
+	}
+
+	function formJurusan()
+	{
+		$this->load->view('admin/formJurusan');
+	}
+
+	function formKonsentrasi()
+	{
+		$data['jurusan'] = $this->M_data->find('jurusan');
+		$where = array('Status' => 'Dosen');
+		$data['users'] = $this->M_data->find('users', $where);
+		$this->load->view('admin/formKonsentrasi', $data);
+	}
+
+	function formKaprodi($id)
+	{
+		$where = array('IDKonsentrasiUser' => $id);
+		$data['dosen'] = $this->M_data->find('users', $where);
+		$data['ID'] = $id;
+		$this->load->view('admin/formKaprodi', $data);
+	}
+
+	function formDosen()
+	{
+		$data['jurusan'] = $this->M_data->find('jurusan');
+		$this->load->view('admin/formDosen', $data);
+	}
+
+	function tabelJrsnAdmin()
 	{ 
 		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('admin/tabel_jrsn_admin', $data);
+		$this->load->view('admin/tabelJrsnAdmin', $data);
 	}
 
-	function tabel_konsentrasi_admin($id)
+	function tabelKonsentrasiAdmin($id)
 	{
-		$where = array('id_jurusan_ksn' => $id);
-		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'dosen', 'dosen.nik = konsentrasi.nik_kaprodi');
-		$data['dosen'] = $this->M_data->find('dosen');
-		$this->load->view('admin/tabel_konsentrasi_admin', $data);
+		$where = array('IDJurusanKsn' => $id);
+		
+		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'users', 'users.ID = konsentrasi.IDDosen');
+		
+		$data['users'] = $this->M_data->find('users');
+		$this->load->view('admin/tabelKonsentrasiAdmin', $data);
 	}
 
-	function form_konsentrasi() // Menampilkan Form Konsentrasi
+	function submitKaprodi($id)
 	{
-		$data['jurusan'] = $this->M_data->find('jurusan');
-		$data['dosen'] = $this->M_data->find('dosen');
-		$this->load->view('admin/form_konsentrasi', $data);
-	}
+		$where = array(
+			'IDKonsentrasi' => $id
+		);
 
-	function save_konsentrasi()
-	{
-		$data['id'] = $this->input->post('id');
-		$data['konsentrasi'] = $this->input->post('konsentrasi');
-		$data['id_jurusan_ksn'] = $this->input->post('id_jurusan');
-		$data['nik_kaprodi'] = $this->input->post('prodi');
-		$this->M_data->save($data, 'konsentrasi');
-	}
-
-	function form_kaprodi($id)
-	{
-		$where = array('id' => $id);
-		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where);
-		$data['dosen'] = $this->M_data->find('dosen', '', 'id_konsentrasi_dsn', $id);
-		$this->load->view('admin/form_kaprodi', $data);
-	}
-
-	function submit_kaprodi($id)
-	{
-		$where = array('id' => $id);
-		$data['nik_kaprodi'] = $this->input->post('kaprodi');
-		$this->M_data->update('id', $id, 'konsentrasi', $data);
+		$data['IDDosen'] = $this->input->post('kaprodi');
+		
+		$this->M_data->update('IDKonsentrasi', $id, 'konsentrasi', $data);
 		redirect('Admin');
 	}
 
-	function nav_mhs()
+	function tabelNavigasi($page, $user)
 	{
-		$this->load->view('admin/nav_mhs');
-	}
-
-	function nav_dsn()
-	{
-		$this->load->view('admin/nav_dsn');
-	}
-
-	function tabel_mhs_admin()
-	{
-		$page_mhs = $this->input->post('page');
-		if(!$page_mhs){
-			$offset = 0;
-		}else{
-			$offset = $page_mhs;
-		}
-
-		//set conditions for search
-		$keywords_mhs = $this->input->post('keywords_mhs');
-		$sortBy_mhs = $this->input->post('sortBy_mhs');
-		$cari_mhs = $this->input->post('cari_mhs');
-
-
-		if(!empty($keywords_mhs)){
-			$conditions['search']['keywords'] = $keywords_mhs;
-		}
-		if(!empty($sortBy_mhs)){
-			$conditions['search']['sortBy'] = $sortBy_mhs;
-		}
-
-        //Menghitung Keseluruaan 
-		$totalRec = count($this->M_data->find('mahasiswa', '', 'status <>', 'daftar'));
-
-        //Mengkofigurasi Pagination
-		$config['target']      = '#tabel_mhs_admin';
-		$config['base_url']    = base_url().'Admin/page_mhs';
-		$config['total_rows']  = $totalRec;
-		$config['per_page']    = $this->perPage;
-		$config['link_func']   = 'cari_mhs';
-		$this->ajax_pagination->initialize($config);
-
-		$conditions['start'] = $offset;
-		$conditions['limit'] = $this->perPage;
-
-        //get the posts data
-		$data['mhs'] = $this->M_data->find('mahasiswa', '', 'status <>', 'daftar', '', '', 'jurusan', 'jurusan.id_jurusan = mahasiswa.id_jurusan_mhs', 'konsentrasi', 'konsentrasi.id = mahasiswa.id_konsentrasi_mhs', '', '', $conditions, $cari_mhs );
-
-        //load the view
-		$this->load->view('admin/tabel_mhs_admin', $data, false);
-	}
-
-	function tabel_mhs_daftar()
-	{
-		$page_mhs = $this->input->post('page');
-		if(!$page_mhs){
-			$offset = 0;
-		}else{
-			$offset = $page_mhs;
-		}
-
-		//set conditions for search
-		$keywords_mhs = $this->input->post('keywords_mhs');
-		$sortBy_mhs = $this->input->post('sortBy_mhs');
-		$cari_mhs = $this->input->post('cari_mhs');
-
-
-		if(!empty($keywords_mhs)){
-			$conditions['search']['keywords'] = $keywords_mhs;
-		}
-		if(!empty($sortBy_mhs)){
-			$conditions['search']['sortBy'] = $sortBy_mhs;
-		}
-
-        //Menghitung Keseluruaan 
-		$totalRec = count($this->M_data->find('mahasiswa', '', 'status', 'daftar'));
-
-        //Mengkofigurasi Pagination
-		$config['target']      = '#tabel_mhs_daftar';
-		$config['base_url']    = base_url().'Admin/page_daftar_mhs';
-		$config['total_rows']  = $totalRec;
-		$config['per_page']    = $this->perPage;
-		$config['link_func']   = 'search_daftar';
-		$this->ajax_pagination->initialize($config);
-
-		$conditions['start'] = $offset;
-		$conditions['limit'] = $this->perPage;
-
-        //get the posts data
-		$data['mhs'] = $this->M_data->find('mahasiswa', '', 'status', 'daftar', '', '', 'jurusan', 'jurusan.id_jurusan = mahasiswa.id_jurusan_mhs', 'konsentrasi', 'konsentrasi.id = mahasiswa.id_konsentrasi_mhs', '', '', $conditions, $cari_mhs );
-
-        //load the view
-		$this->load->view('admin/tabel_mhs_daftar', $data, false);
-	}
-
-	function tabel_dsn_admin()
-	{
-		$page = $this->input->post('page');
 		if (!$page) {
 			$offset = 0;
 		} else {
 			$offset = $page;
 		}
 
-		$keywords_dsn = $this->input->post('keywords_dsn');
-		$sortBy_dsn = $this->input->post('sortBy_dsn');
-		$cari_dsn = $this->input->post('cari_dsn');
+		$keywords = $this->input->post('keywords');
+		$sortBy = $this->input->post('sortBy');
+		$search = $this->input->post('search');
 
-		if(!empty($keywords_dsn)){
-			$conditions['search']['keywords'] = $keywords_dsn;
+
+		if(!empty($keywords)){
+			$conditions['search']['keywords'] = $keywords;
 		}
-		if(!empty($sortBy_dsn)){
-			$conditions['search']['sortBy'] = $sortBy_dsn;
+		if(!empty($sortBy)){
+			$conditions['search']['sortBy'] = $sortBy;
 		}
-
-		$totalRec = count($this->M_data->find('dosen'));
-
-		$config['target']      = '#tabel_dsn_admin';
-		$config['base_url']    = base_url().'Admin/tabel_dsn_admin';
-		$config['total_rows']  = $totalRec;
-		$config['per_page']    = $this->perPage;
-		$config['link_func']   = 'cari_dsn';
-		$this->ajax_pagination->initialize($config);
-
+		
 		$conditions['start'] = $offset;
 		$conditions['limit'] = $this->perPage;
 
-		$data['dosen'] = $this->M_data->find('dosen', '', '', '', '', '', 'jurusan', 'jurusan.id_jurusan = dosen.id_jurusan_dsn', 'konsentrasi', 'konsentrasi.id = dosen.id_konsentrasi_dsn', '', '',$conditions, $cari_dsn);
+		if ($user === 'Mahasiswa') {
+			$where = "(Status='Mahasiswa' OR Status='Skripsi')";
+		} else {
+			$where['Status'] = $user;
+		}
 
-		$this->load->view('admin/tabel_dsn_admin', $data, false);
-	}
+		$data['users'] = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser', '', '', $conditions, $search);
 
-	function form_dosen()
-	{
-		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('admin/form_dosen', $data);
+		$total = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+
+		$totalRec = $total->num_rows();
+
+		$config['target']      = '#tabelUsers';
+		$config['base_url']    = base_url().'Admin/tabelNavigasi/'.$page.'/'.$user;
+		$config['total_rows']  = $totalRec;
+		$config['per_page']    = $this->perPage;
+		$config['link_func']   = 'search'.$user;
+		$this->ajax_pagination->initialize($config);
+
+		$this->load->view('admin/tabelUsers', $data, false);
 	}
 
 	function delete_dosen($nik)
 	{
-		$where = array('nik' => $nik);
-		$cek = $this->M_data->find('dosen', $where);
+		$where = array('ID' => $nik);
+		$cek = $this->M_data->find('users', $where);
 
 		foreach ($cek->result() as $c) {
-			unlink('./assets/images/'.$c->foto_dsn);
-			$this->M_data->delete($where, 'dosen');
+			unlink('./assets/images/User/'.$c->foto_dsn);
+			$this->M_data->delete($where, 'users');
 		}
 	}
 
 	function delete_jurusan($id)
 	{
-		$where = array('id_jurusan' => $id);
+		$where = array('IDJurusan' => $id);
 		$this->M_data->delete($where, 'jurusan');
 	}
 
-	function form_jurusan()
+	function saveJurusan()
 	{
-		$this->load->view('admin/form_jurusan');
-	}
-
-	function filter_kaprodi()
-	{
-		$id_jurusan = $this->input->post('id_jurusan');
-		$where = array('id_jurusan_dsn' => $id_jurusan);
-		$data = $this->M_data->find('dosen', $where);
-
-		$lists ="<option value=''> Pilih Kaprodi </option>";
-
-		foreach ($data->result() as $d) {
-			$lists .= "<option value='".$d->nik."'>".$d->nama_dosen."</option>";
-		}
-		$callback = array('list' => $lists);
-		echo json_encode($callback);
-	}
-
-	function save_jurusan()
-	{
-		$data['id_jurusan'] = $this->input->post('id_jurusan');
-		$data['jurusan'] = $this->input->post('jurusan');
+		$data['IDJurusan'] = $this->input->post('id_jurusan');
+		$data['Jurusan'] = $this->input->post('jurusan');
 
 		$this->M_data->save($data, 'jurusan');
 	}
 
-	function save_dosen() // Menyimpan Form Dosen
+	function saveKonsentrasi()
+	{
+		$data['IDKonsentrasi'] = $this->input->post('id');
+		$data['konsentrasi'] = $this->input->post('konsentrasi');
+		$data['IDJurusanKsn'] = $this->input->post('id_jurusan');
+		$data['IDDosen'] = $this->input->post('prodi');
+		$this->M_data->save($data, 'konsentrasi');
+	}
+
+	private function sendEmail($email, $nama, $password)
+	{
+		$this->email->from('umusbrebes@gmail.com', 'Universitas Muhadi Setiabudi');
+		$this->email->to($email);
+
+		$this->email->subject('Sistem Informasi Skripsi');
+		$this->email->message('Selamat Datang '.$nama.' di Universitas Muhadi Setiabudi. Sekarang anda bisa login sistem informasi skripsi dengan menggunakan ID anda. Password : '.$password.'  Semoga harimu menyenangkan.');
+
+		return $this->email->send();
+
+	}
+
+	function saveDosen() // Menyimpan Form Dosen
 	{
 		$nik = $this->input->post('nik');
 		$nama = $this->input->post('nama_dosen');
@@ -276,138 +194,112 @@ class Admin extends CI_Controller {
 
 		$filename = "file_".time('upload');
 
-		$config['upload_path'] = './assets/images/';
+		$config['upload_path'] = './assets/images/User/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['file_name']	= $filename;
 
 		$this->load->library('upload', $config);
 
-		if ($_FILES['foto']['name']){
-
-			if ( ! $this->upload->do_upload('foto'))
-
-			{
-				$error = array('error' => $this->upload->display_errors());
-
-			}
-			else {
-
-				$foto = $this->upload->data();
-				$password = random_string('alnum', 12);
-
-				$this->email->from('umusbrebes@gmail.com', 'Universitas Muhadi Setiabudi');
-				$this->email->to($email);
-
-				$this->email->subject('Sistem Informasi Skripsi');
-				$this->email->message('Selamat Datang Dosen '.$nama.' di Universitas Muhadi Setiabudi.\n Sekarang anda bisa login sistem informasi skripsi dengan menggunakan nik ataupun email anda. \n Password : '.$password.' \n Semoga harimu menyenangkan.');
-				
-				if ($this->email->send()) {
-					
-					$data = array(
-						'nik' => $nik,
-						'nama_dosen' => $nama,
-						'password' => md5($password),
-						'nohp_dsn' => $nohp,
-						'email_dsn' => $email, 
-						'id_konsentrasi_dsn' => $konsentrasi,
-						'id_jurusan_dsn' => $jurusan, 
-						'foto_dsn' => $foto['file_name']
-					);
-
-					if ($this->M_data->save($data, 'dosen')) {
-						echo 1;
-					} else {
-						echo 0;
-					}
-
-				} else {
-
-					echo 0;
-
-				}
-				
-			}
-
-		} else {
-			$this->load->view('pendaftaran');
-		}
-
-	}
-
-	function submit_daftar($nim, $hapus)
-	{
-		if ($hapus) {
-
-			$data['status'] = 'Mahasiswa';
-
-			$this->M_data->update('nim', $nim, 'mahasiswa', $data);
-			
+		if ( ! $this->upload->do_upload('foto'))
+		{
+			$error = array('error' => $this->upload->display_errors());
 		} else {
 
-			$where = array('nim' => $nim);
-			$cek = $this->M_data->find('mahasiswa', $where);
+			$foto = $this->upload->data();
+			$password = random_string('alnum', 12);
 
-			foreach ($cek->result() as $c) {
-				unlink('./assets/images/'.$c->foto);
-				$this->M_data->delete($where, 'mahasiswa');
+			if ($this->sendEmail($email, $nama, $password)) {
+				$data = array(
+					'ID' => $nik,
+					'Nama' => $nama,
+					'Password' => md5($password),
+					'NoHP' => $nohp,
+					'Email' => $email, 
+					'IDKonsentrasiUser' => $konsentrasi,
+					'IDJurusanUser' => $jurusan, 
+					'Foto' => $foto['file_name'],
+					'Status' => 'Dosen'
+				);
+
+				$this->M_data->save($data, 'users');
+				echo 1;
+
+			} else {
+				echo 'Terjadi Kesalahan Saat Mengirim Password Silahkan Cek Internet Anda Atau Hubungi Layanan Server';
 			}
 
 		}
+
+
+
 	}
 
-	function status($nim) // Mengubah Status Mahasiswa
+	function acceptDaftar($ID, $disetujui)
 	{
-		$this->load->library('ciqrcode');
+		if ($disetujui) {
 
-		$config['cacheable']    = true; 
-		$config['cachedir']     = './assets/'; 
-		$config['errorlog']     = './assets/'; 
-		$config['imagedir']     = './assets/images/'; 
-		$config['quality']      = true; 
-		$config['size']         = '1024'; 
-		$config['black']        = array(224,255,255); 
-		$config['white']        = array(70,130,180); 
-		$this->ciqrcode->initialize($config);
+			$where = array('ID' => $ID);
+			$users = $this->M_data->find('users', $where);
 
-		$get['mahasiswa'] = $this->M_data->find('mahasiswa', '', 'nim', $nim);
-
-		foreach ($get['mahasiswa'] as $m) {
-			$image_name = $m->nim.'.png';
-
-			$params['data'] = base_url('Cetak/kartu/'.$m->nim);
-			$params['level'] = 'H';
-			$params['size'] = 10;
-			$params['savename'] =FCPATH.$config['imagedir'].$image_name;
-
-			$this->ciqrcode->generate($params);
-
-			$this->email->from('umusbrebes@gmail.com', 'Universitas Muhadi Setiabudi');
-			$this->email->to($m->email_mhs);
+			$result = $users->row();
 
 			$password = random_string('alnum', 8);
+			
+			if ($this->sendEmail($result->Email, $result->Nama, $password)) {
 
-			$this->email->subject('Sistem Informasi Skripsi');
-			$this->email->message('Persyaratan untuk melakukan skripsi telah dipenuhi silahkan login menggunakan nim anda dan password '.$password.' Jangan Pernah Membagikan Password Pada Siapapun');
+				$data['Password'] = $password;
+				$data['Status'] = 'Mahasiswa';
+				$this->M_data->update('ID', $ID, 'users', $data);
 
-			if ($this->email->send()) {
-
-				$data['QR_Code'] = $image_name;
-				$data['status'] = 'Skripsi';
-				$data['pwd_mhs'] = md5($password);
-
-				$this->M_data->update('nim', $nim, 'mahasiswa', $data);
-				echo 1;
 			} else {
-				echo 0;
+
+				echo "Terjadi Kesalahan Saat Mengirim Password Silahkan Cek Internet Anda Atau Hubungi Layanan Server";
+
 			}
 
+		} else {
+
+			$where = array('ID' => $ID);
+			$cek = $this->M_data->find('users', $where);
+
+			foreach ($cek->result() as $c) {
+				if ($this->M_data->delete($where, 'users')) {
+					unlink('./assets/images/User/'.$c->foto);
+				}			
+			}
 
 		}
 	}
 
-	function pengaturan() // Halaman Pengaturan
+	function filterKaprodi()
 	{
-		$this->load->view('admin/pengaturan');
+		$id_jurusan = $this->input->post('id_jurusan');
+		$where = array(
+			'IDJurusanUser' => $id_jurusan,
+			'Status' => 'Dosen'
+		);
+		$data = $this->M_data->find('users', $where);
+
+		$lists ="<option value=''> Pilih Kaprodi </option>";
+
+		foreach ($data->result() as $d) {
+			$lists .= "<option value='".$d->ID."'>".$d->Nama."</option>";
+		}
+		$callback = array('list' => $lists);
+		echo json_encode($callback);
+	}
+
+	function statusSkripsi($ID)
+	{
+
+		$data['Status'] = 'Skripsi';
+
+		if (!$this->M_data->update('ID', $ID, 'users', $data)) {
+			echo 0;
+		} else {
+			echo 1;
+		}
+		
 	}
 
 	function update(){
@@ -415,7 +307,7 @@ class Admin extends CI_Controller {
 		$value= $this->input->post("value");
 		$modul= $this->input->post("modul");
 		$data[$modul] = $value;
-		$this->M_data->update('nik', $id, 'dosen', $data);
+		$this->M_data->update('ID', $id, 'users', $data);
 		echo "{}";
 	}
 }

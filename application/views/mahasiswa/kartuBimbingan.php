@@ -1,6 +1,6 @@
 <div class="form-group col">
-		<i class="fas fa-book"></i> <?php foreach ($skripsi as $s) {
-			echo $s->judul_skripsi;
+		<i class="fas fa-book"></i> <?php foreach ($skripsi->result() as $s) {
+			echo $s->JudulSkripsi;
 		} ?>
 		</div>
 		<div class="form-group float-right col-1">
@@ -16,12 +16,12 @@
 						<th> Level </th>
 					</tr>
 				</thead>
-				<?php foreach ($pembimbing as $p) { ?>
+				<?php foreach ($pembimbing->result() as $p) { ?>
 				<tbody>
-					<td><?php echo $p->nama_dosen; ?></td>
-					<td><?php echo $p->status_proposal; ?></td>
-					<td><?php echo $p->status_skripsi; ?></td>
-					<td><?php echo $p->level; ?></td>
+					<td><?php echo $p->Nama; ?></td>
+					<td><?php echo $p->StatusProposal; ?></td>
+					<td><?php echo $p->StatusSkripsi; ?></td>
+					<td><?php echo $p->StatusPembimbing; ?></td>
 				</tbody>
 				<?php } ?>
 			</table>

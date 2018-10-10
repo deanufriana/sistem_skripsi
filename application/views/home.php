@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/fix/book.ico');?>" />
+	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title> Sistem Informasi Skripsi</title>
@@ -15,13 +17,17 @@
 
 		$(document).ready(function(){
 
-			$('#form_daftar').load('<?= base_url('home/pendaftaran');?>');
+			$('#formDaftar').load('<?= base_url('Home/formDaftar');?>');
 
 			$(function() {
 				$("#login").click(function() {
 					$('#success').toggle('fast').delay(9000);
 				});
 			})
+
+			$("#Daftar").on('click', function() {
+				$('#formDaftar').toggle('fast');
+			});
 
 			$("#btn-login").click(function(){
 				var formAction = $("#form-login").attr('action');
@@ -74,6 +80,8 @@
 					return false;
 				}
 			});
+
+
 		});
 	</script>
 </head>
@@ -101,7 +109,7 @@
 									<div class="text-center">
 										<button type="submit" class="btn btn-primary float-right ml-3" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
 									</div>
-									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
+									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a id="Daftar" href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
 								</form>
 							</div>
 						</div>
@@ -217,7 +225,7 @@
 							</div>
 						</div>
 					</form>   
-					<div id="form_daftar" style="display: none;">
+					<div id="formDaftar" style="display: none;">
 					</div>
 					<div id="log" style="display: none;">
 						<small class="form-text text-muted" id="text-login"> Sudah Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Login </a>  

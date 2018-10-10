@@ -88,54 +88,17 @@ class Cetak extends CI_Controller {
 		$pdf->Output();
 	}
 
-	/*public function suratpenunjukan()
-	{
-		$pdf = new FPDF('P','mm','A4');
-		$pdf->AddPage();
-		$pdf->SetFont('Times', 'BU', 12);
-		$pdf->Cell(0, 0, 'SURAT PENUNJUKAN DOSEN PEMBIMBING', 0,0,'C');
-		$pdf->SetFont('Times', 'B', 12);
-		$pdf->ln(6);
-		$pdf->Cell(0, 0, 'Nomor:______________________________', 0,0,'C');
-		$pdf->ln(20);
-		$pdf->SetFont('Times', '', 12);
-		$pdf->Cell(20, 0, '', 0,0,'L');
-		$pdf->Cell(0,0,'Sehubung dengan kegiatan penyusunan skripsi oleh mahasiswa,',0,1,'L');
-		$pdf->ln(10);
-		$pdf->Cell(30, 0, 'NIM', 0,0,'L');
-		$pdf->Cell(0, 0, ': 55201140012', 0,0,'L');	
-		$pdf->ln(10);
-		$pdf->Cell(30, 0, 'Nama', 0,0,'L');
-		$pdf->Cell(0, 0, ': Devi Adi Nufriana', 0,0,'L');
-		$pdf->ln(7);
-		$pdf->Cell(30, 5, 'Judul Sementara', 0,0,'L');
-		$pdf->MultiCell(0, 5, ': Rancang Bangun Sistem Informasi Skripsi Berbasis Web di Universitas Muhadi Setiabudi Brebes', 0,'J');
-		$pdf->ln(7);
-		$pdf->Cell(0, 0, 'Pada Semester : Ganjil/Genap Tahun akademik : .................../.................', 0,0,'L');
-		$pdf->ln(7);
-		$pdf->Cell(0, 0, 'dengan ini kami mohon bantuan kepada :', 0,0,'L');
-		$pdf->ln(7);
-		$pdf->Cell(0, 0, 'Bapak/Ibu ........................................', 0,0,'L');
-		$pdf->ln(7);
-		$pdf->MultiCell(0,7,'Untuk bersedia menjadi pembimbing mahasiswa tersebut. Pembimbing dimaksudkan bertindak sebagai pemberi masukan dan pengarah materi skripsi agar layak dan berbobot sesuai dengan jenjang S1. Selain itu juga bertindak sebagai pengarah sistematika dan tata bahasa Indonesia bagi mahasiswa dalam menulis skripsi. Atas bantuan dan bimbingan yang diberikan, kami mengucapkan terimakasih.',0,'J');
-		$pdf->ln(20);
-		$pdf->Cell(130, 0, '', 0,0,'L');
-		$pdf->Cell(0, 0, 'Brebes, 27 Desember 2018,', 190,0,'L');
-		$pdf->ln(25);
-		$pdf->Cell(130, 0, '', 0,0,'L');
-		$pdf->Cell(181, 0, 'Nur Ariesanto R, M.Kom', 0,2,'L');
-		$pdf->ln(5);
-		$pdf->Cell(130, 0, '', 0,0,'L');
-		$pdf->Cell(0, 0, 'Ka. Prodi Teknik Informatika', 0,0,'L');
-		$pdf->Output();
-	}*/
-
 	public function kartu($nim)
 	{
-		$where = array('nim' => $nim);
-		$where1 = array('nim_mhs_ks' => $nim);
-		$data = $this->M_data->find('konsultasi', $where1);
-		$mhs = $this->M_data->find('mahasiswa', $where, '', '', '', '', 'jurusan', 'jurusan.id_jurusan = mahasiswa.id_jurusan_mhs', 'konsentrasi', 'konsentrasi.id = mahasiswa.id_konsentrasi_mhs', 'skripsi', 'skripsi.id_skripsi = mahasiswa.id_skripsi_mhs');
+		$where = array('ID' => $nim);
+		$where1 = array('IDKartuMahasiswa' => $nim);
+		$data = $this->M_data->find('kartubimbingan', $where1, '', '', '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
+
+		$where2 = array('IDMahasiswaSkripsi' => $nim);
+		
+		$skripsi = $this->M_data->find('skripsi', $where2);
+		
+		$mhs = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJUrusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 		$pdf = new Pdf('P','mm','A4');
 		$pdf->AddPage();
 		$pdf->SetFont('Times', 'BU', 12);
@@ -144,21 +107,23 @@ class Cetak extends CI_Controller {
 		$pdf->SetFont('Times', '', 12);
 		foreach ($mhs->result() as $m) {
 			$pdf->Cell(30, 5, 'Nama', 0,0,'L');
-			$pdf->Cell(0, 5, ': '.$m->nama_mhs, 0,0,'L');	
+			$pdf->Cell(0, 5, ': '.$m->Nama, 0,0,'L');	
 			$pdf->ln(7);
 			$pdf->Cell(30, 5, 'NIM', 0,0,'L');
-			$pdf->Cell(0, 5, ': '.$m->nim, 0,0,'L');
+			$pdf->Cell(0, 5, ': '.$m->ID, 0,0,'L');
 			$pdf->ln(7);
 			$pdf->Cell(30, 5, 'Jurusan', 0,0,'L');
-			$pdf->Cell(0, 5, ': '.$m->jurusan, 0,'J');
+			$pdf->Cell(0, 5, ': '.$m->Jurusan, 0,'J');
 			$pdf->ln(7);       
 			$pdf->Cell(30, 5, 'Konsentrasi', 0,0,'L');
-			$pdf->Cell(0, 5, ': '.$m->konsentrasi, 0,'J');
+			$pdf->Cell(0, 5, ': '.$m->Konsentrasi, 0,'J');
 			$pdf->ln(7);
 			$pdf->Cell(30, 5, 'Judul', 0,0,'L');
-			$pdf->MultiCell(0, 5, ': '.$m->judul_skripsi
-				, 0,'J');
-			$pdf->Image(base_url('assets/images/'.$m->QR_Code),170,6,30);
+			foreach ($skripsi->result() as $s) {
+				$pdf->MultiCell(0, 5, ': '.$s->JudulSkripsi
+					, 0,'J');	
+				$pdf->Image(base_url('assets/images/QRCode/'.$s->QRCode),170,6,30);
+			}
 		}
 		$pdf->ln(10);
 		$pdf->Cell(10,7,'No',1);		
@@ -170,9 +135,9 @@ class Cetak extends CI_Controller {
 		$pdf->SetWidths(array(10,45,70,65));
 		/*srand(microtime()*1000000);*/
 		foreach ($data->result() as $d) {
-		
-		for($i=0;$i<1;$i++)
-			$pdf->Row(array($no++,longdate_indo($d->tanggal),$d->catatan,$d->pembimbing));
+
+			for($i=0;$i<1;$i++)
+				$pdf->Row(array($no++,longdate_indo($d->TanggalBimbingan),$d->Catatan,$d->Nama));
 		}
 
 		$pdf->ln(20);
@@ -181,14 +146,14 @@ class Cetak extends CI_Controller {
 		$pdf->ln(25);
 		$pdf->Cell(130, 0, '', 0,0,'L');
 		foreach ($mhs->result() as $k) {
-			$where = array('id' => $k->id_konsentrasi_mhs);
-			$jurusan = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'dosen', 'dosen.nik = konsentrasi.nik_kaprodi', 'jurusan', 'jurusan.id_jurusan = konsentrasi.id_jurusan_ksn');	
+			$where = array('IDKonsentrasi' => $k->IDKonsentrasiUser);
+			$jurusan = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'users', 'users.ID = konsentrasi.IDDosen', 'jurusan', 'jurusan.IDJurusan = konsentrasi.IDJurusanKsn');	
 		}
 		foreach ($jurusan->result() as $j) {
-			$pdf->Cell(181, 0, $j->nama_dosen, 0,2,'L');
+			$pdf->Cell(181, 0, $j->Nama, 0,2,'L');
 			$pdf->ln(5);
 			$pdf->Cell(130, 0, '', 0,0,'L');
-			$pdf->Cell(0, 0, 'Ka. Prodi '.$j->jurusan.' '.$j->konsentrasi, 0,0,'L');
+			$pdf->Cell(0, 0, 'Ka. Prodi '.$j->Jurusan.' '.$j->Konsentrasi, 0,0,'L');
 		}
 		$pdf->Output();
 	}

@@ -26,7 +26,7 @@
 						success: function(result) {
 							if (result != 1) {
 								swal("Ide Skripsi Berhasil Diajukan!", "Silahkan Tunggu Konfirmasi Dari Fakultas", "success");
-								$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ide_skripsi');?>');
+								$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ideSkripsi');?>');
 								$('#judul').val('');
 								$('#deskripsi').val('');
 								$('#loading').fadeOut();
