@@ -29,7 +29,9 @@ class Mahasiswa extends CI_Controller {
 	{
 		$where = array('IDPenerima' => $_SESSION['ID']);
 		$skrip = array('IDMahasiswaSkripsi' => $_SESSION['ID']);
-		$data['pemberitahuan'] = $this->M_data->find('notifikasi', $where, '', '', 'IDNotifikasi', 'DESC', 'users','users.ID = Notifikasi.IDPengirim');
+		$data['pemberitahuan'] = $this->M_data->find('notifikasi', $where, 'IDNotifikasi', 'DESC', 'users','users.ID = Notifikasi.IDPengirim');
+		$whereUsers = array('ID' => $_SESSION['ID']);
+		$data['users'] = $this->M_data->find('users', $whereUsers, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 
 		$data['skripsi'] = $this->M_data->find('skripsi', $skrip);
 		$this->load->view('template/navbar')->view('mahasiswa/home', $data);
@@ -49,7 +51,7 @@ class Mahasiswa extends CI_Controller {
 
 		$skripsi = $this->M_data->find('skripsi', $where);
 
-		if ($skripsi->num_rows() > 0) {
+		if ($skripsi) {
 			echo 1;
 		} else {
 			$this->M_data->save($ide, 'ideskripsi');
@@ -64,16 +66,17 @@ class Mahasiswa extends CI_Controller {
 	function ideSkripsi()
 	{
 		$where = array('IDIdeMahasiswa' => $_SESSION['ID']);
-		$data['ide_skripsi'] = $this->M_data->find('ideskripsi', $where, '', '', 'IDIde', 'DESC');
+		$data['ide_skripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC');
 
 		$this->load->view('mahasiswa/ideSkripsi', $data);
 	}
 
 	function konsultasi()
 	{
-		$data['skripsi'] = $this->M_data->find('skripsi', '', 'IDMahasiswaSkripsi', $_SESSION['ID'], '', '', 'users', 'users.ID = skripsi.IDSkripsi');
-		
-		$data['konsultasi'] = $this->M_data->find('kartubimbingan', '', 'IDKartuMahasiswa', $_SESSION['ID'], '', '', 'users', 'users.ID = kartubimbingan.IDKartuMahasiswa');
+		$whereSK = array('IDMahasiswaSkripsi' => $_SESSION['ID']);
+		$data['skripsi'] = $this->M_data->find('skripsi', $whereSK, '', '', 'users', 'users.ID = skripsi.IDSkripsi');
+		$whereKB = array('IDKartuMahasiswa' => $_SESSION['ID']);
+		$data['konsultasi'] = $this->M_data->find('kartubimbingan', $whereKB, '', '', 'users', 'users.ID = kartubimbingan.IDKartuMahasiswa');
 
 		$nim = $_SESSION['ID'];
 		
@@ -89,24 +92,15 @@ class Mahasiswa extends CI_Controller {
 		}
 		
 		foreach ($data['skripsi']->result() as $m) {
-			$data['pembimbing'] = $this->M_data->find('pembimbing','', 'IDSkripsiPmb', $m->IDSkripsi, '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb');
+			$wherePmb = array('IDSkripsiPmb' => $m->IDSkripsi);
+			$data['pembimbing'] = $this->M_data->find('pembimbing',$wherePmb, '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb');
 		}
-		
+		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('mahasiswa/mySkripsi', $data);
-	}
-
-	function update(){
-		$id= $this->input->post("id");
-		$value= $this->input->post("value");
-		$modul= $this->input->post("modul");
-		$data[$modul] = $value;
-		$this->M_data->update('ID', $id, 'mahasiswa', $data);
-		echo "{}";
 	}
 
 	function uploadData($sesi, $ID) {
 		$filename = "file_".time('upload');
-		$level = $this->session->userdata('File'.$sesi);
 
 		$config['upload_path'] = './assets/'.$sesi.'/';
 		$config['allowed_types'] = 'pdf';
@@ -116,21 +110,25 @@ class Mahasiswa extends CI_Controller {
 		$this->load->library('upload', $config);
 		
 		if ( ! $this->upload->do_upload($sesi)){
-			$error = array('error' => $this->upload->display_errors());
-			echo var_dump($error);
-
+			echo "File Tidak Bisa Di Upload Pastikan File Berbentuk PDF";
 		} else {
-			if (empty($level)) {
-				echo 0;
-			} else {
-				unlink('./assets/'.$sesi.'/'.$level);
+			$where = array('IDSkripsi' => $ID);
+			$skripsi = $this->M_data->find('skripsi', $where);
+			foreach ($skripsi->result() as $s) {
+				if ($sesi === 'Proposal') {
+					$level = $s->FileProposal;
+				} else {
+					$level = $s->FileSkripsi;
+				}
 			}
-
+			
+			unlink('./assets/'.$sesi.'/'.$level);
+			
 			$file = $this->upload->data();
 			$data = array('File'.$sesi =>  $file['file_name']);
 
 			$this->M_data->update('IDSkripsi', $ID, 'skripsi', $data);
-			echo "Berhasil";
+			echo "File ".$sesi." Berhasil di Upload";
 		}
 	}
 

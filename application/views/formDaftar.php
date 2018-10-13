@@ -19,6 +19,7 @@
 				});
 			});
 
+
 			$("#menDaftar").on('submit',
 				function(e) {
 					e.preventDefault();
@@ -39,11 +40,12 @@
 						cache: false,
 						success: function(result) {
 							if (result != 0) {
-								swal("Pendaftaran Berhasil!", "Silahkan Konfirmasi Ke Fakultas Untuk Mendapatkan Validasi", "success");				
+								swal("Pendaftaran Berhasil!", "Tunggu Validasi Dari Universitas y Untuk Bisa Login", "success");
+								setTimeout(function() {
+									location.reload()
+								}, 10000);
 							} else {
-								swal("Pendaftaran Gagal!", "Silahkan Coba Lagi Nanti", "error");
-
-
+								swal("Pendaftaran Gagal!", "Mohon Maaf. Kayana ada yang salah, mohon coba lagi nanti ya.", "error");
 							}
 							
 						}
@@ -51,14 +53,35 @@
 				});
 		});
 
+		function readUrl(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+
+				reader.onload = function (e) {
+					$('#blah').attr('src', e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		$("#foto").change(function() {
+			readUrl(this);
+		});
+
 	</script>
 </head>
 <body>
-	<div>
-		<div>
-			<div>
-				<form method="post" id="menDaftar" action="<?php echo base_url('Home/daftarMahasiswa');?>" enctype="multipart/form-data">
-					<div class="form-row">
+	<?php if ($konsentrasi) { ?>
+		<form method="post" id="menDaftar" action="<?php echo base_url('Home/daftarMahasiswa');?>" enctype="multipart/form-data">
+			<div class="row">
+				
+				<div class="col-md-2">
+					<img class="card-img-top" id="blah" src="<?= base_url('assets/images/fix/user.png');?>">	
+				</div>
+				
+				<div class="col-md">
+					<h3>Selamat Datang Mahasiswa Baru.</h3>
+					Silahkan mengisi formulir pendaftaran mahasiswa dibawah ini dengan data yang valid. nanti data akan di validasi oleh Admin Password Akan dikirimkan lewat email jadi harus valid ya..
+					<div class="form-row mt-2">
 						<div class="form-group col-md">
 							<input minlength="11" type="number" id="nim" placeholder="NIM" name="nim" class="form-control" title="Mohon Masukan 11 Digit" required>
 						</div>
@@ -81,9 +104,6 @@
 						</div>
 					</div>
 					<div class="form-row">
-					</div>  
-
-					<div class="form-row">
 						<div class="form-group col-md">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -104,6 +124,8 @@
 								</div>
 							</div>
 						</div>
+					</div>
+					<div class="form-row">
 						<div class="form-group col-md">
 							<div class="input-group">
 								<div class="input-group-prepend">
@@ -114,16 +136,29 @@
 									<label for="foto" class="custom-file-label" for="inputGroupFile01">Pilih Gambar</label>
 								</div>
 							</div>
-
+						</div>
+						<div class="form-group col-md-auto">
+							<div>
+								<button class="btn btn-primary" type="submit" id="daftar"> <i class="fas fa-sign-in-alt"></i> Daftar </button>					
+							</div>
 						</div>
 					</div>
-
-					<div class="float-right">
-						<button class="btn btn-primary" type="submit" id="daftar"> <i class="fas fa-sign-in-alt"></i> Daftar </button>					
-					</div>
-				</form>
+				</div>
+			</div>
+		</form>
+	<?php } else { ?>
+		<div class='container-fluid'>
+			<div class='row align-items-center'>
+				<div class='col-md'>
+					<h2> Maaf Kawan. Kamu Belum Bisa Melakukan Pendaftaran </h2>
+					Sistem Ini Mengharuskan Admin Untuk Memasukan Data Jurusan & Konsentrasi Untuk Bisa Digunakan. 
+				</div>
+				<div class='col-md-3'>
+					<img src="<?= base_url('assets/images/fix/sad.jpg')?>">
+				</div>
 			</div>
 		</div>
-	</div>
+	<?php } ?>
+	
 </body>
 </html>

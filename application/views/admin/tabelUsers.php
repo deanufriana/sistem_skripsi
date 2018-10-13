@@ -27,7 +27,12 @@
 						contentType: false,
 						processData: false,
 						cache: false,
+						beforeSend: function () {
+							$('.loading').show();
+						},
 						success: function() {
+							$(".tabel"+id).fadeOut('slow');
+							$('.loading').fadeOut('fast');
 							$("#tabel_mahasiswa_admin").load('<?php echo base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
 						}
 					})
@@ -79,6 +84,15 @@
 		});
 	</script>
 </head>
+<div class="modal-body">
+	<div id="loading" class="modal" style="display:none;">
+		<div class="modal-dialog modal-dialog-centered ">
+			<div class="alert alert-info alert-white rounded modal-content">
+				<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
+			</div>
+		</div>
+	</div>
+</div>
 <?php if (!empty($users)) { ?>
 	<table class="table small">
 		<thead>
@@ -120,6 +134,22 @@
 		</tbody>
 	</table>
 	<?php echo $this->ajax_pagination->create_links(); ?>
-<?php } else {
-	echo $status." Tidak Ditemukan";
-}
+<?php } else { ?>
+	<div class='container-fluid mt-5'>
+		<div class='row align-items-center'>
+			<div class='col-md'>
+				<h2>Data <?= $status === 'Daftar' ? 'Pendaftar' : $status ?> ga Ada, Min.</h2>
+				<?php if ($status === 'Dosen') { ?>
+					Data <?= $status ?> yang dicari belum ada, min. Silahkan Jika Butuh Tambahan Dosen  Ada di Bagian Navigasi Masukan Dosen. Gunakan Dengan Menggunakan Data Yang Valid Dimana Password Untuk Login Akan Di Kirim Melalui Email Dosen.
+				<?php } elseif($status === 'Daftar') { ?>
+					Lagi Liat Liat Yang Daftar ya min.. Maaf ya min sayangnya kaga ada.
+				<?php } else { ?>
+					Data <?= $status ?> yang dicari belum ada, min. Silahkan Minta Mahasiswa Untuk Mendaftar Di Halaman Awal. Kemudian Silahkan Validasi bener ga itu mahasiswa sini Di Navigasi Pendaftar.					
+				<?php } ?>
+			</div>
+			<div class='col-md-3'>
+				<img src="<?= base_url('assets/images/fix/sad.jpg')?>">
+			</div>
+		</div>
+	</div>
+	<?php } ?>

@@ -91,13 +91,13 @@
 					</div>
 					<div class="col-md">
 						<div class="form-row">
-							<div class="form-group col-md-5">
+							<div class="form-group col-md">
 								<p class="h5"> <?= $u->Nama;?> / <?= $u->ID;?>  </p>
 								<p class="text-subtitle h6"><i class="fas fa-envelope fa-sm"></i> <?= $u->Email;?> <br> 
 									<i class="fas fa-phone fa-sm"></i> No. HP : <?= $u->NoHP;?> 
 								</p>
 							</div>						
-							<div class="form-group col-md">
+							<div class="form-group col-md-auto text-right">
 								<div>
 									<h4><?= $u->JudulSkripsi;?></h4>
 								</div>
@@ -150,20 +150,22 @@
 														$status = 'Proposal Telah diSetujui mohon tunggu acc dari pemmbimbing yang lain untuk dapat mengacc Skripsi';
 													} else {
 														echo "";
-														$status = '';
+														$status = 'Silahkan Acc Jika Sudah Sesuai';
 													} ?>>
 												</form>
 											</div>
 										</div>
 									</div>
-									<div class="form-group ml-5">
-										<?= $status ?>
-									</div>
+
 								</div>
+								<div class="alert alert-info">
+									<?= $status ?>	
+								</div>
+								
 							<?php } } ?>
 						</div>
 					</div>
-					<?php if ($pembimbing->num_rows() > 0) { ?>
+					<?php if ($pembimbing) { ?>
 						<form id="<?= $u->ID ?>" method="POST" action="<?= base_url('dosen/catatan/');?>" class="catatan">
 							<div class="form-group">
 								<h6 class="text-right"> Catatan Bimbingan </h6>
@@ -187,32 +189,46 @@
 							</div>
 						<?php } ?>
 					</div>
-					<div class="table-responsive">
-						<table class="table small">
-							<thead>
-								<tr>
-									<th>No</th>
-									<th>Tanggal</th>
-									<th>Pembimbing</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php $no = 1 ?>
-								<?php foreach ($konsultasi->result() as $k) { ?>
-									<tr>
-										<td><?= $no++;?></td>
-										<td><?= longdate_indo($k->TanggalBimbingan);?></td>
-										<td><?= $k->Nama;?></td>
-									</tr>
-									<tr>
-										<th> Catatan </th>
-										<td colspan="2"><?= $k->Catatan;?></td>
+					<?php if (!$konsultasi) { ?>
+						<div class="card card-outline-secondary">
+							<div class="row align-items-center m-5">
+								<div class="col-md mb-5">
+									<h2>Belum Ada Catatan Bimbingan</h2>
+									Catatan bimbingan belum di isi oleh pembimbing, jika anda pembimbing silahkan isi catatan bimbingan mahasiswa ini dengan memasukan form catatan di atas. tanggal bimbingan akan secara otomatis masuk saat anda memasukan catatan saat itu juga.
+								</div>
+								<div class="col-md-3">
+									<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+								</div>
+							</div>
 
+						</div>
+					<?php } else { ?>
+						<div class="table-responsive">
+							<table class="table small">
+								<thead>
+									<tr>
+										<th>No</th>
+										<th>Tanggal</th>
+										<th>Pembimbing</th>
 									</tr>
-								<?php } ?>	
+								</thead>
+								<tbody>
+									<?php $no = 1 ?>
+									<?php foreach ($konsultasi->result() as $k) { ?>
+										<tr>
+											<td><?= $no++;?></td>
+											<td><?= longdate_indo($k->TanggalBimbingan);?></td>
+											<td><?= $k->Nama;?></td>
+										</tr>
+										<tr>
+											<th> Catatan </th>
+											<td colspan="2"><?= $k->Catatan;?></td>
+										</tr>
+									<?php } ?>	
 
-							</tbody>
-						</table>
+								</tbody>
+							</table>
+						<?php } ?>
 					</div>
 				</div>
 			</div>

@@ -1,16 +1,27 @@
+<head>
+	<script type="text/javascript">
+		$('input[type="file"]').on('change', function() {
+			var val = $(this).val();
+			$(this).siblings('label').text(val);
+		});
+	</script>
+</head>
 <div class="card-body">
 	<div class="form-row">
-		<div class="form-group col-md-11">
+		<div class="form-group col-md">
 
-			<h6> <i class="fas fa-book fa-sm"></i> <?php foreach ($skripsi->result() as $s) {
+			<h5> <i class="fas fa-book fa-sm"></i> <?php foreach ($skripsi->result() as $s) {
 				echo $s->JudulSkripsi; ?> 
-			</h6>	
+			</h5>	
 
 			<?= word_limiter($s->Deskripsi, 20); } ?>
-			
+
 			<div class="form-row mt-3">
-				<div class="col-md m-3">
-					<?php if ($pmb->num_rows() > 1) { 
+				<div class="form-group col-md">
+
+					<?php 
+					$result = $pmb === FALSE ? 0 : $pmb->num_rows();
+					if ($result === 2) { 
 						$file = $s->FileSkripsi;
 						$sesi = 'Skripsi';
 					} else { 
@@ -23,7 +34,7 @@
 					$proposal = $s->FileProposal;
 
 					$skripsi = $s->FileSkripsi;
-					
+
 					if (empty($proposal)) {
 						$disablep = 'disabled';
 					} else {
@@ -42,7 +53,7 @@
 					} else {
 						echo "href=".base_url("ControllerGlobal/downloadFile/".$proposal);
 					} ?>> <i class="fa fa-download"></i> Proposal </a>
-					
+
 					<a class="card-body" <?php if (empty($skripsi)) {
 						echo "";
 					} else {
@@ -50,11 +61,14 @@
 					} ?>> <i class="fa fa-download"></i> Skripsi </a>
 
 				</div>
-				<div class="col-md-5">
+				
+			</div>
+		</div>
+		<div class="form-group mr-3">
 					<form method="post" id="mydata" action="<?php echo base_url('Mahasiswa/uploadData/'.$sesi.'/'.$s->IDSkripsi);?>" enctype="multipart/form-data">
 						<div class="input-group">
 							<div class="custom-file">
-								<input type="file" name="<?= $sesi ?>" class="custom-file-input col custom-file-control" required>
+								<input id="upload" type="file" name="<?= $sesi ?>" class="custom-file-input col custom-file-control" required>
 								<label class="custom-file-label">Upload  <?= $sesi ?></label>					
 							</div>
 							<div class="input-group-append"> 
@@ -64,12 +78,9 @@
 						<small> File harus berbentuk PDF </small>
 					</form>		
 				</div>
-			</div>
-			
-		</div>
-		<div class="form-group col-md-1">
-			<div class="float-right">
-				<a href="<?php echo base_url('Cetak/kartu/').$this->session->userdata('ID');?>"> <button class="btn btn-outline-primary"> <i class="fas fa-print"> </i> Cetak </button> </a>	
+		<div class="form-group">
+			<div class=" float-right">
+				<a href="<?php echo base_url('Cetak/kartu/').$this->session->userdata('ID');?>"> <button class="btn btn-outline-primary btn-sm"> <i class="fas fa-print"> </i> Cetak </button> </a>	
 			</div>
 		</div>
 	</div>
@@ -102,33 +113,48 @@
 			<?php } ?>
 		</table>
 	</div>
-	<div id="table-wrapper">
-		<div class="mt-2" style="overflow:auto; height: 15rem">
-			<table class="table table-sm small">
-				<thead>
-					<tr>
-						<th>No</th>
-						<th style="width: 12rem">Tanggal</th>
-						<th>Pembimbing</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if (!empty($konsultasi)): ?>
-						<?php $no = '1'; ?>
-						<?php foreach ($konsultasi->result() as $k) {	?>
-							<tr>
-								<td><?php echo $no++;?></td>
-								<td><?php echo longdate_indo($k->TanggalBimbingan);?></td>
-								<td><?php echo $k->Nama;?></td>
-							</tr>
-							<tr>
-								<th>Catatan</th>
-								<td colspan="3"><?php echo $k->Catatan;?></td>
-							</tr>
-						<?php } ?>
-					<?php endif ?>
-				</tbody>	
-			</table>
+	<?php if (!$konsultasi) { ?>
+		<div class="card card-outline-secondary">
+			<div class="row align-items-center m-5">
+				<div class="col-md mb-5">
+					<h2>Belum Ada Catatan Bimbingan</h2>
+					Catatan bimbingan belum di isi oleh pembimbing, jika anda pembimbing silahkan isi catatan bimbingan mahasiswa ini dengan memasukan form catatan di atas. tanggal bimbingan akan secara otomatis masuk saat anda memasukan catatan saat itu juga.
+				</div>
+				<div class="col-md-auto">
+					<img style="height: 10rem" src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+				</div>
+			</div>
+
 		</div>
-	</div>
+	<?php } else { ?>
+		<div id="table-wrapper">
+			<div class="mt-2" style="overflow:auto; height: 15rem">
+				<table class="table table-sm small">
+					<thead>
+						<tr>
+							<th>No</th>
+							<th style="width: 12rem">Tanggal</th>
+							<th>Pembimbing</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php if (!empty($konsultasi)): ?>
+							<?php $no = '1'; ?>
+							<?php foreach ($konsultasi->result() as $k) {	?>
+								<tr>
+									<td><?php echo $no++;?></td>
+									<td><?php echo longdate_indo($k->TanggalBimbingan);?></td>
+									<td><?php echo $k->Nama;?></td>
+								</tr>
+								<tr>
+									<th>Catatan</th>
+									<td colspan="3"><?php echo $k->Catatan;?></td>
+								</tr>
+							<?php } ?>
+						<?php endif ?>
+					</tbody>	
+				</table>
+			</div>
+		</div>
+	<?php } ?>
 </div>

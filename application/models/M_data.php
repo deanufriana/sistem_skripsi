@@ -8,11 +8,8 @@ class M_data extends CI_Model {
 		$this->load->database();	
 	}
 
-	public function find($table, $where = '', $field = '', $value = '' , $order_by = '', $order_type = '', $join = '', $id = '', $join2 = '', $id2 = '', $join3 = '', $id3 = '', $params = array(), $search = '') {
+	public function find($table, $where = '', $order_by = '', $order_type = '', $join = '', $id = '', $join2 = '', $id2 = '', $join3 = '', $id3 = '', $params = array(), $search = '') {
 		
-		if ($field != '' && $value != '') {
-			$this->db->where($field, $value);
-		}
 		if ($order_by != '') {
 			if ($order_type != '') {
 				$this->db->order_by( $order_by, $order_type);
@@ -48,11 +45,11 @@ class M_data extends CI_Model {
 
 
 		if ($where != '') {
-			return $this->db->get_where($table, $where);
+			$query = $this->db->get_where($table, $where);
 		} else {
 			$query = $this->db->get($table);
-			return ($query->num_rows() > 0)?$query:FALSE;	
 		}
+		return ($query->num_rows() > 0)?$query:FALSE;
 	}
 
 	function save($data,$table){

@@ -42,71 +42,89 @@
 	</script>
 </head>
 
-<?php foreach ($ideskripsi->result() as $u) {
-	?>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#pmb1<?= $u->IDIde;?>").change(function(){ 
-				$("#pmb2<?= $u->IDIde;?>").hide();
-				$.ajax({
-					type: "POST", 
-					url: "<?php echo base_url("kaprodi/filterPembimbing"); ?>", 
-					data: {pmb1 : $("#pmb1<?= $u->IDIde?>").val()}, 
-					dataType: "json",
-					success: function(response){ 
-						$("#pmb<?= $u->IDIde;?>").show('fast', function() {
-							$("#pmb2<?= $u->IDIde;?>").html(response.list).show();	
-						});
-						
-					},
-				});
-			});
-		});
-	</script>
-	<div id="pengajuan<?= $u->IDIde;?>" class="pengajuan<?= $u->ID;?>">
-		<div id="judul" class="form-row">
-			<div class="form-group col-md-1 col-2">
-				<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$u->Foto);?>" alt="Card image">
+<div class="card card-outline-secondary">
+	<?php 
+	if (!$ideskripsi) {?>
+
+		<div class="row align-items-center m-5">
+			<div class="col-md mb-5">
+				<h2> Tidak Ada Mahasiswa yang Mengajukan Skripsi </h2>
+				Maaf saat ini tidak ada yang mengajukan ide skripsi.				
 			</div>
-			<div class="form-group col-md-4 col-10 mb-2">
-				<h6> <?php echo $u->Nama;?> </h6>
-				<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar-alt fa-sm"></i> <?php echo $u->TanggalIde;?> </h6>
+			<div class="col-md-3">
+				<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
 			</div>
-			<div class="form-group col-md">
-				<h6 class="text-primary"><?php echo $u->JudulIde;?>  </h6>
-			</div>
-			<hr>
 		</div>
-		<p class="card-text text-justify"> <i class="fas fa-sticky-note"></i> <?php echo $u->DeskripsiIde;?> </p>
-		<form id="<?= $u->IDIde;?>" method="POST" name="<?= $u->ID;?>" action="<?php echo base_url('Kaprodi/acceptSkripsi/');?>" class="ide_skripsi">
-			<div class="form-group">
-				<textarea class="form-control" name="catatan" placeholder="Catatan Untuk Mahasiswa" required></textarea>
+	<?php } else {
+		foreach ($ideskripsi->result() as $u) {
+			?>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					$("#pmb1<?= $u->IDIde;?>").change(function(){ 
+						$("#pmb2<?= $u->IDIde;?>").hide();
+						$.ajax({
+							type: "POST", 
+							url: "<?php echo base_url("kaprodi/filterPembimbing"); ?>", 
+							data: {pmb1 : $("#pmb1<?= $u->IDIde?>").val()}, 
+							dataType: "json",
+							success: function(response){ 
+								$("#pmb<?= $u->IDIde;?>").show('fast', function() {
+									$("#pmb2<?= $u->IDIde;?>").html(response.list).show();	
+								});
+
+							},
+						});
+					});
+				});
+			</script>
+
+			<div class="card-body">
+				<div id="pengajuan<?= $u->IDIde;?>" class="pengajuan<?= $u->ID;?>">
+					<div id="judul" class="form-row">
+						<div class="form-group col-md-1 col-2">
+							<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$u->Foto);?>" alt="Card image">
+						</div>
+						<div class="form-group col-md col-10 mb-2">
+							<h4> <?php echo $u->Nama;?> </h4>
+							<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar-alt fa-sm"></i> <?php echo $u->TanggalIde;?> </h6>
+							<p class="card-text text-justify mt-3"> <i class="fas fa-sticky-note"></i> <?php echo $u->DeskripsiIde;?> </p>
+						</div>
+						<div class="form-group col-md-auto text-right">
+							<h4 class="text-primary"><?php echo $u->JudulIde;?>  </h4>
+						</div>
+						<hr>
+					</div>
+					<form id="<?= $u->IDIde;?>" method="POST" name="<?= $u->ID;?>" action="<?php echo base_url('Kaprodi/acceptSkripsi/');?>" class="ide_skripsi">
+						<div class="form-group">
+							<textarea class="form-control" name="catatan" placeholder="Catatan Untuk Mahasiswa" required></textarea>
+						</div>
+						<label>Dosen Pembimbing</label>
+						<div class="form-row">
+							<div class="form-group col-md">
+								<select name="pmb1" id="pmb1<?= $u->IDIde;?>" class="form-control form-control-sm" required>
+									<option value="">Pilih</option>
+									<?php
+									foreach($dosen->result() as $data) {
+										echo "<option value='".$data->ID."'>".$data->Nama."</option>";
+									}
+									?>
+								</select>
+								<small>Dosen Pembimbing 1</small>
+							</div>
+							<div class="form-group col-md" id="pmb<?= $u->IDIde;?>" style="display: none">
+								<select name="pmb2" id="pmb2<?= $u->IDIde;?>" class="form-control form-control-sm" required>
+									<option value="">Pilih</option>
+								</select>
+								<small>Dosen Pembimbing 2</small>
+							</div>
+							<div class="form-group">
+								<button class="btn btn-sm btn-primary float-right" type="submit">Action</button>
+							</div>
+						</div>
+					</form>					
+				</div>
 			</div>
-			<label>Dosen Pembimbing</label>
-			<div class="form-row">
-				<div class="form-group col-md">
-					<select name="pmb1" id="pmb1<?= $u->IDIde;?>" class="form-control form-control-sm" required>
-						<option value="">Pilih</option>
-						<?php
-						foreach($dosen->result() as $data) {
-							echo "<option value='".$data->ID."'>".$data->Nama."</option>";
-						}
-						?>
-					</select>
-					<small>Dosen Pembimbing 1</small>
-				</div>
-				<div class="form-group col-md" id="pmb<?= $u->IDIde;?>" style="display: none">
-					<select name="pmb2" id="pmb2<?= $u->IDIde;?>" class="form-control form-control-sm" required>
-						<option value="">Pilih</option>
-					</select>
-					<small>Dosen Pembimbing 2</small>
-				</div>
-				<div class="form-group">
-					<button class="btn btn-sm btn-primary float-right" type="submit">Action</button>
-				</div>
-			</div>
-		</form>				
-		<hr>	
+
+
+		<?php } } ?>
 	</div>
-	
-	<?php } ?>

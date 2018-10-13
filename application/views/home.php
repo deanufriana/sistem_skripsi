@@ -27,6 +27,7 @@
 
 			$("#Daftar").on('click', function() {
 				$('#formDaftar').toggle('fast');
+				$('#informasi').toggle('fast');
 			});
 
 			$("#btn-login").click(function(){
@@ -118,7 +119,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="row m-1">
+		<div class="row m-1" id="informasi">
 			<div class="col-md-6">
 				<div class="form-row">
 					<div class="form-group col-md-2 col-2 m-1">

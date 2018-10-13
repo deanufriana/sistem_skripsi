@@ -23,11 +23,13 @@ class Home extends CI_Controller {
 	
 	function index()
 	{
+		
 		$this->load->view('home');
 	}
 
 	function formDaftar()
 	{
+		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
 		$this->load->view('formDaftar', $data);
 	}
@@ -99,11 +101,11 @@ class Home extends CI_Controller {
 
 		$where_admin = "username='$username' AND Password='$password'";
 
-		$users = $this->M_data->find('users', $where, '', '', '', '', 'konsentrasi','konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+		$users = $this->M_data->find('users', $where, '', '', 'konsentrasi','konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 
 		$admin = $this->M_data->find('admin', $where_admin);
 
-		if ($users->num_rows() > 0) {
+		if ($users) {
 
 			foreach ($users->result() as $u) {
 
@@ -111,6 +113,7 @@ class Home extends CI_Controller {
 					'ID' => $u->ID,
 					'Status' => $u->Status,
 					'Nama' => $u->Nama,
+					'Konsentrasi' => $u->Konsentrasi,
 				);
 				
 				$status = $u->Status;
@@ -122,13 +125,14 @@ class Home extends CI_Controller {
 					echo 1;
 				} else {
 					echo 2;
+					$data['Kaprodi'] = 0;
 				}
 
 				$this->session->set_userdata($data);
 
 			}
 
-		} elseif ($admin->num_rows() > 0) {
+		} elseif ($admin) {
 
 			foreach ($admin->result() as $b) {
 

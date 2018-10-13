@@ -14,54 +14,56 @@
 				$('.loading').show();
 			},
 			success: function (html) {
-				$('#tabel_dosen_admin').html(html);
+				$('#tabel_Dosen_admin').html(html);
 				$('.loading').fadeOut("slow");
 			}
 		});
 	}
 	$("#form_dosen").load('<?= base_url('admin/formDosen'); ?>');
-	$("#tabel_dosen_admin").load('<?= base_url('admin/tabelNavigasi/0/Dosen'); ?>');
+	$("#tabel_Dosen_admin").load('<?= base_url('admin/tabelNavigasi/0/Dosen'); ?>');
 
 </script>
+
 <ul class="nav nav-pills text-center" id="pills-tab" role="tablist">
-	<li class="nav-item col-md btn-sm">
+	<li class="nav-item btn-sm">
 		<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-dosen" role="tab" aria-controls="pills-home" aria-selected="true">Data</a>
 	</li>
-	<li class="nav-item col-md  btn-sm">
+	<li class="nav-item btn-sm">
 		<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#form_dosen" role="tab" aria-controls="pills-profile" aria-selected="false">Masukan Dosen</a>
 	</li>
 </ul>
 <hr>
 <div class="tab-content" id="pills-tabContent">
 	<div class="tab-pane fade show active" id="pills-dosen" role="tabpanel" aria-labelledby="pills-home-tab">
-		<div class="form-row">
-			<div class="form-group col-md">
-				<input class="form-control form-control-sm" id="keywords_dsn" type="text" name="tabel_dsn_admin/" placeholder="Cari Dosen" onkeyup="searchDosen()"/>
+		<?php if ($users) { ?>
+			<div class="form-row">
+				<div class="form-group col-md">
+					<input class="form-control form-control-sm" id="keywords_dsn" type="text" name="tabel_dsn_admin/" placeholder="Cari Dosen" onkeyup="searchDosen()"/>
+				</div>
+				<div class="form-group col-md-2">
+					<select class="form-control form-control-sm sortBy" id="search_dsn" name="cari_dsn" onchange="searchDosen()">
+						<option value="ID">NIK</option>
+						<option value="Nama">Nama</option>
+						<option value="Jurusan">Jurusan</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<select class="form-control form-control-sm sortBy" id="sortBy_dsn" onchange="searchDosen()">
+						<option value="">Sort By</option>
+						<option value="asc">Ascending</option>
+						<option value="desc">Descending</option>
+					</select>
+				</div>
+				<div class="form-group col-md-1 m-1 loading" style="display: none">
+					<i class="fas fa-spinner fa-pulse"></i>
+				</div>
 			</div>
-			<div class="form-group col-md-2">
-				<select class="form-control form-control-sm sortBy" id="search_dsn" name="cari_dsn" onchange="searchDosen()">
-					<option value="ID">NIK</option>
-					<option value="Nama">Nama</option>
-					<option value="Jurusan">Jurusan</option>
-				</select>
-			</div>
-			<div class="form-group col-md-2">
-				<select class="form-control form-control-sm sortBy" id="sortBy_dsn" onchange="searchDosen()">
-					<option value="">Sort By</option>
-					<option value="asc">Ascending</option>
-					<option value="desc">Descending</option>
-				</select>
-			</div>
-			<div class="form-group col-md-1 m-1 loading" style="display: none">
-				<i class="fas fa-spinner fa-pulse"></i>
-			</div>
-		</div>
-
-		<div class="tabel table-responsive" id="tabel_dosen_admin" nama="dosen" >
+		<?php } ?>
+		<div class="tabel table-responsive" id="tabel_Dosen_admin" nama="dosen" >
 
 		</div>
 	</div>
+
 	<div class="tab-pane fade" id="form_dosen" role="tabpanel" aria-labelledby="pills-profile-tab"></div>
-	<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
 </div>
 

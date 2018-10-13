@@ -20,7 +20,7 @@ class Kaprodi extends CI_Controller {
 		parent::__construct();
     $where = array('IDDosen' => $_SESSION['ID']);
     $dosen = $this->M_data->find('konsentrasi', $where);
-		if ($dosen->num_rows() === 0) {
+    if (!$dosen) {
       redirect(base_url("Home"));
     }
 
@@ -30,14 +30,18 @@ class Kaprodi extends CI_Controller {
 
   function index()
   {
-    $id = $this->session->userdata('ID');
+    $id = array('ID' => $_SESSION['ID']);
     
-    $where = array('IDPenerima' => $id);
-    $data['Notifikasi'] = $this->M_data->find('Notifikasi', $where, '', '', '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+    $Penerima = array('IDPenerima' => $_SESSION['ID']);
     
-    $whereID = array('IDKonsentrasiUser' => $id);
+    $data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+    
+    $data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 
-    $data['ideskripsi'] = $this->M_data->find('ideskripsi', $whereID, '', '', 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+    $result = $data['users']->row();
+    $where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
+
+    $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
     $this->load->view('template/navbar');
     $this->load->view('dosen/home', $data);
@@ -118,7 +122,7 @@ function ideSkripsi()
   'users', $dosen
 );
 
- $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, '', '', 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+ $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
  $this->load->view('kaprodi/ideSkripsi', $data);
 }
@@ -131,7 +135,7 @@ function acceptSkripsi($idSkripsi, $sta)
   $pengirim = $_SESSION['ID'];
   $tanggal = date('Y-m-d');
 
-  $ideSkripsi = $this->M_data->find('ideskripsi', $where, '', '', '', '', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+  $ideSkripsi = $this->M_data->find('ideskripsi', $where,  '', '', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
   foreach ($ideSkripsi->result() as $d) {
     $IDIde = $d->IDIde;
@@ -141,7 +145,7 @@ function acceptSkripsi($idSkripsi, $sta)
     $nama = $d->Nama;
   }
 
-  if ($sta) {
+  if ($sta === true) {
 
     $this->load->library('ciqrcode');
 
@@ -176,7 +180,7 @@ function acceptSkripsi($idSkripsi, $sta)
       $this->M_data->save($dosen, 'pembimbing');
       
       // Mengirim Pemberitahuan Ke Dosen Pembimbing
-      $Catatan = 'Anda Di Tetapkan Sebagai Dosen Pembimbing <br>'.$nama.'<br> Silahkan Lihat Di Data Skripsi';
+      $Catatan = 'Anda Di Tetapkan Sebagai Dosen Pembimbing '.$nama.' Anda sekarang bisa mengacc proposal maupun skripsi '.$nama.'dan juga menambah kartu bimbingan untuk mahasiswa tersebut Anda ditetapkan sebagai pembimbing ke '.$i;
 
       $NotifDosen = array('Notifikasi' => $judul, 'Catatan' => $Catatan, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $pmb, 'StatusNotifikasi' => 'Informasi');  
       $this->M_data->save($NotifDosen, 'notifikasi');

@@ -92,13 +92,13 @@ class Cetak extends CI_Controller {
 	{
 		$where = array('ID' => $nim);
 		$where1 = array('IDKartuMahasiswa' => $nim);
-		$data = $this->M_data->find('kartubimbingan', $where1, '', '', '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
+		$data = $this->M_data->find('kartubimbingan', $where1, '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
 
 		$where2 = array('IDMahasiswaSkripsi' => $nim);
 		
 		$skripsi = $this->M_data->find('skripsi', $where2);
 		
-		$mhs = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJUrusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+		$mhs = $this->M_data->find('users', $where,'', '', 'jurusan', 'jurusan.IDJurusan = users.IDJUrusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 		$pdf = new Pdf('P','mm','A4');
 		$pdf->AddPage();
 		$pdf->SetFont('Times', 'BU', 12);
@@ -147,7 +147,7 @@ class Cetak extends CI_Controller {
 		$pdf->Cell(130, 0, '', 0,0,'L');
 		foreach ($mhs->result() as $k) {
 			$where = array('IDKonsentrasi' => $k->IDKonsentrasiUser);
-			$jurusan = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'users', 'users.ID = konsentrasi.IDDosen', 'jurusan', 'jurusan.IDJurusan = konsentrasi.IDJurusanKsn');	
+			$jurusan = $this->M_data->find('konsentrasi', $where,  '', '', 'users', 'users.ID = konsentrasi.IDDosen', 'jurusan', 'jurusan.IDJurusan = konsentrasi.IDJurusanKsn');	
 		}
 		foreach ($jurusan->result() as $j) {
 			$pdf->Cell(181, 0, $j->Nama, 0,2,'L');

@@ -24,16 +24,38 @@
 
 		$("#slide").animate({width:'toggle'},350);
 
-		function checkPasswordMatch() {
-			var password = $("#password").val();
-			var confirmPassword = $("#ulangpassword").val();
+		$("#buttonPassword").click(function(){
+			var formAction = $(".login").attr('action');
+			var datalogin = {
+				pass_lama: $(".pass_lama").val(),
+				pass_baru: $(".pass_baru").val()
+			};
 
-			if (password != confirmPassword)
-				$("#divCheckPasswordMatch").html("Passwords do not match!");
-			else
-				$("#divCheckPasswordMatch").html("Passwords match.");
-
-		}
+			if (!$(".pass_lama").val() || !$(".pass_baru").val()) {
+				$("#warning").show('fast').delay(2000).hide('fast');
+				return false;
+			} else {
+				$.ajax({
+					type: "POST",
+					url: formAction,
+					data: datalogin,
+					success: function(result) {
+						if(result == 1) {
+							$("#success").show('fast').delay(1000).hide('slow', function() {
+								$("#Ubah").modal('toggle');						
+							});;
+						}
+						else {
+							$("#failed").show('fast').delay(1000).hide('fast');
+							$('#pass_lama').val('');
+							$('#pass_baru').val('');
+							return false;
+						}
+					}
+				});
+				return false;
+			}
+		});
 
 		$(document).ready(function(){
 			
@@ -48,6 +70,7 @@
 					url: "<?php echo base_url("home/konsentrasi"); ?>", 
 					data: {id_fakultas : $("#jurusan").val()}, 
 					dataType: "json",
+					async:false,
 					beforeSend: function(e) {
 						if(e && e.overrideMimeType) {
 							e.overrideMimeType("application/json;charset=UTF-8");
@@ -60,9 +83,6 @@
 			});
 		});
 
-		$(document).ready(function () {
-			$("#txtConfirmPassword").keyup(checkPasswordMatch);
-		});
 	</script>
 
 	<style type="text/css">
@@ -174,19 +194,55 @@
 
 </style>
 </head>
+<div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form class="login" method="POST" action="<?= base_url('ControllerGlobal/ubahPassword/'.$_SESSION['ID'].'/users');?>">
+					<div class="content">
+						<div id="success" class="alert alert-success alert-white rounded" style="display:none;">
+							<strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>
+						</div>
+						<div id="warning" class="alert alert-warning alert-white rounded" style="display:none;">
+							<strong> <i class="fas fa-exclamation"></i> Peringatan !</strong>
+							<br>Kata Sandi Tidak Boleh Kosong
+						</div>
+						<div id="failed" class="alert alert-danger alert-white rounded"style="display:none;">
+							<strong><i class="fas fa-user-times"></i> Password Salah !</strong>
+							<br>Kata Sandi Lama Salah!
+						</div>						
+					</div>
+
+					<div class="form-group">
+						<label for="recipient-name" class="col-form-label">Password Lama</label>
+						<input type="password" class="form-control pass_lama" name="pass_lama">
+					</div>
+					<div class="form-group">
+						<label for="message-text" class="col-form-label">Password Baru</label>
+						<input type="Password" name="pass_baru" class="form-control pass_baru">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
+						<button type="submit" class="btn btn-primary" id="buttonPassword"> <i class="fas fa-sign-in-alt"></i> Submit</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 <body>
 	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border">
-		<div class="container-fluid">
-			<div class="navbar-brand navbar-nav m-1">
-				<h5><i class="fas fa-book"></i> SISTEM SKRIPSI ONLINE</h5>
+		
+		<div class="navbar-brand navbar-nav m-1">
+			<h5><i class="fas fa-book"></i> SISTEM SKRIPSI ONLINE</h5>
+		</div>
+		<div class="navbar-collapse collapse">
+			<span class="text-right col"><i class="fas fa-calendar-alt"> </i>   
+				<?php echo longdate_indo(date('Y-m-d'));?> </span>	
 			</div>
-			<div class="navbar-collapse collapse">
-				<span class="text-right col"><i class="fas fa-calendar-alt"> </i>   
-					<?php echo longdate_indo(date('Y-m-d'));?> </span>	
-				</div>
-				<div class="m-1 float-right">
-					<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-outline-primary"><i class="fas fa-sign-out-alt"></i> Keluar </a>
-				</div>
+			<div class="m-1 float-right">
+				<a href="#" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit fa-xs"></i> Ganti Password </a>	
+				<a href="<?php echo base_url('Home/Logout');?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-sign-out-alt"></i> Keluar </a>
 			</div>
 		</nav>
 		<div id="beranda">

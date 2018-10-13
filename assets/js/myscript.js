@@ -25,6 +25,7 @@ $(document).ready(function(){
 					contentType: false,
 					processData: false,
 					cache: false,
+					async:false,
 					success: function() {
 						$(".tabel" + id).fadeOut("slow");
 					}
@@ -52,6 +53,7 @@ $(document).ready(function(){
 			contentType: false,
 			processData: false,
 			cache: false,
+			async:false,
 			beforeSend: function() {
 				$('.loading').show();
 			},

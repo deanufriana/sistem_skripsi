@@ -1,5 +1,5 @@
 
-<?php if ($ide_skripsi->num_rows() > 0) {
+<?php if ($ide_skripsi) {
 	foreach ($ide_skripsi->result() as $u) {	?>
 		<div>
 			<h6 class="card-title"> <i class="fas fa-book fa-xs"></i> <?php echo $u->JudulIde;?></h6>
@@ -8,7 +8,15 @@
 		<p class="card-text text-justify"><?php echo $u->DeskripsiIde;?></p>
 		<hr>
 	<?php } 
-} else {
-	echo "Tidak Ada Ide Skripsi Yang Diajukan";
-} ?>
+} else { ?>
+	<div class='row align-items-center'>
+		<div class='col-md'>
+			<h2>Ide Skripsi Tidak Ditemukan</h2>
+			Hi, Teman !!! Saat ini tidak ada ide skripsimu yang sedang dalam proses !! silahkan ajukan ide skripsimu selengkap dan sebagus mungkin ya !! isi form di sebelah kiri untuk mengajukan ide skripsi yang ingin kamu ajukan ! kamu bisa mengajukan ide skripsi sebanyak mungkin ! tetap semangat ya teman. 
+		</div>
+		<div class='col-md-5'>
+			<img class="card-img-top" src="<?= base_url('assets/images/fix/ide.jpg')?>">
+		</div>
+	</div>
+<?php } ?>
 

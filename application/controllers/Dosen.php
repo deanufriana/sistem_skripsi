@@ -34,14 +34,14 @@ class Dosen extends CI_Controller {
 		
 		$Penerima = array('IDPenerima' => $_SESSION['ID']);
 		
-		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
 		
-		$kaprodi = $this->M_data->find('users', $id);
+		$data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 
-		$result = $kaprodi->row();
+		$result = $data['users']->row();
 		$where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
 
-		$data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, '', '', 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+		$data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
 		$this->load->view('template/navbar');
 		$this->load->view('dosen/home', $data);
@@ -86,13 +86,13 @@ class Dosen extends CI_Controller {
 		}	
 
 
-		$data['users'] = $this->M_data->find('skripsi', $whereID, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi', '', '', '','', $conditions, $search);
+		$data['users'] = $this->M_data->find('skripsi', $whereID, '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi', '', '', '','', $conditions, $search);
 
-		$total = $this->M_data->find('skripsi', $whereID, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
+		$total = $this->M_data->find('skripsi', $whereID,'', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
 
-		$totalData = $total->num_rows();
+		$totalData = $total != FALSE ? $total->num_rows() : 0;
 
-		$config['target'] = '#tabel_mhs_kaprodi';
+		$config['target'] = '#tabelUser';
 		$config['base_url'] = base_url().'Kaprodi/tabelSkripsi';
 		$config['total_rows'] = $totalData;
 		$config['per_page'] = $this->perPage;
@@ -101,7 +101,7 @@ class Dosen extends CI_Controller {
 		$this->ajax_pagination->initialize($config);
 
 
-		$data['pembimbing'] = $this->M_data->find('pembimbing', '', '', '', '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
+		$data['pembimbing'] = $this->M_data->find('pembimbing', '', '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
 
 		$this->load->view('dosen/tabelSkripsi', $data, false);  
 
@@ -111,7 +111,7 @@ class Dosen extends CI_Controller {
 	{
 		$where = array('ID' => $nik);
 		$wherep = array('IDDosenPmb' => $nik);
-		$data['pembimbing'] = $this->M_data->find('pembimbing',$wherep, '', '', '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb', 'skripsi', 'skripsi.IDSkripsi = pembimbing.IDSkripsiPmb');
+		$data['pembimbing'] = $this->M_data->find('pembimbing',$wherep, '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb', 'skripsi', 'skripsi.IDSkripsi = pembimbing.IDSkripsiPmb');
 		$data['dosen'] = $this->M_data->find('users', $where);
 		$this->load->view('template/navbar')->view('kaprodi/detailDosen', $data);
 	}
@@ -122,7 +122,7 @@ class Dosen extends CI_Controller {
 			'IDMahasiswaSkripsi' => $ID,
 		);
 
-		$data['skripsi'] = $this->M_data->find('skripsi', $where, '', '', '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
+		$data['skripsi'] = $this->M_data->find('skripsi', $where,  '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
 
 		foreach ($data['skripsi']->result() as $s) {
 
@@ -141,7 +141,8 @@ class Dosen extends CI_Controller {
 			}
 
 		}
-		$data['konsultasi'] = $this->M_data->find('kartubimbingan', '' , 'IDKartuMahasiswa', $ID, '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
+		$whereIDCard = array('IDKartuMahasiswa' => $ID);
+		$data['konsultasi'] = $this->M_data->find('kartubimbingan', $whereIDCard , '', '', 'users', 'users.ID = kartubimbingan.IDDosenPembimbing');
 
 		$this->load->view('template/navbar');
 		$this->load->view('dosen/detailMahasiswa', $data); 
@@ -154,11 +155,11 @@ class Dosen extends CI_Controller {
 			'IDDosenPmb' => $_SESSION['ID']
 		);
 
-		$cek['Pembimbing'] = $this->M_data->find('skripsi', $where, '', '', '', '', 'pembimbing', 'pembimbing.IDSkripsiPmb = skripsi.IDSkripsi');	
+		$cek['Pembimbing'] = $this->M_data->find('skripsi', $where, '', '', 'pembimbing', 'pembimbing.IDSkripsiPmb = skripsi.IDSkripsi');	
 
 		foreach ($cek['Pembimbing']->result() as $c) {
 
-			$data['Notifikasi'] = $users.''.$c->JudulSkripsi.' Telah Di ACC';
+			$data['Notifikasi'] = $users.' '.$c->JudulSkripsi.' Telah Di ACC';
 			$data['Catatan'] = $users.' Telah Di ACC Oleh : <br>'.$this->session->userdata('Nama').' Sebagai Pembimbing '.$c->StatusPembimbing;
 			$data['IDPenerima'] = $c->IDMahasiswaSkripsi;
 			$data['IDPengirim'] = $_SESSION['ID'];

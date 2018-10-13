@@ -20,6 +20,7 @@
 						contentType: false,
 						processData: false,
 						cache: false,
+						async:false,
 						beforeSend: function () {
 							$('#loading').fadeIn();
 						},
@@ -51,7 +52,7 @@
 <form id="pengajuan" method="POST" action="<?php echo base_url('Mahasiswa/pengajuan') ;?>">
 	
 	<div class="form-group">
-		<textarea class="form-control" name="deskripsi" placeholder="Deskripsi" id="deskripsi" minlength="200" rows="20"></textarea>
+		<textarea class="form-control" name="deskripsi" placeholder="Deskripsi" id="deskripsi" minlength="200" rows="16"></textarea>
 		<small>Minimal 200 Kata</small>
 	</div>
 	<div class="form-row">

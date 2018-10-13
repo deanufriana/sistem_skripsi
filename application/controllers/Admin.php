@@ -28,13 +28,22 @@ class Admin extends CI_Controller {
 
 	function index()
 	{
+
 		$this->load->view('template/navbar');
 		$this->load->view('admin/home');
 	}
 
 	function navigasiUsers($nav)
 	{
-		$this->load->view('admin/nav'.$nav);
+
+		$where = $nav == 'Mahasiswa' ? "Status='Mahasiswa' OR Status='Skripsi'" : "Status='Dosen'";
+		if ($nav != 'Settings') {
+			$data['users'] = $this->M_data->find('users', $where);
+		} else {
+			$data = '';
+		}
+		
+		$this->load->view('admin/nav'.$nav, $data);
 	}
 
 	function formJurusan()
@@ -44,6 +53,7 @@ class Admin extends CI_Controller {
 
 	function formKonsentrasi()
 	{
+		$data['result'] = 'Data Jurusannya Dimasukan Dulu Oh, min :(';
 		$data['jurusan'] = $this->M_data->find('jurusan');
 		$where = array('Status' => 'Dosen');
 		$data['users'] = $this->M_data->find('users', $where);
@@ -60,6 +70,8 @@ class Admin extends CI_Controller {
 
 	function formDosen()
 	{
+
+		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
 		$this->load->view('admin/formDosen', $data);
 	}
@@ -74,9 +86,20 @@ class Admin extends CI_Controller {
 	{
 		$where = array('IDJurusanKsn' => $id);
 		
-		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', '', '', 'users', 'users.ID = konsentrasi.IDDosen');
+		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', 'users', 'users.ID = konsentrasi.IDDosen');
 		
-		$data['users'] = $this->M_data->find('users');
+		if ($data['konsentrasi']) {
+			foreach ($data['konsentrasi']->result() as $k) {
+				$whereUsers = array(
+					'IDKonsentrasiUser' => $k->IDKonsentrasi
+				);
+			}
+			$data['users'] = $this->M_data->find('users', $whereUsers);
+		} else {
+			$data['users'] = 'Tidak Ditemukan Konsentrasi';
+		}
+		
+		
 		$this->load->view('admin/tabelKonsentrasiAdmin', $data);
 	}
 
@@ -111,9 +134,14 @@ class Admin extends CI_Controller {
 		if(!empty($sortBy)){
 			$conditions['search']['sortBy'] = $sortBy;
 		}
+		if ($user != 'Daftar') {
+			$conditions['start'] = $offset;
+			$conditions['limit'] = $this->perPage;
+		} else {
+			$conditions['start'] = '';
+			$conditions['limit'] = '';
+		}
 		
-		$conditions['start'] = $offset;
-		$conditions['limit'] = $this->perPage;
 
 		if ($user === 'Mahasiswa') {
 			$where = "(Status='Mahasiswa' OR Status='Skripsi')";
@@ -121,18 +149,21 @@ class Admin extends CI_Controller {
 			$where['Status'] = $user;
 		}
 
-		$data['users'] = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser', '', '', $conditions, $search);
+		$data['users'] = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser', '', '', $conditions, $search);
 
-		$total = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+		$total = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 
-		$totalRec = $total->num_rows();
+		$totalRec = $total != FALSE ? $total->num_rows() : 0;
+
 
 		$config['target']      = '#tabelUsers';
 		$config['base_url']    = base_url().'Admin/tabelNavigasi/'.$page.'/'.$user;
 		$config['total_rows']  = $totalRec;
 		$config['per_page']    = $this->perPage;
 		$config['link_func']   = 'search'.$user;
-		$this->ajax_pagination->initialize($config);
+		
+		$user === 'Daftar' ? '' : $this->ajax_pagination->initialize($config);
+		$data['status'] = $user;
 
 		$this->load->view('admin/tabelUsers', $data, false);
 	}
@@ -148,12 +179,6 @@ class Admin extends CI_Controller {
 		}
 	}
 
-	function delete_jurusan($id)
-	{
-		$where = array('IDJurusan' => $id);
-		$this->M_data->delete($where, 'jurusan');
-	}
-
 	function saveJurusan()
 	{
 		$data['IDJurusan'] = $this->input->post('id_jurusan');
@@ -164,10 +189,11 @@ class Admin extends CI_Controller {
 
 	function saveKonsentrasi()
 	{
+		$prodi = $this->input->post('prodi');
 		$data['IDKonsentrasi'] = $this->input->post('id');
 		$data['konsentrasi'] = $this->input->post('konsentrasi');
 		$data['IDJurusanKsn'] = $this->input->post('id_jurusan');
-		$data['IDDosen'] = $this->input->post('prodi');
+		$data['IDDosen'] = $prodi === NULL ? '' : $prodi;
 		$this->M_data->save($data, 'konsentrasi');
 	}
 
@@ -181,6 +207,19 @@ class Admin extends CI_Controller {
 
 		return $this->email->send();
 
+	}
+
+	private function imageProses($path)
+	{
+		$config['image_library'] = 'gd2';
+		$config['source_image'] = './assets/images/User/'.$path;
+		$config['create_thumb'] = FALSE;
+		$config['maintain_ratio'] = TRUE;
+		$config['width']         = 300;
+		$config['height']       = 300;
+
+		$this->load->library('image_lib', $config);
+		return $this->image_lib->resize();
 	}
 
 	function saveDosen() // Menyimpan Form Dosen
@@ -197,6 +236,7 @@ class Admin extends CI_Controller {
 		$config['upload_path'] = './assets/images/User/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$config['file_name']	= $filename;
+
 
 		$this->load->library('upload', $config);
 
@@ -221,6 +261,10 @@ class Admin extends CI_Controller {
 					'Status' => 'Dosen'
 				);
 
+				if ($foto) {
+					$this->imageProses($foto['file_name']);
+				}
+
 				$this->M_data->save($data, 'users');
 				echo 1;
 
@@ -236,7 +280,7 @@ class Admin extends CI_Controller {
 
 	function acceptDaftar($ID, $disetujui)
 	{
-		if ($disetujui) {
+		if ($disetujui === true) {
 
 			$where = array('ID' => $ID);
 			$users = $this->M_data->find('users', $where);
@@ -244,12 +288,15 @@ class Admin extends CI_Controller {
 			$result = $users->row();
 
 			$password = random_string('alnum', 8);
-			
+
 			if ($this->sendEmail($result->Email, $result->Nama, $password)) {
 
-				$data['Password'] = $password;
+
+				$data['Password'] = md5($password);
 				$data['Status'] = 'Mahasiswa';
 				$this->M_data->update('ID', $ID, 'users', $data);
+
+				$this->imageProses($result->Foto);
 
 			} else {
 
@@ -280,11 +327,15 @@ class Admin extends CI_Controller {
 		);
 		$data = $this->M_data->find('users', $where);
 
-		$lists ="<option value=''> Pilih Kaprodi </option>";
-
-		foreach ($data->result() as $d) {
-			$lists .= "<option value='".$d->ID."'>".$d->Nama."</option>";
+		if ($data) {
+			$lists ="<option value=''> Pilih Kaprodi </option>";
+			foreach ($data->result() as $d) {
+				$lists .= "<option value='".$d->ID."'>".$d->Nama."</option>";
+			}
+		} else {
+			$lists = "<option value=''>Dosen Tidak Ada </option>";
 		}
+
 		$callback = array('list' => $lists);
 		echo json_encode($callback);
 	}
@@ -299,7 +350,7 @@ class Admin extends CI_Controller {
 		} else {
 			echo 1;
 		}
-		
+
 	}
 
 	function update(){

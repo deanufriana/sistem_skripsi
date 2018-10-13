@@ -43,11 +43,12 @@
 				
 				<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 					<div class="row">
-						<div>
-							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
+						<div class="col-md-auto">
+							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
 						<div class="col-md col text-right">
-							<h5 class="nav-link"> BERANDA </h5>
+							<h5> BERANDA </h5>
+							Navigasi Ini Merupakan Halaman Dimana Kamu Selaku Admin Dapat Menambahkan Jurusan & Konsentrasi Sekaligus Menetapkan Kaprodi Di Setiap Konsentrasi, ya min.	
 						</div>
 					</div>
 					<hr>
@@ -71,7 +72,6 @@
 
 								</div>									
 							</div>
-
 						</div>
 						<div id="tabelJurusanAdmin">
 
@@ -81,8 +81,8 @@
 
 				<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
 					<div class="row">
-						<div class="float-left">
-							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
+						<div class="col-md-auto">
+							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
 						<div class="col col-md">
 							<h5 class="text-right nav-link"> PENGATURAN </h5>
@@ -96,12 +96,16 @@
 				<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 					<div class="row">
 
-						<div class="float-left">
-							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
+						<div class="col-md-auto">
+							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md col text-right">
-							<h5 class="nav-link"> DATA MAHASISWA </h5>
+						<div class="col-md text-right">
+							<h5> MAHASISWA </h5>
 						</div>
+						
+					</div>
+					<div class="text-justify">
+						Di halaman ini kamu bisa melihat semua daftar mahasiswa ya min, selain itu kamu juga bisa mengubah status skripsi mahasiswa menjadi skripsi agar mahasiswa bisa mengajukan ide skripsi oh ya saat kamu mengacc data pendaftar secara otomatis password akan di kirimkan lewat email, min.	
 					</div>
 					<hr>
 					<div id="nav_mhs">
@@ -111,19 +115,21 @@
 
 				<div class="tab-pane fade" id="v-pills-dosen" role="tabpanel" aria-labelledby="v-pills-dosen-tab">
 					<div class="row">
-						<div class="float-left">
-							<a class="nav-link btn-menu" href="#"><i class="fas fa-bars"></i></a>	
+
+						<div class="col-md-auto">
+							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md col text-right">
-							<h5 class="nav-link"> DATA DOSEN </h5>
+						<div class="col-md text-right">
+							<h5> DOSEN </h5>
 						</div>
+						
+					</div>
+					<div class="text-justify">
+						Di halaman ini kamu bisa melihat semua daftar dosen. kamu juga bisa menambahkan daftar dosen dengan menggunakan form yang ada di masukan dosen. dan seperti biasa password akan di kirimkan melalui email ya, min.	
 					</div>
 					<hr>
-					<div id="nav_dsn">
-
-					</div> 
+					<div id='nav_dsn'></div>
 				</div>
-
 			</div>
 		</div>
 	</div>

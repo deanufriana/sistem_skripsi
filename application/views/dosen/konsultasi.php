@@ -1,3 +1,17 @@
+<?php if ($konsultasi) {?>
+	<div class="card card-outline-secondary">
+		<div class="row align-items-center m-5">
+			<div class="col-md mb-5">
+				<h2>Belum Ada Catatan Bimbingan</h2>
+				Catatan bimbingan belum di isi oleh pembimbing, jika anda pembimbing silahkan isi catatan bimbingan mahasiswa ini dengan memasukan form catatan di atas. tanggal bimbingan akan secara otomatis masuk saat anda memasukan catatan saat itu juga.
+			</div>
+			<div class="col-md-auto">
+				<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+			</div>
+		</div>
+
+	</div>
+<?php } else { ?>
 <table class="table small">
 	<thead>
 		<tr>
@@ -22,3 +36,4 @@
 		<?php } ?>
 	</tbody>
 </table>
+<?php } ?>

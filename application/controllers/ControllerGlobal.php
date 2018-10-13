@@ -2,24 +2,27 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ControllerGlobal extends CI_Controller {
-
-	function index()
+	public function __construct()
 	{
-		
+		parent::__construct();
+		$status = $this->session->userdata('Status');
+		if (!(($status == "Mahasiswa") OR ($status == "Skripsi") OR ($status == "Dosen"))) {
+			redirect(base_url("Home"));
+		}
 	}
 
 	function myProfil()
 	{
 		$where = array('ID' => $this->session->userdata('ID'));
-		$data['users'] = $this->M_data->find('users', $where, '', '', '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
-		$this->load->view('global/myProfil', $data);
+		$data['users'] = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+		$this->load->view('template/myProfil', $data);
 	}
 
 	function notifikasi()
 	{
 		$where = array('IDPenerima' => $this->session->userdata('ID'));
-		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $where, '', '', '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
-		$this->load->view('global/notifikasi', $data);
+		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $where,  '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+		$this->load->view('template/notifikasi', $data);
 	}
 
 	function ubahPassword($id, $user)
