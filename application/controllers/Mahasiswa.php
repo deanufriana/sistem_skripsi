@@ -16,6 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Mahasiswa extends CI_Controller {
 
+	
 	function __construct()
 	{
 		parent::__construct();
@@ -71,7 +72,7 @@ class Mahasiswa extends CI_Controller {
 		$this->load->view('mahasiswa/ideSkripsi', $data);
 	}
 
-	function konsultasi()
+	function mySkripsi()
 	{
 		$whereSK = array('IDMahasiswaSkripsi' => $_SESSION['ID']);
 		$data['skripsi'] = $this->M_data->find('skripsi', $whereSK, '', '', 'users', 'users.ID = skripsi.IDSkripsi');
@@ -95,6 +96,7 @@ class Mahasiswa extends CI_Controller {
 			$wherePmb = array('IDSkripsiPmb' => $m->IDSkripsi);
 			$data['pembimbing'] = $this->M_data->find('pembimbing',$wherePmb, '', '', 'users' ,'users.ID = pembimbing.IDDosenPmb');
 		}
+
 		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('mahasiswa/mySkripsi', $data);
 	}
@@ -126,9 +128,21 @@ class Mahasiswa extends CI_Controller {
 			
 			$file = $this->upload->data();
 			$data = array('File'.$sesi =>  $file['file_name']);
+			if (!$this->M_data->update('IDSkripsi', $ID, 'skripsi', $data)) {
+				
+				$notif = array(
+					'head' => "File ".$sesi." Berhasil di Upload",
+					'isi' => "Silahkan minta dosen untuk cek proposal anda",
+					'ID' => "mySkripsi",
+					'func' => "/Mahasiswa/mySkripsi"
 
-			$this->M_data->update('IDSkripsi', $ID, 'skripsi', $data);
-			echo "File ".$sesi." Berhasil di Upload";
+				);
+			} else {
+				$notif = array(
+					'head' => "File ".$sesi." Tidak Berhasil di Upload",
+					'isi' => "Maaf Terjadi Kesahalah Teknis");
+			}
+			echo json_encode($notif);
 		}
 	}
 

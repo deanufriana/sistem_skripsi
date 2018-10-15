@@ -8,7 +8,7 @@
  */
 class Ajax_pagination{
 
-    var $base_url        = ''; // The page we are linking to
+        var $base_url        = ''; // The page we are linking to
     var $total_rows      = ''; // Total number of items (database results)
     var $per_page        = 1; // Max number of items you want shown per page
     var $num_links       =  2; // Number of "digit" links to show before/after the currently viewed page
@@ -18,20 +18,20 @@ class Ajax_pagination{
     var $prev_link       = '&laquo;';
     var $last_link       = false;
     var $uri_segment     = 3;
-    var $full_tag_open   = "<ul class='pagination'>";
-    var $full_tag_close  = '</ul>';
-    var $first_tag_open  = '<li>';
+    var $full_tag_open   = '<div class="pagging text-center"><nav><ul class="pagination">';
+    var $full_tag_close  = '</ul></nav></div>';
+    var $first_tag_open  = '<li class="page-item">';
     var $first_tag_close = '</li>';
-    var $last_tag_open   = '<li>';
+    var $last_tag_open   = '<li class="page-item">;';
     var $last_tag_close  = '</li>';
-    var $cur_tag_open    = "<li class='disabled'><li class='active'><a href='#'>";
-    var $cur_tag_close   = "<span class='sr-only'></span></a></li>";
-    var $next_tag_open   = '<li>';
-    var $next_tag_close  = '</li>';
-    var $prev_tag_open   = '<li>';
-    var $prev_tag_close  = '</li>';
-    var $num_tag_open    = '<li>';
-    var $num_tag_close   = '</li>';
+    var $cur_tag_open    = '<li class="page-item active"><span class="page-link">';
+    var $cur_tag_close   = '<span class="sr-only">(current)</span></span></li>';
+    var $next_tag_open   = '<li class="page-item"><span class="page-link">';
+    var $next_tag_close  = '<span aria-hidden="true">&raquo;</span></span></li>';
+    var $prev_tag_open   = '<li class="page-item"><span class="page-link">';
+    var $prev_tag_close  = '</span></li>';
+    var $num_tag_open    = '<li class="page-item"><span class="page-link">';
+    var $num_tag_close   = '</span></li>';
     var $target          = '';
     var $anchor_class    = '';
     var $show_count      = false;
@@ -79,14 +79,14 @@ class Ajax_pagination{
     function create_links(){
         // If our item count or per-page total is zero there is no need to continue.
         if ($this->total_rows == 0 OR $this->per_page == 0){
-         return '';
-     }
+           return '';
+       }
 
         // Calculate the total number of pages
-     $num_pages = ceil($this->total_rows / $this->per_page);
+       $num_pages = ceil($this->total_rows / $this->per_page);
 
         // Is there only one page? Hm... nothing more to do here then.
-     if ($num_pages == 1){
+       if ($num_pages == 1){
         $info = '';
         return $info;
     }

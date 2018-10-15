@@ -53,7 +53,9 @@ class M_data extends CI_Model {
 	}
 
 	function save($data,$table){
-		$this->db->insert($table, $data);
+		if ($this->db->insert($table, $data)) {
+			return true;
+		}
 	}
 
 	function update($field, $value, $table, $data)

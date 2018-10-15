@@ -14,13 +14,13 @@
 				$('.loading').show();
 			},
 			success: function (html) {
-				$('#tabel_Dosen_admin').html(html);
+				$('#tabelDosen').html(html);
 				$('.loading').fadeOut("slow");
 			}
 		});
 	}
 	$("#form_dosen").load('<?= base_url('admin/formDosen'); ?>');
-	$("#tabel_Dosen_admin").load('<?= base_url('admin/tabelNavigasi/0/Dosen'); ?>');
+	$("#tabelDosen").load('<?= base_url('admin/tabelNavigasi/0/Dosen'); ?>');
 
 </script>
 
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 		<?php } ?>
-		<div class="tabel table-responsive" id="tabel_Dosen_admin" nama="dosen" >
+		<div class="tabel table-responsive" id="tabelDosen" nama="dosen" >
 
 		</div>
 	</div>

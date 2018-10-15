@@ -19,42 +19,6 @@
 					},
 				});
 			});
-
-			$(".formSimpan").on('submit',
-				function(e) {
-					e.preventDefault();
-					var form = $(this);
-					var formdata = false;
-
-					if (window.FormData) {
-						formdata = new FormData(form[0]);
-					}
-
-					var formAction = form.attr('action');
-					var users = form.attr('id');
-
-					$.ajax({
-						type: 'POST',
-						url: formAction,
-						data: formdata ? formdata: form.serialize(),
-						contentType: false,
-						processData: false,
-						cache: false,
-						beforeSend: function() {
-							$('#loading').fadeIn();
-						},
-						success: function(result) {
-							if (result == 1) {
-								swal(users + " Berhasil Di Tambahkan", "Pesan Password Telah Terkirim Ke Email "+users, "success");
-								$('#tabel_'+users+'_admin').load('<?php echo base_url('Admin/navigasiUsers/0/');?>'+users);	
-								$('#loading').fadeOut();
-							} else {
-								swal("Dosen Tidak Berhasil Ditambahkan", result, "error");	
-								$('#loading').fadeOut();
-							}
-						}
-					});
-				});
 		}); 
 
 		function readUrl(input) {

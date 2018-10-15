@@ -31,6 +31,8 @@ class Home extends CI_Controller {
 	{
 		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
+
+		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('formDaftar', $data);
 	}
 
@@ -69,7 +71,11 @@ class Home extends CI_Controller {
 		if ( ! $this->upload->do_upload('foto'))
 		{
 			$error = array('error' => $this->upload->display_errors());
-			echo 0;
+			$notif = array(
+				'head' => "Maaf Terjadi Kesalahan",
+				'isi' => "Terjadi Kesalahan Saat Mengupload Gambar",
+				'sukses' => 0
+			);
 
 		}
 		else {
@@ -87,8 +93,15 @@ class Home extends CI_Controller {
 				'Status' => 'Daftar'
 			);
 			$this->M_data->save($data, 'users');
-			echo 1;
+			$notif = array(
+				'head' => "Pendaftaran Berhasil",
+				'isi' => "Mohon Tunggu Validasi Dari Universitas",
+				'user' => "Daftar",
+				'func' => "Home/daftarMahasiswa",
+				'sukses' => 1
+			);
 		}
+		echo json_encode($notif);
 
 	}
 
@@ -140,7 +153,7 @@ class Home extends CI_Controller {
 					'id_admin' => $b->id_admin,
 					'username' => $b->username,
 					'password' => $b->Password,
-					'status' => 'Admin',
+					'Status' => 'Admin',
 				);
 
 				$this->session->set_userdata($data);

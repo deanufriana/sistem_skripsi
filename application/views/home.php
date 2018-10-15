@@ -17,7 +17,7 @@
 
 		$(document).ready(function(){
 
-			$('#formDaftar').load('<?= base_url('Home/formDaftar');?>');
+			$('#tabelformDaftar').load('<?= base_url('Home/formDaftar');?>');
 
 			$(function() {
 				$("#login").click(function() {
@@ -26,7 +26,7 @@
 			})
 
 			$("#Daftar").on('click', function() {
-				$('#formDaftar').toggle('fast');
+				$('#tabelformDaftar').toggle('fast');
 				$('#informasi').toggle('fast');
 			});
 
@@ -226,7 +226,7 @@
 							</div>
 						</div>
 					</form>   
-					<div id="formDaftar" style="display: none;">
+					<div id="tabelformDaftar" style="display: none;">
 					</div>
 					<div id="log" style="display: none;">
 						<small class="form-text text-muted" id="text-login"> Sudah Punya Akun? Silahkan <a href="#" class="daftar text-primary"> Login </a>  

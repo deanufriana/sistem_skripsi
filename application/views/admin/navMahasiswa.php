@@ -15,13 +15,13 @@
 				$('.loading').show();
 			},
 			success: function (html) {
-				$('#tabel_mahasiswa_admin').html(html);
+				$('#tabelMahasiswa').html(html);
 				$('.loading').fadeOut("slow");
 			}
 		});
 	}
 
-	$("#tabel_mahasiswa_admin").load('<?= base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
+	$("#tabelMahasiswa").load('<?= base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
 
 	$("#dataPendaftar").on('click', function() {
 		$("#tabel_daftar_admin").load('<?= base_url('admin/tabelNavigasi/0/Daftar'); ?>');
@@ -40,7 +40,7 @@
 
 <hr>
 
-<div class="tab-content" id="">
+<div class="tab-content">
 	<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 	<?php if ($users) { ?>
 			<div class="form-row">
@@ -66,7 +66,7 @@
 			</div>
 			
 		<?php	} ?>
-		<div class="tabel table-responsive" id="tabel_mahasiswa_admin" nama="mahasiswa">
+		<div class="tabel table-responsive" id="tabelMahasiswa" nama="mahasiswa">
 		</div>
 	</div>		
 

@@ -17,16 +17,32 @@
 					cache:false,
 					contentType:false,
 					processData:false,
+					dataType: 'json',
 					data: formdata ? formdata: form.serialize(),
-					success: function (result, status) {
-						if (result) {
-							swal(result, '', status);
-						} else {
-							swal('Terjadi Kesalahan', 'Mohon Maaf Untuk Saat Ini Ada Kesalahan Dalam Sistem Coba Lagi Nanti', 'error');
+					beforeSend: function () {
+						$('.loading').fadeIn();
+					},
+					success: function (result) {
+						swal(result.head, result.isi);
+
+						if (result.sukses != 0) {
+							$('#tabel'+result.ID).load('<?= base_url('')?>'+result.func);
 						}
+
+						$(".loading").fadeOut();
+
 					}
 				})
 
 			});
 		</script>
 	</head>
+	<div class="modal-body">
+		<div id="loading" class="modal loading" style="display:none;">
+			<div class="modal-dialog modal-dialog-centered ">
+				<div class="alert alert-info alert-white rounded modal-content">
+					<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
+				</div>
+			</div>
+		</div>
+	</div>

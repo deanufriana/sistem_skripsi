@@ -3,8 +3,8 @@
 		$(document).ready(function(){
 			$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ideSkripsi');?>');
 			$('#form_ide').load('<?php echo base_url('Mahasiswa/form_ide');?>');
-			$('#navSkripsi').click(function(event) {
-				$('#konsultasi').load('<?php echo base_url('Mahasiswa/konsultasi');?>');
+			$('#navSkripsi').click(function() {
+				$('#tabelMySkripsi').load('<?php echo base_url('Mahasiswa/mySkripsi');?>');
 			});
 			$('#myprofil').load('<?php echo base_url('controllerGlobal/myProfil');?>');
 			$('#Pemberitahuan').load('<?php echo base_url('controllerGlobal/notifikasi');?>');
@@ -74,7 +74,7 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-							<div class="mb-3 card" id="konsultasi">
+							<div class="mb-3 card" id="tabelMySkripsi">
 							</div>
 						</div>		
 					</div>

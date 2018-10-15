@@ -18,40 +18,8 @@
 					},
 				});
 			});
-
-
-			$("#menDaftar").on('submit',
-				function(e) {
-					e.preventDefault();
-					var form = $(this);
-					var formdata = false;
-					if (window.FormData) {
-						formdata = new FormData(form[0]);
-					}
-
-					var formAction = form.attr('action');
-
-					$.ajax({
-						type: 'POST',
-						url: formAction,
-						data: formdata ? formdata: form.serialize(),
-						contentType: false,
-						processData: false,
-						cache: false,
-						success: function(result) {
-							if (result != 0) {
-								swal("Pendaftaran Berhasil!", "Tunggu Validasi Dari Universitas y Untuk Bisa Login", "success");
-								setTimeout(function() {
-									location.reload()
-								}, 10000);
-							} else {
-								swal("Pendaftaran Gagal!", "Mohon Maaf. Kayana ada yang salah, mohon coba lagi nanti ya.", "error");
-							}
-							
-						}
-					});
-				});
 		});
+
 
 		function readUrl(input) {
 			if (input.files && input.files[0]) {
@@ -71,13 +39,13 @@
 </head>
 <body>
 	<?php if ($konsentrasi) { ?>
-		<form method="post" id="menDaftar" action="<?php echo base_url('Home/daftarMahasiswa');?>" enctype="multipart/form-data">
+		<form method="post" id="tabelDaftar" action="<?php echo base_url('Home/daftarMahasiswa');?>" enctype="multipart/form-data">
 			<div class="row">
-				
+
 				<div class="col-md-2">
 					<img class="card-img-top" id="blah" src="<?= base_url('assets/images/fix/user.png');?>">	
 				</div>
-				
+
 				<div class="col-md">
 					<h3>Selamat Datang Mahasiswa Baru.</h3>
 					Silahkan mengisi formulir pendaftaran mahasiswa dibawah ini dengan data yang valid. nanti data akan di validasi oleh Admin Password Akan dikirimkan lewat email jadi harus valid ya..
@@ -159,6 +127,6 @@
 			</div>
 		</div>
 	<?php } ?>
-	
+
 </body>
 </html>
