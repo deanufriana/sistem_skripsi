@@ -38,7 +38,7 @@ class Mahasiswa extends CI_Controller {
 		$this->load->view('template/navbar')->view('mahasiswa/home', $data);
 	}
 
-	function pengajuan()
+	function sendIde()
 	{
 		$id_ide = time(); 
 		$judul = $this->input->post('judul');
@@ -53,14 +53,28 @@ class Mahasiswa extends CI_Controller {
 		$skripsi = $this->M_data->find('skripsi', $where);
 
 		if ($skripsi) {
-			echo 1;
+			$notif = array(
+				'head' => 'Ide Skripsi Gagal Diajukan!',
+				'isi' => 'Judul Skripsi Yang Sama Sudah Pernah Ada',
+				'sukses' => 0
+			);
 		} else {
+			$notif = array(
+				'head' => 'Ide Skripsi Berhasil Diajukan!',
+				'isi' => 'Silahkan Tunggu Validasi Dari Kaprodi',
+				'ID' => 'ideSkripsi',
+				'func' => 'Mahasiswa/ideSkripsi',
+				'sukses' => 1
+			);
 			$this->M_data->save($ide, 'ideskripsi');
 		}
+
+		echo json_encode($notif);
 	}
 
 	function form_ide()
 	{
+		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('mahasiswa/formIde');
 	}
 

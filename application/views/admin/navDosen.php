@@ -19,6 +19,7 @@
 			}
 		});
 	}
+	
 	$("#form_dosen").load('<?= base_url('admin/formDosen'); ?>');
 	$("#tabelDosen").load('<?= base_url('admin/tabelNavigasi/0/Dosen'); ?>');
 

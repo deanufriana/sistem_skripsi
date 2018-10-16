@@ -1,32 +1,6 @@
 <head>
   <script type="text/javascript">
     $(document).ready(function(){
-      $("#save_konsentrasi").on('submit',
-        function(e) {
-          e.preventDefault();
-          var form = $(this);
-          var formdata = false;
-
-          if (window.FormData) {
-            formdata = new FormData(form[0]);
-          }
-
-          var formAction = form.attr('action');
-
-          $.ajax({
-            type: 'POST',
-            url: formAction,
-            data: formdata ? formdata: form.serialize(),
-            contentType: false,
-            processData: false,
-            cache: false,
-            success: function() {
-              swal("", "Konsentrasi Jurusan Berhasil Ditambahkan!", "success")
-              $('#tabelJurusanAdmin').load('<?= base_url('Admin/tabelJrsnAdmin');?>');
-            }
-          });
-        });
-
       $("#jrsn").change(function(){ 
         $("#prodi").hide();
         $.ajax({
@@ -41,12 +15,12 @@
           },
         });
       });
-
     });
   </script>
 </head>
+
 <?php if ($jurusan) { ?>
-  <form id="save_konsentrasi" action="<?= base_url('Admin/saveKonsentrasi');?>" method="post">
+  <form action="<?= base_url('Admin/saveKonsentrasi');?>" method="post">
     <div class="form-row align-items-center">
       <div class="col-md  mb-4">
         <label class="sr-only" for="inlineFormInput">ID Konsentrasi</label>

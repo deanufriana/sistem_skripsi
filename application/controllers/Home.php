@@ -32,8 +32,9 @@ class Home extends CI_Controller {
 		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
 
-		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('formDaftar', $data);
+		$this->load->view('template/jquery/formSubmit');
+		
 	}
 
 	function filterKonsentrasi(){
@@ -41,10 +42,14 @@ class Home extends CI_Controller {
 		$IDJurusan = $this->input->post('IDJurusan');
 		$where = array('IDJurusanKsn' => $IDJurusan );
 		$data = $this->M_data->find('konsentrasi', $where);
-		$lists = "<option value=''>Pilih</option>";
-
-		foreach($data->result() as $u){
-			$lists .= "<option value='".$u->IDKonsentrasi."'>".$u->Konsentrasi."</option>"; 
+		
+		if ($data) {
+			$lists = "<option value=''>Pilih</option>";
+			foreach($data->result() as $u){
+				$lists .= "<option value='".$u->IDKonsentrasi."'>".$u->Konsentrasi."</option>"; 
+			}
+		} else {
+			$lists = "<option disabled> Belum Ada Konsentrasi </option>";
 		}
 
 		$callback = array('list'=> $lists); 

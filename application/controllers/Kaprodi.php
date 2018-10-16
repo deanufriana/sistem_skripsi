@@ -25,7 +25,7 @@ class Kaprodi extends CI_Controller {
     }
 
     $this->load->library('Ajax_pagination');
-    $this->perPage = 3;
+    $this->perPage = 5;
   }
 
   function index()
@@ -145,7 +145,7 @@ function acceptSkripsi($idSkripsi, $sta)
     $nama = $d->Nama;
   }
 
-  if ($sta === true) {
+  if ($sta != null) {
 
     $this->load->library('ciqrcode');
 

@@ -128,16 +128,17 @@ class Dosen extends CI_Controller {
 
 			$wherepmb = array(
 				'IDSkripsiPmb' => $s->IDSkripsi,
-				'IDDosenPmb' => $_SESSION['ID'],
+				'IDDosenPmb' => $_SESSION['ID']
 			);
 
 			$data['pembimbing'] = $this->M_data->find('pembimbing', $wherepmb);
+			if ($data['pembimbing']) {
+				foreach ($data['pembimbing']->result() as $p) {
+					$whereProp = array('StatusProposal' => $p->StatusProposal);
 
-			foreach ($data['pembimbing']->result() as $p) {
-				$whereProp = array('StatusProposal' => $p->StatusProposal);
+					$data['proposal'] =  $this->M_data->find('pembimbing', $whereProp);
 
-				$data['proposal'] =  $this->M_data->find('pembimbing', $whereProp);
-
+				}
 			}
 
 		}

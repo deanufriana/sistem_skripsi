@@ -1,14 +1,16 @@
+<?php if ($ide_skripsi) { ?>
+	<div style="height: 30rem" class="scroll">
+		<?php foreach ($ide_skripsi->result() as $u) {	?>
 
-<?php if ($ide_skripsi) {
-	foreach ($ide_skripsi->result() as $u) {	?>
-		<div>
 			<h6 class="card-title"> <i class="fas fa-book fa-xs"></i> <?php echo $u->JudulIde;?></h6>
 			<h6 class="card-subtitle mb-2 text-muted"><i class="fas fa-calendar-alt fa-xs"></i> <?php echo $u->TanggalIde;?></h6>
-		</div>
-		<p class="card-text text-justify"><?php echo $u->DeskripsiIde;?></p>
-		<hr>
-	<?php } 
-} else { ?>
+
+			<p class="card-text text-justify"><?php echo $u->DeskripsiIde;?></p>
+			<hr>
+
+		<?php } ?>
+	</div> 
+<?php } else { ?>
 	<div class='row align-items-center'>
 		<div class='col-md'>
 			<h2>Ide Skripsi Tidak Ditemukan</h2>

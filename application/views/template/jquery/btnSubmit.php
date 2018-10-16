@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$("button.acc").click(function(e) {
+		$(":button").click(function(e) {
 			e.preventDefault();
 			var btn = $(this);
 			var btndata = false;
@@ -20,14 +20,14 @@
 				processData: false,
 				cache: false,
 				beforeSend: function () {
-					$('#loading').fadein();
+					$('.loading').fadeIn();
 				},
 				success: function(result) {
 					$(".tabel"+id).fadeOut('slow');
-					$('#loading').fadeOut('fast');
-					$("#tabel_mahasiswa_admin").load('<?= base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
+					$("#tabelMahasiswa").load('<?= base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
 					$("#tabel_daftar_admin").load('<?= base_url('admin/tabelNavigasi/0/Daftar'); ?>');
 					swal(result);
+					$('.loading').fadeOut('fast');
 
 				}
 			})
@@ -36,7 +36,7 @@
 	});
 </script>
 <div class="modal-body">
-	<div id="loading" class="modal" style="display:none;">
+	<div class="modal loading" style="display:none;">
 		<div class="modal-dialog modal-dialog-centered ">
 			<div class="alert alert-info alert-white rounded modal-content">
 				<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>

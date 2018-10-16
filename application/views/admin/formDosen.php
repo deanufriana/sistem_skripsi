@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#form_dsn_jrsn").change(function(){ 
@@ -36,16 +35,6 @@
 		});
 	</script>
 </head>
-<div class="modal-body">
-	<div id="loading" class="modal" style="display:none;">
-		<div class="modal-dialog modal-dialog-centered ">
-			<div class="alert alert-info alert-white rounded modal-content">
-				<strong> <i class="fas fa-spinner fa-pulse"> </i> Sedang Memproses </strong>
-			</div>
-		</div>
-	</div>
-</div>
-
 <?php if (!$konsentrasi) { ?>
 	<div class='container-fluid mt-5'>
 		<div class='row align-items-center'>
@@ -126,7 +115,12 @@
 							</div>
 						</div>
 						<div class="form-group col-md">
-							<button class="btn btn-primary" type="submit" id="daftar"> Simpan </button>					
+							<button class="btn btn-primary" type="submit" id="daftar"> Simpan </button>	
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="alert alert-info">
+							Setelah Memasukan Data Maka Secara Otomatis Password Akan di Kirim Melalui Email yang telah dimasukan Jadi Pastikan Email Sudah Benar Benar Tervalidasi
 						</div>
 					</div>
 				</div>

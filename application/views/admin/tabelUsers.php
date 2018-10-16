@@ -1,8 +1,5 @@
 <head>
 	<script type="text/javascript">
-
-		
-
 		$(function(){
 			$(".a-href").click(function(e) {
 				e.preventDefault();
@@ -14,9 +11,10 @@
 					formdata = new FormData(form[0]);
 				}	
 				swal({
-					text: "ini akan mengubah status mahasiswa menjadi skripsi? setujui?",
+					title: "Memasuki Proses Skripsi ?",
+					text: "Mahasiswa Akan Mengakses Semua Fitur Untuk Skripsi, Pastikan Semua Persyaratan Telah Terpenuhi Sebelum Mengubah Status",
 					icon: "warning",
-					buttons: ["Tidak ?", "Ya?"],
+					buttons: ["Tidak", "Ya"],
 				})
 				.then((willDelete) => {
 					if (willDelete) {
@@ -29,8 +27,8 @@
 							cache: false,
 							success: function(result) {
 								if (result === '1') {
-									swal('Status Mahasiswa Berubah');
-									$("#tabel_mahasiswa_admin").load('<?php echo base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
+									swal('Perubahan Berhasil !', 'Proses Skripsi Sedang Berjalan');
+									$("#tabelMahasiswa").load('<?php echo base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
 								} else {
 									swal({
 										text: 'Maaf Terjadi Kesalahan Saat Mengubah Data',
@@ -40,7 +38,7 @@
 							}
 						});
 					} else {
-						swal("Tidak Ada Perubahan");
+						swal("Perubahah Status Mahasiswa Dibatalkan");
 					}
 				});
 			});
@@ -75,9 +73,9 @@
 
 					<td><?php if ($m->Status === 'Daftar') { ?>
 
-						<button acc='true' id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class=" acc btn-action btn-sm btn btn-outline-success"><i class="fas fa-check"></i> </button> 
+						<button acc='true' type="button" id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class=" acc btn-action btn-sm btn btn-outline-success"><i class="fas fa-check"></i> </button> 
 						
-						<button acc='false' id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class="acc btn-action btn-sm btn btn-outline-danger"> <i class="fas fa-window-close"></i> </button> 
+						<button type="button" acc='false' id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class="acc btn-action btn-sm btn btn-outline-danger"> <i class="fas fa-window-close"></i> </button> 
 						
 					<?php } elseif ($m->Status === 'Mahasiswa') { ?>
 						<a href="<?= base_url('Admin/statusSkripsi/'.$m->ID);?>" class="a-href" id="<?= $m->ID;?>">

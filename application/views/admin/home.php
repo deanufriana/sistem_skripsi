@@ -4,17 +4,22 @@
 
 			$("#tabelJurusanAdmin").load('<?php echo base_url('admin/tabelJrsnAdmin'); ?>');
 			$("#nav_mhs").load('<?php echo base_url('admin/navigasiUsers/Mahasiswa'); ?>');
-			$("#nav_dsn").load('<?php echo base_url('admin/navigasiUsers/Dosen'); ?>');
+
+			$("#v-pills-dosen-tab").on('click', function() {
+				$("#nav_dsn").load('<?php echo base_url('admin/navigasiUsers/Dosen'); ?>');
+			});
+			
+			
 			$("#pengaturan").load('<?php echo base_url('admin/navigasiUsers/Settings'); ?>');	
 			
-			$("#btn_jrsn").click(function(event) {
+			$("#btn_jrsn").click(function() {
 				$("#form_konsentrasi").fadeOut('slow', function() {
 					$("#form_jurusan").fadeIn('fast');			
 					$("#form_jurusan").load('<?php echo base_url('admin/formJurusan'); ?>');	
 				});
 			});
 
-			$("#btn_konsentrasi").click(function(event) {
+			$("#btn_konsentrasi").click(function() {
 				$("#form_jurusan").fadeOut('slow', function() {
 					$("#form_konsentrasi").fadeIn('fast');
 					$("#form_konsentrasi").load('<?php echo base_url('admin/formKonsentrasi'); ?>');	
@@ -30,7 +35,7 @@
 		<div class="col-xl-2 menu">
 			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 				<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-university"></i> Beranda </a> 
-				<a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false"><i class="fas fa-graduation-cap"></i> Mahasiswa</a>
+				<a class="nav-link" id="pills-mahasiswa" data-toggle="pill" href="#pills-tabel-mahasiswa" role="tab" aria-controls="pills-tabel-mahasiswa" aria-selected="false"><i class="fas fa-graduation-cap"></i> Mahasiswa</a>
 				<a class="nav-link" id="v-pills-dosen-tab" data-toggle="pill" href="#v-pills-dosen" role="tab" aria-controls="v-pills-dosen" aria-selected="false"><i class="fas fa-briefcase"></i> Dosen </a>
 				<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fas fa-wrench"></i> Pengaturan</a>
 				<br>
@@ -93,7 +98,7 @@
 					</div>
 				</div>
 				
-				<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+				<div class="tab-pane fade" id="pills-tabel-mahasiswa" role="tabpanel" aria-labelledby="pills-mahasiswa">
 					<div class="row">
 
 						<div class="col-md-auto">

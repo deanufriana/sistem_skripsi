@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		if ($this->session->userdata('Status') != "Admin") {
+		if ($this->session->userdata('status') != "Admin") {
 			redirect(base_url("Home"));
 		}
 		$this->load->library('Ajax_pagination');
@@ -73,7 +73,6 @@ class Admin extends CI_Controller {
 
 		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('admin/formDosen', $data);
 	}
 
@@ -157,7 +156,7 @@ class Admin extends CI_Controller {
 		$totalRec = $total != FALSE ? $total->num_rows() : 0;
 
 
-		$config['target']      = '#tabel'.$user;
+		$config['target']      = '#tabelUsers';
 		$config['base_url']    = base_url().'Admin/tabelNavigasi/'.$page.'/'.$user;
 		$config['total_rows']  = $totalRec;
 		$config['per_page']    = $this->perPage;
@@ -165,7 +164,7 @@ class Admin extends CI_Controller {
 		
 		$user === 'Daftar' ? '' : $this->ajax_pagination->initialize($config);
 		$data['status'] = $user;
-		$this->load->view('template/jquery/btnSubmit');
+
 		$this->load->view('admin/tabelUsers', $data, false);
 	}
 
@@ -210,42 +209,18 @@ class Admin extends CI_Controller {
 
 	}
 
-	private function imageProses()
+	private function imageProses($path)
 	{
-		$filename = "file_".time('upload');
+	
+		$config['image_library'] = 'gd2';
+		$config['source_image'] = './assets/images/User/'.$path;
+		$config['create_thumb'] = FALSE;
+		$config['maintain_ratio'] = TRUE;
+		$config['width']         = 300;
+		$config['height']       = 300;
 
-		$config['upload_path'] = './assets/images/User/';
-		$config['allowed_types'] = 'jpg|png';
-		$config['max_size']  = 0;
-		$config['file_name']	= $filename;
-
-		$this->load->library('upload', $config);
-		
-		if ( ! $this->upload->do_upload('foto')) {
-			return [
-				'status' => 'error',
-				'data' => $this->upload->display_errors(),
-			];
-		} else {
-
-			$data = $this->upload->data();
-			$resize['image_library'] = 'gd2';
-			$resize['source_image'] = './assets/images/User/'.$data['file_name'];
-			$resize['create_thumb'] = FALSE;
-			$resize['maintain_ratio'] = TRUE;
-			$resize['width']         = 300;
-			$resize['height']       = 300;
-
-			$this->load->library('image_lib', $resize);
-			$this->image_lib->resize();
-			
-			return [
-				'status' => 'sukses',
-				'data' => $this->upload->data(),
-			];
-
-		}
-
+		$this->load->library('image_lib', $config);
+		return $this->image_lib->resize();
 	}
 
 	function saveDosen() // Menyimpan Form Dosen
@@ -256,68 +231,57 @@ class Admin extends CI_Controller {
 		$email = $this->input->post('email');
 		$jurusan = $this->input->post('id_jurusan');
 		$konsentrasi = $this->input->post('konsentrasi');
-		$password = random_string('alnum', 12);
 
-		
-		$upload = $this->imageProses();
-		if ($upload['status'] === 'sukses') {
-			$foto = $upload['data'];
+		$filename = "file_".time('upload');
 
-			$data = array(
-				'ID' => $nik,
-				'Nama' => $nama,
-				'Password' => md5($password),
-				'NoHP' => $nohp,
-				'Email' => $email, 
-				'IDKonsentrasiUser' => $konsentrasi,
-				'IDJurusanUser' => $jurusan, 
-				'Foto' => $foto['file_name'],
-				'Status' => 'Dosen'
-			);
-			if($this->M_data->save($data, 'users')){
+		$config['upload_path'] = './assets/images/User/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['file_name']	= $filename;
 
-				if ($this->sendEmail($email, $nama, $password)) {
-					$notif = array(
-						'head' => 'Berhasil Disimpan' ,
-						'isi' => 'Password Telah di Kirimkan Melalui Email Pengguna',
-						'ID' => 'Dosen',
-						'func' => 'Admin/tabelNavigasi/0/Dosen',
-						'sukses' => 1
-					);
-				} else {
-					$where = array('ID' => $nik);
-					$this->M_data->delete($where, 'users');
-					unlink('./assets/images/User/'.$foto['file_name']);
 
-					$notif = array(
-						'head' => 'Gagal Disimpan' ,
-						'isi' => 'Terjadi Kesalahan Mengirim Password Silahkan Cek Layanan Server Email Anda',
-						'sukses' => 0
-					);
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload('foto'))
+		{
+			$error = array('error' => $this->upload->display_errors());
+		} else {
+
+			$foto = $this->upload->data();
+			$password = random_string('alnum', 12);
+
+			if ($this->sendEmail($email, $nama, $password)) {
+				$data = array(
+					'ID' => $nik,
+					'Nama' => $nama,
+					'Password' => md5($password),
+					'NoHP' => $nohp,
+					'Email' => $email, 
+					'IDKonsentrasiUser' => $konsentrasi,
+					'IDJurusanUser' => $jurusan, 
+					'Foto' => $foto['file_name'],
+					'Status' => 'Dosen'
+				);
+
+				if ($foto) {
+					$this->imageProses($foto['file_name']);
 				}
 
-			} else {
-				unlink('./assets/images/User/'.$foto['file_name']);
-				$notif = array(
-					'head' => 'Gagal Disimpan' ,
-					'isi' => 'NIK Mungkin Tidak Boleh Sama Dengan Pengguna Lainnya',
-					'sukses' => 0
-				);
-			};
+				$this->M_data->save($data, 'users');
+				echo 1;
 
-		} else {
-			$notif = array(
-				'head' => 'Gagal Disimpan' ,
-				'isi' => 'Tidak Dapat Mengupload Gambar',
-				'sukses' => 0,
-			);
+			} else {
+				echo 'Terjadi Kesalahan Saat Mengirim Password Silahkan Cek Internet Anda Atau Hubungi Layanan Server';
+			}
+
 		}
-		echo json_encode($notif);
+
+
+
 	}
 
-	function acceptDaftar($ID, $disetujui)	{
-
-		if ($disetujui === 'true') {
+	function acceptDaftar($ID, $disetujui)
+	{
+		if ($disetujui === true) {
 
 			$where = array('ID' => $ID);
 			$users = $this->M_data->find('users', $where);
@@ -334,7 +298,6 @@ class Admin extends CI_Controller {
 				$this->M_data->update('ID', $ID, 'users', $data);
 
 				$this->imageProses($result->Foto);
-				echo "Berhasil";
 
 			} else {
 
@@ -344,7 +307,6 @@ class Admin extends CI_Controller {
 
 		} else {
 
-			echo "Mahasiswa DiTolak";
 			$where = array('ID' => $ID);
 			$cek = $this->M_data->find('users', $where);
 

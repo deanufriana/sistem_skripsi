@@ -2,25 +2,17 @@
 	<script type="text/javascript">
 		$(function(){
 
-			$(document).ajaxStart(function () {
-				$(".loader").css("display", "block");
-			});
-
-			$(document).ajaxComplete(function () {
-				$(".loader").css("display", "none");
-			})
-
 			$("#navIdeSkripsi").click(function() {
-				$('#ideskripsi').load('<?php echo base_url('kaprodi/ideskripsi');?>');
-
+				$('#ideskripsi').load('<?php echo base_url('kaprodi/ideSkripsi');?>');
 			});;
 			
 			$("#navKegiatan").click(function() {
 				$('#formKegiatan').load('<?php echo base_url('kaprodi/formKegiatan');?>');
 			});
 
-			$('#tabelSkripsi').load('<?php echo base_url('Dosen/tabelSkripsi');?>');
-			
+			$("#navSkripsi").click(function() {
+				$('#tabelSkripsi').load('<?php echo base_url('Dosen/tabelSkripsi');?>');
+			});
 			
 			$('#profil').load('<?php echo base_url('ControllerGlobal/myProfil');?>');
 			
@@ -85,7 +77,8 @@
 								</div>
 
 								<div class="tab-pane fade show" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
-									<div id='ideskripsi'></div>
+									<div id='ideskripsi'>
+									</div>
 								</div>
 
 								<div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
@@ -94,12 +87,16 @@
 									</div>
 								</div>
 								
-								<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-messages-list"> 									
-									<div id="formKegiatan"></div>
+								<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-messages-list"> 			
+									<div id="formKegiatan">
+										
+									</div>
 								</div>
 							</div>
 						</div>	
 					</div>
 				</div>
 			</div>
-		</body>
+		</div>
+	</div>
+</body>

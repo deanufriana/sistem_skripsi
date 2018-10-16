@@ -27,7 +27,7 @@
 		foreach ($Notifikasi->result() as $p) {
 			?>
 			<div class="tabel<?php echo $p->IDNotifikasi;?>" id="container">
-				<div class="mb-3">
+				<div>
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group mr-3" style="height: 10rem; width: 7rem">

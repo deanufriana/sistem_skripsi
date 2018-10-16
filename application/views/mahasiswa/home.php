@@ -1,7 +1,7 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('#ide_skripsi').load('<?php echo base_url('Mahasiswa/ideSkripsi');?>');
+			$('#tabelideSkripsi').load('<?php echo base_url('Mahasiswa/ideSkripsi');?>');
 			$('#form_ide').load('<?php echo base_url('Mahasiswa/form_ide');?>');
 			$('#navSkripsi').click(function() {
 				$('#tabelMySkripsi').load('<?php echo base_url('Mahasiswa/mySkripsi');?>');
@@ -67,7 +67,7 @@
 										<div class="col-md-5 mb-1" id="form_ide">
 										</div>
 
-										<div id="ide_skripsi" class="col-md">
+										<div id="tabelideSkripsi" class="col-md">
 										</div>
 									</div>
 								</div>

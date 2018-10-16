@@ -12,58 +12,65 @@
 	<script src="<?php echo base_url('assets/js/fontawesome-all.js');?>"></script> 
 	
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/bootstrap.min.css');?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/clockpicker.css');?>">
+
 	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.min.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js');?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert.min.js');?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/jquery.validate.min.js');?>"></script>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/clockpicker.js');?>"></script>
+	
 
 	<script type="text/javascript">
 
 		$("#slide").animate({width:'toggle'},350);
+		$(document).ready(function() {
+			$("#ubahPassword").on('submit', function() {
+				var form = $(this);
+				var formdata = false;
+				if (window.FormData) {
+					formdata = new FormData(form[0]);
+				}
+				var formAction = $(this).attr('action');
 
-		$("#buttonPassword").click(function(){
-			var formAction = $(".login").attr('action');
-			var datalogin = {
-				pass_lama: $(".pass_lama").val(),
-				pass_baru: $(".pass_baru").val()
-			};
+				if (!$("input").val()) {
 
-			if (!$(".pass_lama").val() || !$(".pass_baru").val()) {
-				$("#warning").show('fast').delay(2000).hide('fast');
-				return false;
-			} else {
-				$.ajax({
-					type: "POST",
-					url: formAction,
-					data: datalogin,
-					success: function(result) {
-						if(result == 1) {
-							$("#success").show('fast').delay(1000).hide('slow', function() {
-								$("#Ubah").modal('toggle');						
-							});;
+					$("#warning").show('fast').delay(2000).hide('fast');
+					return false;
+
+				} else {
+					$.ajax({
+						type: "POST",
+						url: formAction,
+						data: formdata ? formdata : form.serialize(),
+						contentType: false,
+						processData: false,
+						cache: false,
+						success: function(result) {
+							if(result == 1) {
+								$("#success").show('fast').delay(1000).hide('slow', function() {
+									$("#Ubah").modal('toggle');						
+								});;
+							}
+							else {
+								$("#failed").show('fast').delay(1000).hide('fast');
+								$('input').val('');
+								return false;
+							}
 						}
-						else {
-							$("#failed").show('fast').delay(1000).hide('fast');
-							$('#pass_lama').val('');
-							$('#pass_baru').val('');
-							return false;
-						}
-					}
-				});
-				return false;
-			}
+					});
+					return false;
+				}
+
+			});
+
 		});
-
 	</script>
-<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/myStyle.css');?>">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/myStyle.css');?>">
+
 </head>
 <div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
-				<form class="login" method="POST" action="<?= base_url('ControllerGlobal/ubahPassword/'.$_SESSION['ID'].'/users');?>">
+				<form id="ubahPassword" method="POST" action="<?= base_url('ControllerGlobal/ubahPassword/'.$_SESSION['ID'].'/users');?>">
 					<div class="content">
 						<div id="success" class="alert alert-success alert-white rounded" style="display:none;">
 							<strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>

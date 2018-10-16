@@ -1,34 +1,3 @@
-<head>
-  <script type="text/javascript">
-    $(document).ready(function(){
-      $("#fakultas").on('submit',
-        function(e) {
-          e.preventDefault();
-          var form = $(this);
-          var formdata = false;
-
-          if (window.FormData) {
-            formdata = new FormData(form[0]);
-          }
-
-          var formAction = form.attr('action');
-
-          $.ajax({
-            type: 'POST',
-            url: formAction,
-            data: formdata ? formdata: form.serialize(),
-            contentType: false,
-            processData: false,
-            cache: false,
-            success: function() {
-              swal("", "Jurusan berhasil ditambahkan", "success");
-              $("#tabelJurusanAdmin").load('<?php echo base_url('admin/tabelJrsnAdmin'); ?>');
-            }
-          });
-        });
-    });
-  </script>
-</head>
 <form method="POST" action="<?php echo base_url('Admin/saveJurusan');?>" id="fakultas">
   <div class="form-row align-items-center">
     <div class="col-md-auto">
