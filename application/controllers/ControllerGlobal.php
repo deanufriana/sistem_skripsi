@@ -6,7 +6,7 @@ class ControllerGlobal extends CI_Controller {
 	{
 		parent::__construct();
 		$status = $this->session->userdata('Status');
-		if (!(($status == "Mahasiswa") OR ($status == "Skripsi") OR ($status == "Dosen"))) {
+		if (!(($status == "Mahasiswa") OR ($status == "Skripsi") OR ($status == "Dosen") OR ($status == "Admin"))) {
 			redirect(base_url("Home"));
 		}
 	}
@@ -27,12 +27,10 @@ class ControllerGlobal extends CI_Controller {
 
 	function ubahPassword($id, $user)
 	{
-		switch ($user) {
-			case 'admin': 
+		if ($user === 'admin') {
 			$key = 'id_admin';
-			default:
+		} else {
 			$key = 'ID';
-			break;
 		}
 
 		$where = array($key => $id);

@@ -19,7 +19,7 @@ class Admin extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		if ($this->session->userdata('status') != "Admin") {
+		if ($this->session->userdata('Status') != "Admin") {
 			redirect(base_url("Home"));
 		}
 		$this->load->library('Ajax_pagination');

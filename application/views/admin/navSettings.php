@@ -19,6 +19,9 @@
           success: function(result) {
             if(result == 1) {
               $("#success").show('fast').delay(2000).hide('fast');
+              $('#username').val('');
+              $('#pass_lama').val('');
+              $('#pass_baru').val('');
             } else {
               $("#failed").show('fast').delay(2000).hide('fast');
               $('#username').val('');
@@ -36,7 +39,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">
-      <form class="mb-3" id="pass_admin" method="post" action="<?= base_url('Global/ubahPassword/'.$this->session->userdata('id_admin').'/admin');?>">
+      <form class="mb-3" id="pass_admin" method="post" action="<?= base_url('ControllerGlobal/ubahPassword/'.$this->session->userdata('id_admin').'/admin');?>">
         <div class="content">
           <div id="success" class="alert alert-success alert-white rounded" style="display:none;">
             <strong><i class="fas fa-check"></i> Password Berhasil di Ubah !</strong>

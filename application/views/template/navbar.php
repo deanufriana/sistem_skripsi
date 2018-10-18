@@ -66,7 +66,8 @@
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/myStyle.css');?>">
 
 </head>
-<div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<?php if ($_SESSION['Status'] != 'Admin') { ?>
+	<div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
@@ -102,6 +103,8 @@
 		</div>
 	</div>
 </div>
+<?php } ?>
+
 <body>
 	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border">
 		
