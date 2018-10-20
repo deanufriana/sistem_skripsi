@@ -45,7 +45,14 @@
 <?php foreach ($users->result() as $d): ?>
 	<?php $Status = $this->session->userdata('Status') == 'Skripsi' ? 'Mahasiswa' : $_SESSION['Status'];?>
 	<div class="card mb-1">
-		<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$d->Foto);?>" alt="Card Image">
+		<?php if (file_exists('assets/images/User/'.$d->Foto)) {
+			$base_url = base_url('assets/images/User/'.$d->Foto); 
+		} else {
+			$base_url = base_url('assets/images/fix/user.png');
+		} 
+		?>
+		<img class="card-img-top m-2" src="<?= $base_url;?>" alt="Maaf Gambar Tidak Ditemukan" title="Image not Found">
+
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md">

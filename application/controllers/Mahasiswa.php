@@ -126,7 +126,10 @@ class Mahasiswa extends CI_Controller {
 		$this->load->library('upload', $config);
 		
 		if ( ! $this->upload->do_upload($sesi)){
-			echo "File Tidak Bisa Di Upload Pastikan File Berbentuk PDF";
+			$notif = array(
+				'head' => "Maaf Terjadi Kesalahan Teknis",
+				'isi' => "File Tidak Bisa diUpload Pastikan File Berbentuk PDF",
+				'sukses' => 0);
 		} else {
 			$where = array('IDSkripsi' => $ID);
 			$skripsi = $this->M_data->find('skripsi', $where);
@@ -137,24 +140,27 @@ class Mahasiswa extends CI_Controller {
 					$level = $s->FileSkripsi;
 				}
 			}
-			
-			unlink('./assets/'.$sesi.'/'.$level);
-			
+			if (!empty($level)) {
+				unlink('./assets/'.$sesi.'/'.$level);
+			}
+
 			$file = $this->upload->data();
 			$data = array('File'.$sesi =>  $file['file_name']);
-			if (!$this->M_data->update('IDSkripsi', $ID, 'skripsi', $data)) {
+			if ($this->M_data->update('IDSkripsi', $ID, 'skripsi', $data)) {
 				
 				$notif = array(
 					'head' => "File ".$sesi." Berhasil di Upload",
 					'isi' => "Silahkan minta dosen untuk cek proposal anda",
-					'ID' => "mySkripsi",
-					'func' => "/Mahasiswa/mySkripsi"
+					'ID' => "MySkripsi",
+					'func' => "/Mahasiswa/mySkripsi",
+					'sukses' => 1
 
 				);
 			} else {
 				$notif = array(
 					'head' => "File ".$sesi." Tidak Berhasil di Upload",
-					'isi' => "Maaf Terjadi Kesahalah Teknis");
+					'isi' => "Maaf Terjadi Kesahalah Teknis",
+					'sukses' => 0);
 			}
 			echo json_encode($notif);
 		}

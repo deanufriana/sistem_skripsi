@@ -31,7 +31,13 @@
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group mr-3" style="height: 10rem; width: 7rem">
-								<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$p->Foto);?>" alt="Card image">
+								<?php if (file_exists('assets/images/User/'.$p->Foto)) {
+									$base_url = base_url('assets/images/User/'.$p->Foto); 
+								} else {
+									$base_url = base_url('assets/images/fix/user.png');
+								} 
+								?>
+								<img class="card-img-top" src="<?= $base_url;?>" alt="Card image">
 							</div>
 							<div class="form-group col">
 								<h5 class="card-title"> <?php echo $p->Notifikasi ?> <?php if ($p->StatusNotifikasi === 'Diterima') { ?>
