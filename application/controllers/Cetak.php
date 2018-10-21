@@ -121,24 +121,32 @@ class Cetak extends CI_Controller {
 			$pdf->Cell(30, 5, 'Judul', 0,0,'L');
 			foreach ($skripsi->result() as $s) {
 				$pdf->MultiCell(0, 5, ': '.$s->JudulSkripsi
-					, 0,'J');	
-				$pdf->Image(base_url('assets/images/QRCode/'.$s->QRCode),170,6,30);
+					, 0,'J');
+				if (file_exists('assets/images/QRCode/'.$s->QRCode)) {
+					$pdf->Image(base_url('assets/images/QRCode/'.$s->QRCode),170,6,30);
+				}
 			}
 		}
 		$pdf->ln(10);
-		$pdf->Cell(10,7,'No',1);		
-		$pdf->Cell(45,7,'Tanggal', 1);
-		$pdf->Cell(70,7,'Catatan', 1);
-		$pdf->Cell(65,7,'Pembimbing', 1);
-		$pdf->Ln();
-		$no = 1;
-		$pdf->SetWidths(array(10,45,70,65));
 		/*srand(microtime()*1000000);*/
-		foreach ($data->result() as $d) {
+		if ($data) {
 
-			for($i=0;$i<1;$i++)
-				$pdf->Row(array($no++,longdate_indo($d->TanggalBimbingan),$d->Catatan,$d->Nama));
+			$pdf->Cell(10,7,'No',1);		
+			$pdf->Cell(45,7,'Tanggal', 1);
+			$pdf->Cell(70,7,'Catatan', 1);
+			$pdf->Cell(65,7,'Pembimbing', 1);
+			$pdf->Ln();
+			$no = 1;
+			$pdf->SetWidths(array(10,45,70,65));
+			foreach ($data->result() as $d) {
+
+				for($i=0;$i<1;$i++)
+					$pdf->Row(array($no++,longdate_indo($d->TanggalBimbingan),$d->Catatan,$d->Nama));
+			}		
+		} else {
+			$pdf->MultiCell(100,7, 'Tidak Ditemukan Catatan Bimbingan Dosen Untuk Skripsi Ini', 0);
 		}
+
 
 		$pdf->ln(20);
 		$pdf->Cell(130, 0, '', 0,0,'L');

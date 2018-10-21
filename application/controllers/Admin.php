@@ -166,6 +166,7 @@ class Admin extends CI_Controller {
 		$data['status'] = $user;
 
 		$this->load->view('admin/tabelUsers', $data, false);
+		$this->load->view('template/jquery/btnSubmit');
 	}
 
 	function delete_dosen($nik)
@@ -211,7 +212,7 @@ class Admin extends CI_Controller {
 
 	private function imageProses($path)
 	{
-	
+
 		$config['image_library'] = 'gd2';
 		$config['source_image'] = './assets/images/User/'.$path;
 		$config['create_thumb'] = FALSE;
@@ -221,6 +222,26 @@ class Admin extends CI_Controller {
 
 		$this->load->library('image_lib', $config);
 		return $this->image_lib->resize();
+	}
+
+	function sendPassword($id)
+	{
+		$where = array('ID' => $id);
+		$user = $this->M_data->find('users', $where);
+		foreach ($user->result() as $u) {
+			$nama = $u->Nama;
+			$email = $u->Email;
+		}
+		$password = random_string('alnum', 12);
+		if ($this->sendEmail($email, $nama, $password)) {
+			$data = array('Password' => md5($password));
+			$this->M_data->update('ID', $id, 'users', $data);
+			echo "Password Telah di Kirim ke Email Pengguna";
+		} else {
+			echo "Password Gagal diKirim Periksa Server Anda";
+		}
+		
+
 	}
 
 	function saveDosen() // Menyimpan Form Dosen
@@ -244,34 +265,30 @@ class Admin extends CI_Controller {
 		if ( ! $this->upload->do_upload('foto'))
 		{
 			$error = array('error' => $this->upload->display_errors());
+			echo 'Gagal Saat Mengupload Foto Pastikan Foto Berbentuk JPG & Tidak Lebih 2MB';
+
 		} else {
 
 			$foto = $this->upload->data();
-			$password = random_string('alnum', 12);
 
-			if ($this->sendEmail($email, $nama, $password)) {
-				$data = array(
-					'ID' => $nik,
-					'Nama' => $nama,
-					'Password' => md5($password),
-					'NoHP' => $nohp,
-					'Email' => $email, 
-					'IDKonsentrasiUser' => $konsentrasi,
-					'IDJurusanUser' => $jurusan, 
-					'Foto' => $foto['file_name'],
-					'Status' => 'Dosen'
-				);
+			$data = array(
+				'ID' => $nik,
+				'Nama' => $nama,
+				'NoHP' => $nohp,
+				'Email' => $email, 
+				'IDKonsentrasiUser' => $konsentrasi,
+				'IDJurusanUser' => $jurusan, 
+				'Foto' => $foto['file_name'],
+				'Status' => 'Dosen'
+			);
 
-				if ($foto) {
-					$this->imageProses($foto['file_name']);
-				}
-
-				$this->M_data->save($data, 'users');
-				echo 1;
-
-			} else {
-				echo 'Terjadi Kesalahan Saat Mengirim Password Silahkan Cek Internet Anda Atau Hubungi Layanan Server';
+			if ($foto) {
+				$this->imageProses($foto['file_name']);
 			}
+
+			$this->M_data->save($data, 'users');
+			echo 'Perubahan Berhasil !';
+
 
 		}
 
@@ -283,27 +300,12 @@ class Admin extends CI_Controller {
 	{
 		if ($disetujui === true) {
 
-			$where = array('ID' => $ID);
-			$users = $this->M_data->find('users', $where);
+			$data['Status'] = 'Mahasiswa';
+			$this->M_data->update('ID', $ID, 'users', $data);
 
-			$result = $users->row();
+			$this->imageProses($result->Foto);
+			echo "Pendaftaran Diterima";
 
-			$password = random_string('alnum', 8);
-
-			if ($this->sendEmail($result->Email, $result->Nama, $password)) {
-
-
-				$data['Password'] = md5($password);
-				$data['Status'] = 'Mahasiswa';
-				$this->M_data->update('ID', $ID, 'users', $data);
-
-				$this->imageProses($result->Foto);
-
-			} else {
-
-				echo "Terjadi Kesalahan Saat Mengirim Password Silahkan Cek Internet Anda Atau Hubungi Layanan Server";
-
-			}
 
 		} else {
 
@@ -312,7 +314,8 @@ class Admin extends CI_Controller {
 
 			foreach ($cek->result() as $c) {
 				if ($this->M_data->delete($where, 'users')) {
-					unlink('./assets/images/User/'.$c->foto);
+					echo "Pendaftaran Ditolak";
+					unlink('./assets/images/User/'.$c->Foto);
 				}			
 			}
 

@@ -65,7 +65,9 @@ class M_data extends CI_Model {
 
 	function delete($where,$table){
 		$this->db->where($where);
-		$this->db->delete($table);
+		if ($this->db->delete($table)) {
+			return true;
+		}
 	}
 
 	public function getUserInfo($id)  

@@ -1,9 +1,45 @@
 <head>
-	<script type="text/javascript" src="<?php echo base_url('assets/js/myscript.js');?>">
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// berfungsi untuk menghapus data
+			$(".hapusNotif").on('click', (function(e) {
+				e.preventDefault();
+				var form = $(this);
+				var formdata = false;
+				var id = $(this).attr("id");
+
+				if (window.FormData) {
+					formdata = new FormData(form[0]);
+				}	
+				swal({
+					title: "Menghapus Pemberitahuan?",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				})
+				.then((willDelete) => {
+					if (willDelete) {
+						$.ajax({
+							type: "POST",
+							url: form.attr("href"),
+							data: formdata ? formdata: form.serialize(),
+							contentType: false,
+							processData: false,
+							cache: false,
+							success: function() {
+								$("#Notifikasi").load('ControllerGlobal/notifikasi');
+							}
+						});
+					} else {
+						swal("Data Tidak Dihapus!");
+					}
+				});
+			}));
+		});
 	</script>
 </head>
 
-<div class="card card-outline-secondary">
+<div class="card card-outline-secondary" id="Notifikasi">
 	<?php if (!$Notifikasi) { ?>
 		<div class='row align-items-center m-5'>
 			<div class='col-md'>
@@ -30,7 +66,7 @@
 				<div>
 					<div class="card-body">
 						<div class="form-row">
-							<div class="form-group mr-3" style="height: 10rem; width: 7rem">
+							<div class="form-group mr-1" style="height: 5rem; width: 7rem">
 								<?php if (file_exists('assets/images/User/'.$p->Foto)) {
 									$base_url = base_url('assets/images/User/'.$p->Foto); 
 								} else {
@@ -46,7 +82,7 @@
 									<span class="badge badge-danger"> Ditolak </span>
 								<?php } else { ?>
 									<span class="badge badge-info"> Informasi </span>
-									<?php }	?> <a id="<?php echo $p->IDNotifikasi;?>" class="hapus" href="<?php echo base_url('ControllerGlobal/deleteNotifikasi/'.$p->IDNotifikasi);?>"><i class="fas fa-trash-alt fa-sm"></i></a> <h6 class="card-title">  </h6>
+									<?php }	?> <a id="<?php echo $p->IDNotifikasi;?>" class="hapusNotif" href="<?= base_url('ControllerGlobal/deleteNotifikasi/'.$p->IDNotifikasi);?>"><i class="fas fa-trash-alt fa-sm"></i></a> <h6 class="card-title">  </h6>
 
 									<div class="form-group">
 										<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar fa-sm"></i> <?php echo longdate_indo($p->TanggalNotifikasi);?> <i class="fas fa-users fa-sm"></i> <?php echo $p->Nama;?> </h6>

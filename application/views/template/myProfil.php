@@ -27,7 +27,7 @@
 						cache:false,
 						dataType: "json",
 						data:data,
-						url:"<?php echo base_url('Dosen/update'); ?>",
+						url:"<?php echo base_url('ControllerGlobal/update'); ?>",
 						success: function(a){
 							target.hide();
 							target.siblings("span[class~='caption']").html(value).fadeIn();

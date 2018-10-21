@@ -6,13 +6,15 @@
 				var form = $(this);
 				var formdata = false;
 				var id = $(this).attr("id");
+				var title = $(this).attr("title");
+				var text = $(this).attr("text");
 
 				if (window.FormData) {
 					formdata = new FormData(form[0]);
 				}	
 				swal({
-					title: "Memasuki Proses Skripsi ?",
-					text: "Mahasiswa Akan Mengakses Semua Fitur Untuk Skripsi, Pastikan Semua Persyaratan Telah Terpenuhi Sebelum Mengubah Status",
+					title: title,
+					text: text,
 					icon: "warning",
 					buttons: ["Tidak", "Ya"],
 				})
@@ -25,16 +27,14 @@
 							contentType: false,
 							processData: false,
 							cache: false,
+							beforeSend: function () {
+								$('.loading').fadeIn();
+							},
 							success: function(result) {
-								if (result === '1') {
-									swal('Perubahan Berhasil !', 'Proses Skripsi Sedang Berjalan');
-									$("#tabelMahasiswa").load('<?php echo base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
-								} else {
-									swal({
-										text: 'Maaf Terjadi Kesalahan Saat Mengubah Data',
-										icon: 'error',
-									});
-								}
+								swal(result);
+								$("#tabelMahasiswa").load('<?php echo base_url('admin/tabelNavigasi/0/Mahasiswa'); ?>');
+								$("#tabelDosen").load('<?php echo base_url('admin/tabelNavigasi/0/Dosen'); ?>');
+								$('.loading').fadeOut();
 							}
 						});
 					} else {
@@ -42,6 +42,7 @@
 					}
 				});
 			});
+
 		});
 	</script>
 </head>
@@ -63,31 +64,33 @@
 			<?php foreach ($users->result() as $m):
 				$status = $m->Status;
 				?>
-				<tr class="list-item tabel<?= $m->ID?>">
-					<td><?= $m->ID;?></td>
-					<td><?= $m->Nama;?></td>
-					<td><?= $m->Jurusan;?></td>
-					<td><?= $m->Konsentrasi;?></td>
-					<td><?= $m->Email;?></td>
-					<td><?= $m->NoHP;?></td>
+				<tr class="list-item tabel<?= $m->ID?> <?php if (empty($m->Password)) {
+					echo 'table-warning';
+				}  ?>">
+				<td><?= $m->ID;?></td>
+				<td><a class="a-href" title="Kirim Ulang Password?" text="Ini akan mengubah password dan akan di kirim melalui email." href="<?=base_url('Admin/sendPassword/'.$m->ID)?>"> <?= $m->Nama;?> </a></td>
+				<td><?= $m->Jurusan;?></td>
+				<td><?= $m->Konsentrasi;?></td>
+				<td><?= $m->Email;?></td>
+				<td><?= $m->NoHP;?></td>
 
-					<td><?php if ($m->Status === 'Daftar') { ?>
+				<td><?php if ($m->Status === 'Daftar') { ?>
 
-						<button acc='true' type="button" id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class=" acc btn-action btn-sm btn btn-outline-success"><i class="fas fa-check"></i> </button> 
-						
-						<button type="button" acc='false' id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class="acc btn-action btn-sm btn btn-outline-danger"> <i class="fas fa-window-close"></i> </button> 
-						
-					<?php } elseif ($m->Status === 'Mahasiswa') { ?>
-						<a href="<?= base_url('Admin/statusSkripsi/'.$m->ID);?>" class="a-href" id="<?= $m->ID;?>">
-							<?php echo $m->Status;?>
-						</a>
-					<?php } else {
-						echo $m->Status;
-					} ?>
-				</td>
-			</tr>	
-		<?php endforeach; ?>
-	</tbody>
+					<button acc='true' type="button" id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class="acc btn-action btn-sm btn btn-outline-success"><i class="fas fa-check"></i> </button> 
+
+					<button type="button" acc='false' id="<?= $m->ID?>" action="<?= base_url('Admin/acceptDaftar/')?>" class="acc btn-action btn-sm btn btn-outline-danger"> <i class="fas fa-window-close"></i> </button> 
+
+				<?php } elseif ($m->Status === 'Mahasiswa') { ?>
+					<a title="Mengubah Status Mahasiswa?" text="Mahasiswa Akan Mengakses Semua Fitur Untuk Skripsi, Pastikan Semua Persyaratan Telah Terpenuhi Sebelum Mengubah Status" href="<?= base_url('Admin/statusSkripsi/'.$m->ID);?>" class="a-href" id="<?= $m->ID;?>">
+						<?php echo $m->Status;?>
+					</a>
+				<?php } else {
+					echo $m->Status;
+				} ?>
+			</td>
+		</tr>	
+	<?php endforeach; ?>
+</tbody>
 </table>
 <?php echo $this->ajax_pagination->create_links(); ?>
 <?php } else { ?>
@@ -108,4 +111,7 @@
 			</div>
 		</div>
 	</div>
-	<?php } ?>
+<?php } ?>
+<div class="alert alert-info" role="alert">
+	<i class="fas fa-info"> </i> Tabel yang berwarna Kuning pertanda bahwa pengguna belum pernah menerima password dari admin untuk mengirim password dari admin silahkan klik pada bagian nama pengguna dan pastikan email server bekerja maka password akan di kirim melalui email masing masing
+</div>

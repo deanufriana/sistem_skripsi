@@ -1,6 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$(":button").click(function(e) {
+		$("button.acc").click(function(e) {
 			e.preventDefault();
 			var btn = $(this);
 			var btndata = false;

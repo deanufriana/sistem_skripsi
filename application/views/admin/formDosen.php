@@ -118,11 +118,7 @@
 							<button class="btn btn-primary" type="submit" id="daftar"> Simpan </button>	
 						</div>
 					</div>
-					<div class="form-row">
-						<div class="alert alert-info">
-							Setelah Memasukan Data Maka Secara Otomatis Password Akan di Kirim Melalui Email yang telah dimasukan Jadi Pastikan Email Sudah Benar Benar Tervalidasi
-						</div>
-					</div>
+
 				</div>
 			</div>
 

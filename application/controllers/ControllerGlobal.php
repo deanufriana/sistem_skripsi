@@ -67,6 +67,16 @@ class ControllerGlobal extends CI_Controller {
 		$this->M_data->delete($where, 'Notifikasi');
 	}
 
+	function update(){
+		$id= $_SESSION['ID'];
+		$value= $this->input->post("value");
+		$modul= $this->input->post("modul");
+		$data[$modul] = $value;
+
+		$this->M_data->update('ID', $id, 'users', $data);
+		echo "{}";
+	}
+
 }
 
 /* End of file controllername.php */
