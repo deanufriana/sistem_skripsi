@@ -92,6 +92,12 @@
 	<?php endforeach; ?>
 </tbody>
 </table>
+<?php if ($status != 'Daftar') { ?>
+	<div class="alert alert-info" role="alert">
+		<i class="fas fa-info"> </i> Tabel yang berwarna Kuning pertanda bahwa pengguna belum pernah menerima password dari admin untuk mengirim password dari admin silahkan klik pada bagian nama pengguna dan pastikan email server bekerja maka password akan di kirim melalui email masing masing
+	</div>
+<?php } ?>
+
 <?php echo $this->ajax_pagination->create_links(); ?>
 <?php } else { ?>
 	<div class='container-fluid mt-5'>
@@ -112,6 +118,3 @@
 		</div>
 	</div>
 <?php } ?>
-<div class="alert alert-info" role="alert">
-	<i class="fas fa-info"> </i> Tabel yang berwarna Kuning pertanda bahwa pengguna belum pernah menerima password dari admin untuk mengirim password dari admin silahkan klik pada bagian nama pengguna dan pastikan email server bekerja maka password akan di kirim melalui email masing masing
-</div>
