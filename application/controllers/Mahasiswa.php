@@ -140,9 +140,10 @@ class Mahasiswa extends CI_Controller {
 					$level = $s->FileSkripsi;
 				}
 			}
-			if (!empty($level)) {
+			if (file_exists('./assets/'.$sesi.'/'.$level)) {
 				unlink('./assets/'.$sesi.'/'.$level);
 			}
+
 
 			$file = $this->upload->data();
 			$data = array('File'.$sesi =>  $file['file_name']);
@@ -162,8 +163,8 @@ class Mahasiswa extends CI_Controller {
 					'isi' => "Maaf Terjadi Kesahalah Teknis",
 					'sukses' => 0);
 			}
-			echo json_encode($notif);
 		}
+		echo json_encode($notif);
 	}
 
 }
