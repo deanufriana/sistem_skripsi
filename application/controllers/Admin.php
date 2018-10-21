@@ -49,6 +49,7 @@ class Admin extends CI_Controller {
 	function formJurusan()
 	{
 		$this->load->view('admin/formJurusan');
+		$this->load->view('template/jquery/formSubmit');
 	}
 
 	function formKonsentrasi()
@@ -58,6 +59,7 @@ class Admin extends CI_Controller {
 		$where = array('Status' => 'Dosen');
 		$data['users'] = $this->M_data->find('users', $where);
 		$this->load->view('admin/formKonsentrasi', $data);
+		$this->load->view('template/jquery/formSubmit');
 	}
 
 	function formKaprodi($id)
@@ -74,6 +76,7 @@ class Admin extends CI_Controller {
 		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
 		$this->load->view('admin/formDosen', $data);
+		$this->load->view('template/jquery/formSubmit');
 	}
 
 	function tabelJrsnAdmin()
@@ -101,6 +104,7 @@ class Admin extends CI_Controller {
 		
 		
 		$this->load->view('admin/tabelKonsentrasiAdmin', $data);
+		
 	}
 
 	function submitKaprodi($id)
@@ -186,6 +190,15 @@ class Admin extends CI_Controller {
 		$data['Jurusan'] = $this->input->post('jurusan');
 
 		$this->M_data->save($data, 'jurusan');
+
+		$notif = array(
+			'head' => 'Data Berhasil Disimpan', 
+			'isi' => 'Jurusan Telah DiSimpan Silahkan Isi Konsentrasi Untuk Jurusan Yang Baru DiBuat',
+			'sukses' => 1,
+			'ID' => 'JurusanAdmin',
+			'func' => 'Admin/tabelJrsnAdmin'
+		);	
+		echo json_encode($notif);
 	}
 
 	function saveKonsentrasi()
@@ -196,6 +209,14 @@ class Admin extends CI_Controller {
 		$data['IDJurusanKsn'] = $this->input->post('id_jurusan');
 		$data['IDDosen'] = $prodi === NULL ? '' : $prodi;
 		$this->M_data->save($data, 'konsentrasi');
+		$notif = array(
+			'head' => 'Data Berhasil Disimpan', 
+			'isi' => 'Konsentrasi Telah Di Simpan',
+			'sukses' => 1,
+			'ID' => 'JurusanAdmin',
+			'func' => 'Admin/tabelJrsnAdmin'
+		);	
+		echo json_encode($notif);
 	}
 
 	private function sendEmail($email, $nama, $password)
@@ -265,8 +286,11 @@ class Admin extends CI_Controller {
 		if ( ! $this->upload->do_upload('foto'))
 		{
 			$error = array('error' => $this->upload->display_errors());
-			echo 'Gagal Saat Mengupload Foto Pastikan Foto Berbentuk JPG & Tidak Lebih 2MB';
-
+			$notif = array(
+				'head' => 'Gagal Upload Foto', 
+				'isi' => 'Pastikan Foto Berbentuk JPG & Tidak Lebih 2MB',
+				'sukses' => 0,
+			);
 		} else {
 
 			$foto = $this->upload->data();
@@ -287,13 +311,15 @@ class Admin extends CI_Controller {
 			}
 
 			$this->M_data->save($data, 'users');
-			echo 'Perubahan Berhasil !';
-
-
+			$notif = array(
+				'head' => 'Data Berhasil Disimpan', 
+				'isi' => 'Silahkan Ke Bagian Tabel Untuk Mengirim Password Untuk Dosen',
+				'sukses' => 1,
+				'ID' => 'Dosen',
+				'func' => 'Admin/tabelNavigasi/0/Dosen'
+			);	
 		}
-
-
-
+		echo json_encode($notif);
 	}
 
 	function acceptDaftar($ID, $disetujui)
