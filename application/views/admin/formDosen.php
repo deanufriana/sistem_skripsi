@@ -3,22 +3,22 @@
 <head>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#form_dsn_jrsn").change(function(){ 
+			$("#form_dsn_jrsn").change(function(){
 				$("#form_dsn_ksn").hide();
 				$.ajax({
-					type: "POST", 
-					url: "<?php echo base_url("Home/filterKonsentrasi"); ?>", 
-					data: {IDJurusan : $("#form_dsn_jrsn").val()}, 
+					type: "POST",
+					url: "<?php echo base_url("Home/filterKonsentrasi"); ?>",
+					data: {IDJurusan : $("#form_dsn_jrsn").val()},
 					dataType: "json",
-					success: function(response){ 
+					success: function(response){
 						$("#div_ksn_dsn").show('fast', function() {
-							$("#form_dsn_ksn").html(response.list).show();	
+							$("#form_dsn_ksn").html(response.list).show();
 						});
-						
+
 					},
 				});
 			});
-		}); 
+		});
 
 		function readUrl(input) {
 			if (input.files && input.files[0]) {
@@ -35,26 +35,24 @@
 		});
 	</script>
 </head>
-<?php if (!$konsentrasi) { ?>
+<?php if (!$konsentrasi) {?>
 	<div class='container-fluid mt-5'>
 		<div class='row align-items-center'>
 			<div class='col-md'>
 				<h2>Maafkan Saya Admin</h2>
-				Data Dosen Belum Bisa Dimasukan Sebelum Data Jurusan & Konsentrasi Dimasukan. 
+				Data Dosen Belum Bisa Dimasukan Sebelum Data Jurusan & Konsentrasi Dimasukan.
 			</div>
 			<div class='col-md-3'>
-				<img src="<?= base_url('assets/images/fix/sad.jpg')?>">
+				<img src="<?=base_url('assets/images/fix/sad.jpg')?>">
 			</div>
 		</div>
 	</div>
-<?php } else { ?>
-	<form method="post" id="Dosen" action="<?php echo base_url('Admin/saveDosen');?>" class="formSimpan" enctype="multipart/form-data">
+<?php } else {?>
+	<form method="post" id="Dosen" action="<?php echo base_url('Admin/saveDosen'); ?>" class="formSimpan" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-md-3">
-				<img class="card-img-top" id="blah" src="<?= base_url('assets/images/fix/user.png');?>">	
+				<img class="card-img-top" id="blah" src="<?=base_url('assets/images/fix/user.png');?>">
 			</div>
-			
-			
 			<div class="col-md">
 				<div class="col-md-auto">
 					<div class="form-row">
@@ -81,9 +79,9 @@
 						<div class="form-group col">
 							<select name="id_jurusan" id="form_dsn_jrsn" class="custom-select">
 								<option selected>Jurusan</option>
-								<?php foreach ($jurusan->result() as $j) { ?>  
-									<option value="<?php echo $j->IDJurusan;?>"><?php echo $j->Jurusan;?></option>
-								<?php } ?>
+								<?php foreach ($jurusan->result() as $j) {?>
+									<option value="<?php echo $j->IDJurusan; ?>"><?php echo $j->Jurusan; ?></option>
+								<?php }?>
 							</select>
 						</div>
 						<div class="form-group col" id="div_ksn_dsn" style="display: none">
@@ -109,23 +107,19 @@
 									<span class="input-group-text">Upload</span>
 								</div>
 								<div class="custom-file">
-									<input id="foto" name="foto" type="file" class="custom-file-input" required>
+									<input id="foto" name="dataFoto" type="file" class="custom-file-input" required>
 									<label for="foto" class="custom-file-label" for="inputGroupFile01">Choose file</label>
 								</div>
 							</div>
 						</div>
 						<div class="form-group col-md">
-							<button class="btn btn-primary" type="submit" id="daftar"> Simpan </button>	
+							<button class="btn btn-primary" type="submit" id="daftar"> Simpan </button>
 						</div>
 					</div>
-
 				</div>
 			</div>
-
 		</div>
-		
-
 	</form>
-<?php } ?>
+<?php }?>
 
 </html>

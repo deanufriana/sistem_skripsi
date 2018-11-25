@@ -261,8 +261,6 @@ class Admin extends CI_Controller {
 		} else {
 			echo "Password Gagal diKirim Periksa Server Anda";
 		}
-		
-
 	}
 
 	function saveDosen() // Menyimpan Form Dosen
@@ -274,16 +272,16 @@ class Admin extends CI_Controller {
 		$jurusan = $this->input->post('id_jurusan');
 		$konsentrasi = $this->input->post('konsentrasi');
 
-		$filename = "file_".time('upload');
-
-		$config['upload_path'] = './assets/images/User/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['file_name']	= $filename;
+		$config['upload_path']  = './assets/images/';
+		$config['max_size']     = 100;
+		$config['max_width']    = 1024;
+		$config['max_height']   = 768;
+		$config['file_name']	= "file_".time('upload');
 
 
 		$this->load->library('upload', $config);
 
-		if ( ! $this->upload->do_upload('foto'))
+		if (!$this->upload->do_upload('dataFoto'))
 		{
 			$error = array('error' => $this->upload->display_errors());
 			$notif = array(
@@ -291,6 +289,9 @@ class Admin extends CI_Controller {
 				'isi' => 'Pastikan Foto Berbentuk JPG & Tidak Lebih 2MB',
 				'sukses' => 0,
 			);
+
+			print_r($error);
+			echo $config['file_name'];
 		} else {
 
 			$foto = $this->upload->data();

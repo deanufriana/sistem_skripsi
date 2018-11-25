@@ -82,6 +82,8 @@ class Home extends CI_Controller {
 				'sukses' => 0
 			);
 
+			print_r($error);
+
 		}
 		else {
 
