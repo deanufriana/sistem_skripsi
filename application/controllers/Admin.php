@@ -321,7 +321,7 @@ class Admin extends CI_Controller {
 
 	function acceptDaftar($ID, $disetujui)
 	{
-		if ($disetujui === true) {
+		if ($disetujui === 'true') {
 
 			$data['Status'] = 'Mahasiswa';
 			$this->M_data->update('ID', $ID, 'users', $data);

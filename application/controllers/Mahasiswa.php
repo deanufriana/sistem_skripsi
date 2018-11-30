@@ -30,7 +30,7 @@ class Mahasiswa extends CI_Controller {
 	{
 		$where = array('IDPenerima' => $_SESSION['ID']);
 		$skrip = array('IDMahasiswaSkripsi' => $_SESSION['ID']);
-		$data['pemberitahuan'] = $this->M_data->find('notifikasi', $where, 'IDNotifikasi', 'DESC', 'users','users.ID = Notifikasi.IDPengirim');
+		$data['pemberitahuan'] = $this->M_data->find('notifikasi', $where, 'IDNotifikasi', 'DESC', 'users','users.ID = notifikasi.IDPengirim');
 		$whereUsers = array('ID' => $_SESSION['ID']);
 		$data['users'] = $this->M_data->find('users', $whereUsers, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 

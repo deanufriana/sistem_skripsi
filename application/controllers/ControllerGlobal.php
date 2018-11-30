@@ -21,7 +21,7 @@ class ControllerGlobal extends CI_Controller {
 	function notifikasi()
 	{
 		$where = array('IDPenerima' => $this->session->userdata('ID'));
-		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $where,  'IDNotifikasi', 'DESC', 'users', 'users.ID = Notifikasi.IDPengirim');
+		$data['Notifikasi'] = $this->M_data->find('notifikasi', $where,  'IDNotifikasi', 'DESC', 'users', 'users.ID = notifikasi.IDPengirim');
 		$this->load->view('template/notifikasi', $data);
 	}
 
@@ -64,7 +64,7 @@ class ControllerGlobal extends CI_Controller {
 	function deleteNotifikasi($id)
 	{
 		$where = array('IDNotifikasi' => $id);
-		$this->M_data->delete($where, 'Notifikasi');
+		$this->M_data->delete($where, 'notifikasi');
 	}
 
 	function update(){
