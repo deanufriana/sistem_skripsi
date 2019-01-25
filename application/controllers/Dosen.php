@@ -34,7 +34,7 @@ class Dosen extends CI_Controller {
 		
 		$Penerima = array('IDPenerima' => $_SESSION['ID']);
 		
-		$data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+		$data['Notifikasi'] = $this->M_data->find('notifikasi', $Penerima, '', '', 'users', 'users.ID = notifikasi.IDPengirim');
 		
 		$data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 
@@ -170,7 +170,7 @@ class Dosen extends CI_Controller {
 			$accept['Status'.$users] = 1;
 
 			$this->M_data->update('IDPembimbing', $c->IDPembimbing, 'pembimbing', $accept);
-			$this->M_data->save($data, 'Notifikasi'); 
+			$this->M_data->save($data, 'notifikasi'); 
 
 		}
 	}

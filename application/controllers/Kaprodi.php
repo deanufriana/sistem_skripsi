@@ -34,7 +34,7 @@ class Kaprodi extends CI_Controller {
     
     $Penerima = array('IDPenerima' => $_SESSION['ID']);
     
-    $data['Notifikasi'] = $this->M_data->find('Notifikasi', $Penerima, '', '', 'users', 'users.ID = Notifikasi.IDPengirim');
+    $data['Notifikasi'] = $this->M_data->find('notifikasi', $Penerima, '', '', 'users', 'users.ID = notifikasi.IDPengirim');
     
     $data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
 
@@ -231,8 +231,8 @@ function aksiKegiatan()
     'Finish' => 0,
   );
 
-  $this->M_data->save($simpan, 'Kegiatan');
-  $this->M_data->save($data, 'Notifikasi');
+  $this->M_data->save($simpan, 'kegiatan');
+  $this->M_data->save($data, 'notifikasi');
 
 }
 

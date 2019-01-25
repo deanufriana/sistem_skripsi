@@ -16,13 +16,11 @@
 					<tr>
 						<td scope="row"> <?php echo $k->IDKonsentrasi;?></td>
 						<td> <?php echo $k->Konsentrasi;?> </td>
-						<td> <?php if (empty($k->Nama)) {
-							?>
+						<td> <?php if (empty($k->Nama)) { ?>
 							<?php if ($users) { ?>
 								<form method="POST" action="<?php echo base_url('Admin/submitKaprodi/'.$k->IDKonsentrasi);?>" id="kaprodi<?=$k->IDKonsentrasi;?>">
 									<div class="form-row align-items-center">
 										<div class="col-md mb-4">
-
 											<select name="kaprodi" class="custom-select small mr-sm-2">
 												<option selected>Menetapkan Kaprodi <?php echo $k->Konsentrasi;?></option>
 												<?php foreach ($users->result() as $j) { ?>

@@ -76,7 +76,7 @@
 			<div class="card-body">
 				<div id="judul" class="form-row">
 					<div class="form-group col-md-1 col-2">
-						<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$u->Foto);?>" alt="Card image">
+						<img class="card-img-top" src="<?= base_url('assets/images/User/'.$u->Foto);?>" alt="Card image">
 					</div>
 					<div class="form-group col-md col-10 mb-2">
 						<h4> <?php echo $u->Nama;?> </h4>

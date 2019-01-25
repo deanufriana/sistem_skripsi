@@ -53,18 +53,20 @@ class Admin extends CI_Controller {
 	}
 
 	function formKonsentrasi()
-	{
+	{	
+		$where = array('Status' => 'Dosen');
+		
 		$data['result'] = 'Data Jurusannya Dimasukan Dulu Oh, min :(';
 		$data['jurusan'] = $this->M_data->find('jurusan');
-		$where = array('Status' => 'Dosen');
 		$data['users'] = $this->M_data->find('users', $where);
+
 		$this->load->view('admin/formKonsentrasi', $data);
 		$this->load->view('template/jquery/formSubmit');
 	}
 
 	function formKaprodi($id)
 	{
-		$where = array('IDKonsentrasiUser' => $id);
+		$where = array('IDKonsentrasiUser' => $id, 'Status' => 'Dosen');
 		$data['dosen'] = $this->M_data->find('users', $where);
 		$data['ID'] = $id;
 		$this->load->view('admin/formKaprodi', $data);
@@ -94,7 +96,8 @@ class Admin extends CI_Controller {
 		if ($data['konsentrasi']) {
 			foreach ($data['konsentrasi']->result() as $k) {
 				$whereUsers = array(
-					'IDKonsentrasiUser' => $k->IDKonsentrasi
+					'IDKonsentrasiUser' => $k->IDKonsentrasi,
+					'Status' => 'Dosen'
 				);
 			}
 			$data['users'] = $this->M_data->find('users', $whereUsers);
