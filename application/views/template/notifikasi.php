@@ -56,7 +56,7 @@
 				<?php } ?>
 			</div>
 			<div class='col-md-3'>
-				<img class="card-img-top" src="<?= base_url('assets/images/fix/jelaskan.jpg')?>">
+				<img class="card-img-top" src="<?= base_url('assets/web/jelaskan.jpg')?>">
 			</div>
 		</div>
 	<?php } else { 
@@ -70,7 +70,7 @@
 								<?php if (file_exists('assets/images/User/'.$p->Foto)) {
 									$base_url = base_url('assets/images/User/'.$p->Foto); 
 								} else {
-									$base_url = base_url('assets/images/fix/user.png');
+									$base_url = base_url('assets/web/user.png');
 								} 
 								?>
 								<img class="card-img-top" src="<?= $base_url;?>" alt="Card image">

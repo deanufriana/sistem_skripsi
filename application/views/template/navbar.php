@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	
 	<title>Sistem Skripsi Online</title>
-	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/fix/book.ico');?>" />
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/web/book.ico');?>" />
 
 	<script src="<?php echo base_url('assets/js/fontawesome-all.js');?>"></script> 
 	

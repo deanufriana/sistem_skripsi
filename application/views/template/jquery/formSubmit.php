@@ -27,14 +27,19 @@
 
 						if (result.sukses != 0) {
 							$('#tabel'+result.ID).load('<?= base_url('')?>'+result.func);
+							$('input').val('');
+							$('textarea').val('');
+							$('#blah').attr('src', '<?=base_url('assets/web/user.png')?>');
 						}
-						$('input').val('');
-						$('textarea').val('');
+
 						$(".loading").fadeOut();
-
-					}
+						
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						$(".loading").fadeOut();
+						swal(errorThrown, 'Cek Database Dimana Mungkin Ada NIK / NIM yang Sama')
+  					}
 				})
-
 			});
 		</script>
 	</head>

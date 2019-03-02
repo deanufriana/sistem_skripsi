@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/images/fix/book.ico');?>" />
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/web/book.ico');?>" />
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,18 +22,11 @@
 
 		$(document).ready(function(){
 
-			$('#tabelformDaftar').load('<?= base_url('Home/formDaftar');?>');
-
 			$(function() {
-				$("#login").click(function() {
+				$("#login").click(function() {root
 					$('#success').toggle('fast').delay(9000);
 				});
 			})
-
-			$("#Daftar").on('click', function() {
-				$('#tabelformDaftar').toggle('fast');
-				$('#informasi').toggle('fast');
-			});
 
 			$("#btn-login").click(function(){
 				var formAction = $("#form-login").attr('action');
@@ -114,7 +107,7 @@
 									<div class="text-center">
 										<button type="submit" class="btn btn-primary float-right ml-3" id="btn-login"> <i class="fas fa-sign-in-alt"></i> Login</button>
 									</div>
-									<small class="form-text text-muted"> Belum Punya Akun? Silahkan <a id="Daftar" href="#" class="daftar text-primary"> Daftar </a> & Tunggu Konfirmasi Dari Fakultas </small>
+									<small class="form-text text-muted"> Login Username Dan Password Diberikan Melalui Email Setiap Mahasiswa Yang Terdaftar </small>
 								</form>
 							</div>
 						</div>
@@ -127,7 +120,7 @@
 			<div class="col-md-6">
 				<div class="form-row">
 					<div class="form-group col-md-2 col-2 m-1">
-						<img class="img-fluid" src="<?= base_url('assets/images/fix/book.png');?>">
+						<img class="img-fluid" src="<?= base_url('assets/web/book.png');?>">
 					</div>
 
 					<div class="form-group col small">
@@ -139,7 +132,7 @@
 			<div class="col-md-6">
 				<div class="form-row">
 					<div class="form-group col-md-2 col-2 m-1">
-						<img class="img-fluid" src="<?= base_url('assets/images/fix/kartu.png');?>">
+						<img class="img-fluid" src="<?= base_url('assets/web/kartu.png');?>">
 					</div>
 
 					<div class="form-group col small">
@@ -152,7 +145,7 @@
 			<div class="col-md-6">
 				<div class="form-row">
 					<div class="form-group col-md-2 col-2 m-1">
-						<img class="img-fluid" src="<?= base_url('assets/images/fix/waktu.png');?>">
+						<img class="img-fluid" src="<?= base_url('assets/web/waktu.png');?>">
 					</div>
 
 					<div class="form-group col small">
@@ -165,7 +158,7 @@
 			<div class="col-md-6">
 				<div class="form-row">
 					<div class="form-group col-md-2 col-2 m-1">
-						<img class="img-fluid" src="<?= base_url('assets/images/fix/pemberitahuan.png');?>">
+						<img class="img-fluid" src="<?= base_url('assets/web/pemberitahuan.png');?>">
 					</div>
 
 					<div class="form-group col small">

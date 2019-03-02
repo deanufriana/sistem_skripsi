@@ -1,5 +1,5 @@
 <head>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/clockpicker.css');?>">
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/clockpicker.css');?>">
 	<script type="text/javascript">
 		$('.clockpicker').clockpicker({
 			placement: 'bottom',
@@ -31,8 +31,8 @@
 						}
 					});
 				});
-		}); 
-	</script>	
+		});
+	</script>
 </head>
 
 <?php if (!$users) { ?>
@@ -42,7 +42,7 @@
 			Mahasiswa Saat Ini Belum Ada !! Anda Belum Bisa Mengirim Notifikasi Agenda Kegiatan Skripsi				
 		</div>
 		<div class="col-md-3">
-			<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+			<img src="<?= base_url('assets/web/sad.jpg') ?>" >	
 		</div>
 	</div>
 <?php } else { ?>

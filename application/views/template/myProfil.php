@@ -45,13 +45,14 @@
 <?php foreach ($users->result() as $d): ?>
 	<?php $Status = $this->session->userdata('Status') == 'Skripsi' ? 'Mahasiswa' : $_SESSION['Status'];?>
 	<div class="card mb-1">
-		<?php if (file_exists('assets/images/User/'.$d->Foto)) {
-			$base_url = base_url('assets/images/User/'.$d->Foto); 
+		<?php if (file_exists('assets/images/User/'.$d->Foto) && $d->Foto !== NULL) {
+			$image = base_url('assets/images/User/'.$d->Foto); 
 		} else {
-			$base_url = base_url('assets/images/fix/user.png');
+			$image = base_url('assets/web/user.png');
 		} 
 		?>
-		<img class="card-img-top m-2" src="<?= $base_url;?>" alt="Maaf Gambar Tidak Ditemukan" title="Image not Found">
+
+		<img class="card-img-top m-2" src="<?= $image;?>" alt="Maaf Gambar Tidak Ditemukan" title="Image not Found">
 
 		<div class="card-body">
 			<div class="row">

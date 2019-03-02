@@ -6,7 +6,7 @@
 				Catatan bimbingan belum di isi oleh pembimbing, jika anda pembimbing silahkan isi catatan bimbingan mahasiswa ini dengan memasukan form catatan di atas. tanggal bimbingan akan secara otomatis masuk saat anda memasukan catatan saat itu juga.
 			</div>
 			<div class="col-md-auto">
-				<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+				<img src="<?= base_url('assets/web/sad.jpg') ?>" >	
 			</div>
 		</div>
 

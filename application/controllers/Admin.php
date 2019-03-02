@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Sistem Skripsi Online Berbasis Web
@@ -14,383 +14,354 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * 3. TIDAK MENYERTAKAN LINK KOMERSIL (JASA LAYANAN HOSTING DAN DOMAIN) YANG MENGUNTUNGKAN SEPIHAK.
  */
 
-class Admin extends CI_Controller {
+class Admin extends CI_Controller
+{
 
-	function __construct()
-	{
-		parent::__construct();
-		if ($this->session->userdata('Status') != "Admin") {
-			redirect(base_url("Home"));
-		}
-		$this->load->library('Ajax_pagination');
-		$this->perPage = 2;
-	}
+    public function __construct()
+    {
+        parent::__construct();
+        if ($this->session->userdata('Status') != "Admin") {
+            redirect(base_url("Home"));
+        }
+        $this->load->library('Ajax_pagination');
+        $this->perPage = 2;
+    }
 
-	function index()
-	{
+    public function index()
+    {
 
-		$this->load->view('template/navbar');
-		$this->load->view('admin/home');
-	}
+        $this->load->view('template/navbar');
+        $this->load->view('admin/home');
+    }
 
-	function navigasiUsers($nav)
-	{
+    public function navigasiUsers($nav)
+    {
 
-		$where = $nav == 'Mahasiswa' ? "Status='Mahasiswa' OR Status='Skripsi'" : "Status='Dosen'";
-		if ($nav != 'Settings') {
-			$data['users'] = $this->M_data->find('users', $where);
-		} else {
-			$data = '';
-		}
-		
-		$this->load->view('admin/nav'.$nav, $data);
-	}
+        $where = $nav == 'Mahasiswa' ? "Status='Mahasiswa' OR Status='Skripsi'" : "Status='Dosen'";
+        if ($nav != 'Settings') {
+            $data['users'] = $this->M_data->find('users', $where);
+            $data['nav'] = $nav;
+        } else {
+            $data = '';
+        }
 
-	function formJurusan()
-	{
-		$this->load->view('admin/formJurusan');
-		$this->load->view('template/jquery/formSubmit');
-	}
+        $this->load->view('admin/nav/' . $nav, $data);
+    }
 
-	function formKonsentrasi()
-	{	
-		$where = array('Status' => 'Dosen');
-		
-		$data['result'] = 'Data Jurusannya Dimasukan Dulu Oh, min :(';
+    public function formJurusan()
+    {
+        $this->load->view('admin/form/Jurusan');
+        $this->load->view('template/jquery/formSubmit');
+    }
+
+    public function formKonsentrasi()
+    {
+        $where = array('Status' => 'Dosen');
+
+        $data['result'] = 'Data Jurusannya Dimasukan Dulu Oh, min :(';
+        $data['jurusan'] = $this->M_data->find('jurusan');
+        $data['users'] = $this->M_data->find('users', $where);
+
+        $this->load->view('admin/form/Konsentrasi', $data);
+        $this->load->view('template/jquery/formSubmit');
+    }
+
+    public function formKaprodi($id)
+    {
+        $where = array('IDKonsentrasiUser' => $id, 'Status' => 'Dosen');
+        $data['dosen'] = $this->M_data->find('users', $where);
+        $data['ID'] = $id;
+        $this->load->view('admin/form/Kaprodi', $data);
+    }
+
+    public function formUsers($user)
+    {
+        $data['konsentrasi'] = $this->M_data->find('konsentrasi');
 		$data['jurusan'] = $this->M_data->find('jurusan');
-		$data['users'] = $this->M_data->find('users', $where);
+		$data['user'] = $user;
+        $this->load->view('admin/form/Users', $data);
+        $this->load->view('template/jquery/formSubmit');
+    }
 
-		$this->load->view('admin/formKonsentrasi', $data);
-		$this->load->view('template/jquery/formSubmit');
-	}
+    public function tabelJrsnAdmin()
+    {
+        $data['jurusan'] = $this->M_data->find('jurusan');
+        $this->load->view('admin/tabel/Jurusan', $data);
+    }
 
-	function formKaprodi($id)
-	{
-		$where = array('IDKonsentrasiUser' => $id, 'Status' => 'Dosen');
-		$data['dosen'] = $this->M_data->find('users', $where);
-		$data['ID'] = $id;
-		$this->load->view('admin/formKaprodi', $data);
-	}
+    public function tabelKonsentrasiAdmin($id)
+    {
+        $where = array('IDJurusanKsn' => $id);
 
-	function formDosen()
-	{
+        $data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', 'users', 'users.ID = konsentrasi.IDDosen');
 
-		$data['konsentrasi'] = $this->M_data->find('konsentrasi');
-		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('admin/formDosen', $data);
-		$this->load->view('template/jquery/formSubmit');
-	}
+        if ($data['konsentrasi']) {
+            foreach ($data['konsentrasi']->result() as $k) {
+                $whereUsers = array(
+                    'IDKonsentrasiUser' => $k->IDKonsentrasi,
+                    'Status' => 'Dosen',
+                );
+            }
+            $data['users'] = $this->M_data->find('users', $whereUsers);
+        } else {
+            $data['users'] = 'Tidak Ditemukan Konsentrasi';
+        }
 
-	function tabelJrsnAdmin()
-	{ 
-		$data['jurusan'] = $this->M_data->find('jurusan');
-		$this->load->view('admin/tabelJrsnAdmin', $data);
-	}
+        $this->load->view('admin/tabel/Konsentrasi', $data);
 
-	function tabelKonsentrasiAdmin($id)
-	{
-		$where = array('IDJurusanKsn' => $id);
-		
-		$data['konsentrasi'] = $this->M_data->find('konsentrasi', $where, '', '', 'users', 'users.ID = konsentrasi.IDDosen');
-		
-		if ($data['konsentrasi']) {
-			foreach ($data['konsentrasi']->result() as $k) {
-				$whereUsers = array(
-					'IDKonsentrasiUser' => $k->IDKonsentrasi,
-					'Status' => 'Dosen'
-				);
-			}
-			$data['users'] = $this->M_data->find('users', $whereUsers);
-		} else {
-			$data['users'] = 'Tidak Ditemukan Konsentrasi';
-		}
-		
-		
-		$this->load->view('admin/tabelKonsentrasiAdmin', $data);
-		
-	}
+    }
 
-	function submitKaprodi($id)
-	{
-		$where = array(
-			'IDKonsentrasi' => $id
-		);
+    public function submitKaprodi($id)
+    {
+        $where = array(
+            'IDKonsentrasi' => $id,
+        );
 
-		$data['IDDosen'] = $this->input->post('kaprodi');
-		
-		$this->M_data->update('IDKonsentrasi', $id, 'konsentrasi', $data);
-		redirect('Admin');
-	}
+        $data['IDDosen'] = $this->input->post('kaprodi');
 
-	function tabelNavigasi($page, $user)
-	{
-		if (!$page) {
-			$offset = 0;
-		} else {
-			$offset = $page;
-		}
+        $this->M_data->update('IDKonsentrasi', $id, 'konsentrasi', $data);
+        redirect('Admin');
+    }
 
-		$keywords = $this->input->post('keywords');
-		$sortBy = $this->input->post('sortBy');
-		$search = $this->input->post('search');
+    public function tabelNavigasi($page, $user)
+    {
+        if (!$page) {
+            $offset = 0;
+        } else {
+            $offset = $page;
+        }
 
+        $keywords = $this->input->post('keywords');
+        $sortBy = $this->input->post('sortBy');
+        $search = $this->input->post('search');
 
-		if(!empty($keywords)){
-			$conditions['search']['keywords'] = $keywords;
-		}
-		if(!empty($sortBy)){
-			$conditions['search']['sortBy'] = $sortBy;
-		}
-		if ($user != 'Daftar') {
-			$conditions['start'] = $offset;
-			$conditions['limit'] = $this->perPage;
-		} else {
-			$conditions['start'] = '';
-			$conditions['limit'] = '';
-		}
-		
+        if (!empty($keywords)) {
+            $conditions['search']['keywords'] = $keywords;
+        }
+        if (!empty($sortBy)) {
+            $conditions['search']['sortBy'] = $sortBy;
+        }
+        if ($user != 'Daftar') {
+            $conditions['start'] = $offset;
+            $conditions['limit'] = $this->perPage;
+        } else {
+            $conditions['start'] = '';
+            $conditions['limit'] = '';
+        }
 
-		if ($user === 'Mahasiswa') {
-			$where = "(Status='Mahasiswa' OR Status='Skripsi')";
-		} else {
-			$where['Status'] = $user;
-		}
+        if ($user === 'Mahasiswa') {
+            $where = "(Status='Mahasiswa' OR Status='Skripsi')";
+        } else {
+            $where['Status'] = $user;
+        }
 
-		$data['users'] = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser', '', '', $conditions, $search);
+        $data['users'] = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser', '', '', $conditions, $search);
 
-		$total = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
+        $total = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 
-		$totalRec = $total != FALSE ? $total->num_rows() : 0;
+        $totalRec = $total != false ? $total->num_rows() : 0;
 
+        $config['target'] = '#tabelUsers';
+        $config['base_url'] = base_url() . 'Admin/tabelNavigasi/' . $page . '/' . $user;
+        $config['total_rows'] = $totalRec;
+        $config['per_page'] = $this->perPage;
+        $config['link_func'] = 'search' . $user;
 
-		$config['target']      = '#tabelUsers';
-		$config['base_url']    = base_url().'Admin/tabelNavigasi/'.$page.'/'.$user;
-		$config['total_rows']  = $totalRec;
-		$config['per_page']    = $this->perPage;
-		$config['link_func']   = 'search'.$user;
-		
-		$user === 'Daftar' ? '' : $this->ajax_pagination->initialize($config);
-		$data['status'] = $user;
+        $user === 'Daftar' ? '' : $this->ajax_pagination->initialize($config);
+        $data['status'] = $user;
 
-		$this->load->view('admin/tabelUsers', $data, false);
-		$this->load->view('template/jquery/btnSubmit');
-	}
+        $this->load->view('admin/tabel/Users', $data, false);
+        $this->load->view('template/jquery/btnSubmit');
+    }
 
-	function delete_dosen($nik)
-	{
-		$where = array('ID' => $nik);
-		$cek = $this->M_data->find('users', $where);
+    public function delete_dosen($nik)
+    {
+        $where = array('ID' => $nik);
+        $cek = $this->M_data->find('users', $where);
 
-		foreach ($cek->result() as $c) {
-			unlink('./assets/images/User/'.$c->foto_dsn);
-			$this->M_data->delete($where, 'users');
-		}
-	}
+        foreach ($cek->result() as $c) {
+            unlink('./assets/images/User/' . $c->foto_dsn);
+            $this->M_data->delete($where, 'users');
+        }
+    }
 
-	function saveJurusan()
-	{
-		$data['IDJurusan'] = $this->input->post('id_jurusan');
-		$data['Jurusan'] = $this->input->post('jurusan');
+    public function saveJurusan()
+    {
+        $data['IDJurusan'] = $this->input->post('id_jurusan');
+        $data['Jurusan'] = $this->input->post('jurusan');
 
-		$this->M_data->save($data, 'jurusan');
+        $this->M_data->save($data, 'jurusan');
 
-		$notif = array(
-			'head' => 'Data Berhasil Disimpan', 
-			'isi' => 'Jurusan Telah DiSimpan Silahkan Isi Konsentrasi Untuk Jurusan Yang Baru DiBuat',
-			'sukses' => 1,
-			'ID' => 'JurusanAdmin',
-			'func' => 'Admin/tabelJrsnAdmin'
-		);	
-		echo json_encode($notif);
-	}
+        $notif = array(
+            'head' => 'Data Berhasil Disimpan',
+            'isi' => 'Jurusan Telah DiSimpan Silahkan Isi Konsentrasi Untuk Jurusan Yang Baru DiBuat',
+            'sukses' => 1,
+            'ID' => 'JurusanAdmin',
+            'func' => 'Admin/tabelJrsnAdmin',
+        );
+        echo json_encode($notif);
+    }
 
-	function saveKonsentrasi()
-	{
-		$prodi = $this->input->post('prodi');
-		$data['IDKonsentrasi'] = $this->input->post('id');
-		$data['konsentrasi'] = $this->input->post('konsentrasi');
-		$data['IDJurusanKsn'] = $this->input->post('id_jurusan');
-		$data['IDDosen'] = $prodi === NULL ? '' : $prodi;
-		$this->M_data->save($data, 'konsentrasi');
-		$notif = array(
-			'head' => 'Data Berhasil Disimpan', 
-			'isi' => 'Konsentrasi Telah Di Simpan',
-			'sukses' => 1,
-			'ID' => 'JurusanAdmin',
-			'func' => 'Admin/tabelJrsnAdmin'
-		);	
-		echo json_encode($notif);
-	}
+    public function saveKonsentrasi()
+    {
+        $prodi = $this->input->post('prodi');
+        $data['IDKonsentrasi'] = $this->input->post('id');
+        $data['konsentrasi'] = $this->input->post('konsentrasi');
+        $data['IDJurusanKsn'] = $this->input->post('id_jurusan');
+        $data['IDDosen'] = $prodi === null ? '' : $prodi;
+        $this->M_data->save($data, 'konsentrasi');
+        $notif = array(
+            'head' => 'Data Berhasil Disimpan',
+            'isi' => 'Konsentrasi Telah Di Simpan',
+            'sukses' => 1,
+            'ID' => 'JurusanAdmin',
+            'func' => 'Admin/tabelJrsnAdmin',
+        );
+        echo json_encode($notif);
+    }
 
-	private function sendEmail($email, $nama, $password)
-	{
-		$this->email->from('umusbrebes@gmail.com', 'Universitas Muhadi Setiabudi');
-		$this->email->to($email);
+    private function sendEmail($email, $nama, $password)
+    {
+        $this->email->from('umusbrebes@gmail.com', 'Universitas Muhadi Setiabudi');
+        $this->email->to($email);
 
-		$this->email->subject('Sistem Informasi Skripsi');
-		$this->email->message('Selamat Datang '.$nama.' di Universitas Muhadi Setiabudi. Sekarang anda bisa login sistem informasi skripsi dengan menggunakan ID anda. Password : '.$password.'  Semoga harimu menyenangkan.');
+        $this->email->subject('Sistem Informasi Skripsi');
+        $this->email->message('Selamat Datang ' . $nama . ' di Universitas Muhadi Setiabudi. Sekarang anda bisa login sistem informasi skripsi dengan menggunakan ID anda. Password : ' . $password . '  Semoga harimu menyenangkan.');
 
-		return $this->email->send();
+        return $this->email->send();
 
-	}
+    }
 
-	private function imageProses($path)
-	{
+    private function imageProses($path)
+    {
 
-		$config['image_library'] = 'gd2';
-		$config['source_image'] = './assets/images/User/'.$path;
-		$config['create_thumb'] = FALSE;
-		$config['maintain_ratio'] = TRUE;
-		$config['width']         = 300;
-		$config['height']       = 300;
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = './assets/images/User/' . $path;
+        $config['create_thumb'] = false;
+        $config['maintain_ratio'] = true;
+        $config['width'] = 300;
+        $config['height'] = 300;
 
-		$this->load->library('image_lib', $config);
-		return $this->image_lib->resize();
-	}
+        $this->load->library('image_lib', $config);
+        return $this->image_lib->resize();
+    }
 
-	function sendPassword($id)
-	{
-		$where = array('ID' => $id);
-		$user = $this->M_data->find('users', $where);
-		foreach ($user->result() as $u) {
-			$nama = $u->Nama;
-			$email = $u->Email;
-		}
-		$password = random_string('alnum', 12);
-		if ($this->sendEmail($email, $nama, $password)) {
-			$data = array('Password' => md5($password));
-			$this->M_data->update('ID', $id, 'users', $data);
-			echo "Password Telah di Kirim ke Email Pengguna";
-		} else {
-			echo "Password Gagal diKirim Periksa Server Anda";
-		}
-	}
+    public function sendPassword($id)
+    {
+        $where = array('ID' => $id);
+        $user = $this->M_data->find('users', $where);
+        foreach ($user->result() as $u) {
+            $nama = $u->Nama;
+            $email = $u->Email;
+        }
+        $password = random_string('alnum', 12);
+        if ($this->sendEmail($email, $nama, $password)) {
+            $data = array('Password' => md5($password));
+            $this->M_data->update('ID', $id, 'users', $data);
+            echo "Password Telah di Kirim ke Email Pengguna";
+        } else {
+            echo "Password Gagal diKirim Periksa Server Anda";
+        }
+    }
 
-	function saveDosen() // Menyimpan Form Dosen
-	{
-		$nik = $this->input->post('nik');
-		$nama = $this->input->post('nama_dosen');
-		$nohp = $this->input->post('nohp');
-		$email = $this->input->post('email');
-		$jurusan = $this->input->post('id_jurusan');
-		$konsentrasi = $this->input->post('konsentrasi');
+    public function saveUsers($user) // Menyimpan Form Dosen
 
-		$config['upload_path']  = './assets/images/';
-		$config['allowed_types'] = 'gif|jpg|png';
-		$config['file_name']	= "file_".time('upload');
+    {
+        $id = $this->input->post('id');
+        $nama = $this->input->post('name');
+        $email = $this->input->post('email');
+        $jurusan = $this->input->post('id_jurusan');
+        $konsentrasi = $this->input->post('konsentrasi');
 
+        $data = array(
+            'ID' => $id,
+            'Nama' => $nama,
+            'Email' => $email,
+            'IDKonsentrasiUser' => $konsentrasi,
+            'IDJurusanUser' => $jurusan,
+            'Status' => $user,
+        );
 
-		$this->load->library('upload', $config);
+        $this->M_data->save($data, 'users');
 
-		if (!$this->upload->do_upload('dataFoto'))
-		{
-			$error = array('error' => $this->upload->display_errors());
-			print_r($error);
-			$notif = array(
-				'head' => 'Gagal Upload Foto', 
-				'isi' => 'Pastikan Foto Berbentuk JPG & Tidak Lebih 2MB',
-				'sukses' => 0,
-			);
-		} else {
+        $notif = array(
+            'head' => 'Data Berhasil Ditambahkan',
+            'isi' => 'Silahkan Ke Bagian Tabel Untuk Mengirim Password Untuk '.$user,
+            'sukses' => 1,
+            'ID' => $user,
+            'func' => 'Admin/tabelNavigasi/0/'.$user,
+        );
 
-			$foto = $this->upload->data();
+        echo json_encode($notif);
+    }
 
-			$data = array(
-				'ID' => $nik,
-				'Nama' => $nama,
-				'NoHP' => $nohp,
-				'Email' => $email, 
-				'IDKonsentrasiUser' => $konsentrasi,
-				'IDJurusanUser' => $jurusan, 
-				'Foto' => $foto['file_name'],
-				'Status' => 'Dosen'
-			);
+    public function acceptDaftar($ID, $disetujui)
+    {
+        if ($disetujui === 'true') {
 
-			if ($foto) {
-				$this->imageProses($foto['file_name']);
-			}
+            $data['Status'] = 'Mahasiswa';
+            $this->M_data->update('ID', $ID, 'users', $data);
 
-			$this->M_data->save($data, 'users');
-			$notif = array(
-				'head' => 'Data Berhasil Disimpan', 
-				'isi' => 'Silahkan Ke Bagian Tabel Untuk Mengirim Password Untuk Dosen',
-				'sukses' => 1,
-				'ID' => 'Dosen',
-				'func' => 'Admin/tabelNavigasi/0/Dosen'
-			);	
-		}
-		echo json_encode($notif);
-	}
+            $this->imageProses($result->Foto);
+            echo "Pendaftaran Diterima";
 
-	function acceptDaftar($ID, $disetujui)
-	{
-		if ($disetujui === 'true') {
+        } else {
 
-			$data['Status'] = 'Mahasiswa';
-			$this->M_data->update('ID', $ID, 'users', $data);
+            $where = array('ID' => $ID);
+            $cek = $this->M_data->find('users', $where);
 
-			$this->imageProses($result->Foto);
-			echo "Pendaftaran Diterima";
+            foreach ($cek->result() as $c) {
+                if ($this->M_data->delete($where, 'users')) {
+                    echo "Pendaftaran Ditolak";
+                    unlink('./assets/images/User/' . $c->Foto);
+                }
+            }
 
+        }
+    }
 
-		} else {
+    public function filterKaprodi()
+    {
+        $id_jurusan = $this->input->post('id_jurusan');
+        $where = array(
+            'IDJurusanUser' => $id_jurusan,
+            'Status' => 'Dosen',
+        );
+        $data = $this->M_data->find('users', $where);
 
-			$where = array('ID' => $ID);
-			$cek = $this->M_data->find('users', $where);
+        if ($data) {
+            $lists = "<option value=''> Pilih Kaprodi </option>";
+            foreach ($data->result() as $d) {
+                $lists .= "<option value='" . $d->ID . "'>" . $d->Nama . "</option>";
+            }
+        } else {
+            $lists = "<option value=''>Dosen Tidak Ada </option>";
+        }
 
-			foreach ($cek->result() as $c) {
-				if ($this->M_data->delete($where, 'users')) {
-					echo "Pendaftaran Ditolak";
-					unlink('./assets/images/User/'.$c->Foto);
-				}			
-			}
+        $callback = array('list' => $lists);
+        echo json_encode($callback);
+    }
 
-		}
-	}
+    public function statusSkripsi($ID)
+    {
+        $data['Status'] = 'Skripsi';
+        if (!$this->M_data->update('ID', $ID, 'users', $data)) {
+            echo 0;
+        } else {
+            echo 1;
+        }
 
-	function filterKaprodi()
-	{
-		$id_jurusan = $this->input->post('id_jurusan');
-		$where = array(
-			'IDJurusanUser' => $id_jurusan,
-			'Status' => 'Dosen'
-		);
-		$data = $this->M_data->find('users', $where);
+    }
 
-		if ($data) {
-			$lists ="<option value=''> Pilih Kaprodi </option>";
-			foreach ($data->result() as $d) {
-				$lists .= "<option value='".$d->ID."'>".$d->Nama."</option>";
-			}
-		} else {
-			$lists = "<option value=''>Dosen Tidak Ada </option>";
-		}
-
-		$callback = array('list' => $lists);
-		echo json_encode($callback);
-	}
-
-	function statusSkripsi($ID)
-	{
-
-		$data['Status'] = 'Skripsi';
-
-		if (!$this->M_data->update('ID', $ID, 'users', $data)) {
-			echo 0;
-		} else {
-			echo 1;
-		}
-
-	}
-
-	function update(){
-		$id= $this->input->post("id");
-		$value= $this->input->post("value");
-		$modul= $this->input->post("modul");
-		$data[$modul] = $value;
-		$this->M_data->update('ID', $id, 'users', $data);
-		echo "{}";
-	}
+    public function update()
+    {
+        $id = $this->input->post("id");
+        $value = $this->input->post("value");
+        $modul = $this->input->post("modul");
+        $data[$modul] = $value;
+        $this->M_data->update('ID', $id, 'users', $data);
+        echo "{}";
+    }
 }
 
 /* End of file admin.php */

@@ -122,6 +122,9 @@ class Mahasiswa extends CI_Controller {
 		$config['allowed_types'] = 'pdf';
 		$config['file_name'] = $filename;
 
+		if (!is_dir('./assets/'.$sesi)) {
+            mkdir('./assets/'.$sesi);
+        }
 		
 		$this->load->library('upload', $config);
 		

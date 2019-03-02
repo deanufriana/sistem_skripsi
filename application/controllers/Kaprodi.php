@@ -145,6 +145,10 @@ function acceptSkripsi($idSkripsi, $sta)
     $nama = $d->Nama;
   }
 
+  if (!is_dir('./assets/images/QRCode')) {
+    mkdir('./assets/images/QRCode');
+  }
+
   if ($sta != null) {
 
     $this->load->library('ciqrcode');

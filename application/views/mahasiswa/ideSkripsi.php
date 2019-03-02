@@ -17,7 +17,7 @@
 			Hi, Teman !!! Saat ini tidak ada ide skripsimu yang sedang dalam proses !! silahkan ajukan ide skripsimu selengkap dan sebagus mungkin ya !! isi form di sebelah kiri untuk mengajukan ide skripsi yang ingin kamu ajukan ! kamu bisa mengajukan ide skripsi sebanyak mungkin ! tetap semangat ya teman. 
 		</div>
 		<div class='col-md-5'>
-			<img class="card-img-top" src="<?= base_url('assets/images/fix/ide.jpg')?>">
+			<img class="card-img-top" src="<?= base_url('assets/web/ide.jpg')?>">
 		</div>
 	</div>
 <?php } ?>

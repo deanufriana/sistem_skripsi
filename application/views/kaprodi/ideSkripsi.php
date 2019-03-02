@@ -67,7 +67,7 @@
 				Maaf saat ini tidak ada yang mengajukan ide skripsi.				
 			</div>
 			<div class="col-md-3">
-				<img src="<?= base_url('assets/images/fix/sad.jpg') ?>" >	
+				<img src="<?= base_url('assets/web/sad.jpg') ?>" >	
 			</div>
 		</div>
 	<?php } else {

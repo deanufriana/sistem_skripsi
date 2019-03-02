@@ -43,7 +43,7 @@
 			<div class="row">
 
 				<div class="col-md-2">
-					<img class="card-img-top" id="blah" src="<?= base_url('assets/images/fix/user.png');?>">	
+					<img class="card-img-top" id="blah" src="<?= base_url('assets/web/user.png');?>">	
 				</div>
 
 				<div class="col-md">
@@ -122,7 +122,7 @@
 					Sistem Ini Mengharuskan Admin Untuk Memasukan Data Jurusan & Konsentrasi Untuk Bisa Digunakan. 
 				</div>
 				<div class='col-md-3'>
-					<img src="<?= base_url('assets/images/fix/sad.jpg')?>">
+					<img src="<?= base_url('assets/web/sad.jpg')?>">
 				</div>
 			</div>
 		</div>
