@@ -88,7 +88,7 @@
 								</div>
 								
 								<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-messages-list"> 			
-									<div id="formKegiatan">
+									<div id="formKegiatan" class='container'>
 										
 									</div>
 								</div>

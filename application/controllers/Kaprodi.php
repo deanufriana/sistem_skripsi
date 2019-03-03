@@ -149,8 +149,17 @@ function acceptSkripsi($idSkripsi, $sta)
     mkdir('./assets/images/QRCode');
   }
 
-  if ($sta != null) {
 
+  if ($sta === 'null') {
+
+    $hasil = 'Ditolak';
+
+    $whereIde = array('IDIde' => $IDIde);
+
+    $this->M_data->delete($whereIde, 'ideskripsi');
+
+  } else {
+    
     $this->load->library('ciqrcode');
 
     $config['cacheable']    = true; 
@@ -197,14 +206,9 @@ function acceptSkripsi($idSkripsi, $sta)
 
     $hasil = 'Diterima';
 
-  } else {
-
-    $hasil = 'Ditolak';
-
-    $whereIde = array('IDIde' => $IDIde);
-
-    $this->M_data->delete($whereIde, 'ideskripsi');
   }
+
+  echo $sta;
 
   $NotifMhs = array('Notifikasi' => $judul, 'Catatan' => $note, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $ID, 'StatusNotifikasi' => $hasil);
   $this->M_data->save($NotifMhs, 'notifikasi');

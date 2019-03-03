@@ -16,6 +16,7 @@ class ControllerGlobal extends CI_Controller {
 		$where = array('ID' => $this->session->userdata('ID'));
 		$data['users'] = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 		$this->load->view('template/myProfil', $data);
+        $this->load->view('template/jquery/formSubmit');
 	}
 
 	function notifikasi()
@@ -57,8 +58,59 @@ class ControllerGlobal extends CI_Controller {
 	function downloadFile($filename)
 	{
 		$this->load->helper('download');
+		force_download('assets/Proposal/'.$filename, NULL);
+	}
 
-		force_download('assets/proposal/'.$filename, NULL);
+	function uploadFoto()
+	{
+		if (!is_dir('./assets/images/users')) {
+            mkdir('./assets/images/users');
+        }
+
+		$filename = "file_".time('upload');
+
+		$config['upload_path'] = './assets/images/users';
+		$config['allowed_types'] = 'jpg';
+		$config['file_name']	= $filename;
+		
+		$this->load->library('upload', $config);
+		
+		if ( ! $this->upload->do_upload('upload')){
+			
+			$error = $this->upload->display_errors();
+
+			$notif = array(
+				'head' => "Maaf Terjadi Kesalahan",
+				'isi' => $error,
+				'sukses' => 0
+			);
+
+		} else {
+	
+			$id= $_SESSION['ID'];
+
+			$foto = $this->upload->data();
+
+			$query = $this->db->query("SELECT Foto FROM users WHERE ID=$id");
+			$row = $query->row();
+
+			if ($row->Foto != null) {
+				unlink('./assets/images/users/' . $row->Foto);				
+			}
+
+			$data['Foto'] = $foto['file_name'];
+
+			$this->M_data->update('ID', $id, 'users', $data);
+
+			$notif = array(
+				'head' => "Upload Berhasil",
+				'isi' => 'Berhasil',
+				'sukses' => 1
+			);
+		}
+
+		echo json_encode($notif);
+		
 	}
 
 	function deleteNotifikasi($id)

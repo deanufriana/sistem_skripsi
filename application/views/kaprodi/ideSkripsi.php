@@ -17,7 +17,7 @@
 						title: "Ide Skripsi",
 						text: "Terima Judul Skripsi Ini",
 						icon: "warning",
-						buttons: ["Tolak", true],
+						buttons: ["Tolak",'OK'],
 						dangerMode: true,
 					})
 					.then((willDelete) => {
@@ -28,7 +28,8 @@
 							contentType: false,
 							processData: false,
 							cache: false,
-							success: function() {
+							success: function(result) {
+								console.log(result)
 								$('#ideskripsi').load('<?php echo base_url('kaprodi/ideskripsi');?>');
 							}
 						});
@@ -42,7 +43,7 @@
 
 				$.ajax({
 					type: "POST", 
-					url: "<?php echo base_url("kaprodi/filterPembimbing"); ?>", 
+					url: "<?= base_url("kaprodi/filterPembimbing"); ?>", 
 					data: {pmb1 : val}, 
 					dataType: "json",
 					success: function(response){ 
@@ -58,7 +59,7 @@
 	</script>
 </head>
 
-<div class="card card-outline-secondary">
+<div class="card card-outline-secondary container">
 	<?php 
 	if (!$ideskripsi) {?>
 		<div class="row align-items-center m-5">
@@ -76,19 +77,20 @@
 			<div class="card-body">
 				<div id="judul" class="form-row">
 					<div class="form-group col-md-1 col-2">
-						<img class="card-img-top" src="<?= base_url('assets/images/User/'.$u->Foto);?>" alt="Card image">
+						<img class="card-img-top" src="<?= base_url('assets/images/users/'.$u->Foto);?>" alt="Card image">
 					</div>
 					<div class="form-group col-md col-10 mb-2">
 						<h4> <?php echo $u->Nama;?> </h4>
 						<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar-alt fa-sm"></i> <?php echo $u->TanggalIde;?> </h6>
-						<p class="card-text text-justify mt-3"> <i class="fas fa-sticky-note"></i> <?php echo $u->DeskripsiIde;?> </p>
 					</div>
 					<div class="form-group col-md-auto text-right">
 						<h4 class="text-primary"><?php echo $u->JudulIde;?>  </h4>
 					</div>
-					<hr>
+					<p class="card-text text-justify mt-3"> <i class="fas fa-sticky-note"></i> <?php echo $u->DeskripsiIde;?> </p>
 				</div>
-				<form id="<?= $u->IDIde;?>" method="POST" name="<?= $u->ID;?>" action="<?php echo base_url('Kaprodi/acceptSkripsi/');?>" class="ideSkripsi">
+				<hr>
+
+				<form id="<?= $u->IDIde;?>" method="POST" name="<?= $u->ID;?>" action="<?= base_url('Kaprodi/acceptSkripsi/');?>" class="ideSkripsi">
 					<div class="form-group">
 						<textarea class="form-control" name="catatan" placeholder="Catatan Untuk Mahasiswa" required></textarea>
 					</div>

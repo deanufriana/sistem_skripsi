@@ -24,11 +24,10 @@
     <div class="form-row align-items-center">
       <div class="col-md  mb-4">
         <label class="sr-only" for="inlineFormInput">ID Konsentrasi</label>
-        <input min="0" type="number" class="form-control mb-s4 form-control-sm" placeholder="ID Konsentrasi" name="id">
+        <input min="0" type="number" class="form-control mb-s4 form-control-sm" placeholder="ID Konsentrasi" name="id" required>
       </div>
       <div class="col-md mb-4">
-
-        <input type="text" name="konsentrasi" class="form-control form-control-sm" id="inlineFormInputGroup" placeholder="Konsentrasi">
+        <input type="text" name="konsentrasi" class="form-control form-control-sm" id="inlineFormInputGroup" placeholder="Konsentrasi" required>
       </div>
       <div class="col-md mb-4">
         <select name="id_jurusan" class="custom-select mr-sm-2 form-control-sm" id="jrsn">

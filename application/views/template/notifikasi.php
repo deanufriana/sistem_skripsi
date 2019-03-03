@@ -39,7 +39,7 @@
 	</script>
 </head>
 
-<div class="card card-outline-secondary" id="Notifikasi">
+<div class="card container" id="Notifikasi">
 	<?php if (!$Notifikasi) { ?>
 		<div class='row align-items-center m-5'>
 			<div class='col-md'>
@@ -59,8 +59,9 @@
 				<img class="card-img-top" src="<?= base_url('assets/web/jelaskan.jpg')?>">
 			</div>
 		</div>
-	<?php } else { 
-		foreach ($Notifikasi->result() as $p) {
+	<?php } else { ?>
+	<div class="scroll" style="height: 30rem; overflow: auto">
+	<?php	foreach ($Notifikasi->result() as $p) {
 			?>
 			<div class="tabel<?php echo $p->IDNotifikasi;?>" id="container">
 				<div>
@@ -88,8 +89,8 @@
 										<h6 class="card-subtitle text-muted"> <i class="fas fa-calendar fa-sm"></i> <?php echo longdate_indo($p->TanggalNotifikasi);?> <i class="fas fa-users fa-sm"></i> <?php echo $p->Nama;?> </h6>
 									</div>
 									<div>
-										<h6>Catatan</h6>
-										<?php echo $p->Catatan;?>
+										
+									<i class='fas fa-sticky-note'></i>	<?php echo $p->Catatan;?>
 									</div>
 								</div>
 
@@ -104,4 +105,6 @@
 				</div>
 
 			<?php } } ?>
+	</div>
+
 		</div>

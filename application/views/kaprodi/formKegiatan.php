@@ -1,11 +1,6 @@
 <head>
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/clockpicker.css');?>">
 	<script type="text/javascript">
-		$('.clockpicker').clockpicker({
-			placement: 'bottom',
-			align: 'left',
-			donetext: 'Done'
-		});
 		$(document).ready(function(){
 			$("#save_kegiatan").on('submit',
 				function(e) {
@@ -31,7 +26,23 @@
 						}
 					});
 				});
+
+			$('#addMahasiswa').click(function (e) { 
+				e.preventDefault();
+				console.log(e);
+				var clone = $('.penerima').clone();			
+				$('.penerima').append(clone);
+			});
+
+
+			$('.clockpicker').clockpicker({
+				placement: 'bottom',
+				align: 'left',
+				donetext: 'Done'
+			});
 		});
+
+
 	</script>
 </head>
 
@@ -48,10 +59,10 @@
 <?php } else { ?>
 	<form method="POST" id="save_kegiatan" action="<?php echo base_url('Kaprodi/aksiKegiatan');?>">
 		<div>
+		<label>Nama :</label>
 			<div class="form-row">
-				<div class="form-group col-md">
-					<label>Nama :</label>
-					<select class="custom-select" id="inputGroupSelect01" name="penerima">
+				<div class="form-group col-md blockpenerima">
+					<select class="custom-select"  name="penerima">
 						<option selected>Pilih</option>
 						<?php foreach ($users->result() as $m) {
 							?>
@@ -59,17 +70,21 @@
 						<?php } ?>
 					</select>
 				</div>
-				<div class="form-group col-md">
-					<label> Tempat Kegiatan :</label>
+			<!-- <div class="form-group col-md-auto">
+				<button class='btn btn-primary' id='addMahasiswa' type='button'><i class='fas fa-plus'></i> </button>
+			</div> -->
+			</div>
+			<div class="form-group">
+			<label> Tempat Kegiatan :</label>
 					<div class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-map-marker"></i></span>
 						</div>
 						<input type="text" name="tempat" class="form-control" required>
 					</div>
-				</div>
 
 			</div>
+			
 			<div class="form-row">
 				<div class="form-group col-md-8">
 					<label>Tanggal Kegiatan</label>
@@ -114,7 +129,7 @@
 						</div>
 					</div>
 					<div class="col-md text-right">
-						<button class="btn btn-primary"> Submit </button>
+						<button class="btn btn-primary" type='submit'> Submit </button>
 					</div>
 				</div>
 			</fieldset>

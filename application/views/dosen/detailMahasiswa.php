@@ -85,14 +85,15 @@
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-2 mr-3">
-						<img class="card-img-top" src="<?= base_url('assets/images/User/'.$u->Foto) ;?>">
+						<img class="card-img-top" src="<?= base_url('assets/images/users/'.$u->Foto) ;?>">
 					</div>
 					<div class="col-md">
 						<div class="form-row">
 							<div class="form-group col-md">
 								<p class="h5"> <?= $u->Nama;?> / <?= $u->ID;?>  </p>
-								<p class="text-subtitle h6"><i class="fas fa-envelope fa-sm"></i> <?= $u->Email;?> <br> 
-									<i class="fas fa-phone fa-sm"></i> No. HP : <?= $u->NoHP;?> 
+								<p class="text-subtitle h6">
+									<i class="fas fa-envelope fa-sm"></i> <?= $u->Email;?> <br> 
+									<i class="fas fa-phone fa-sm"></i> <?= $u->NoHP === null ? 'user belum menambahkan nomer' : $u->NoHP;?> 
 								</p>
 							</div>						
 							<div class="form-group col-md-auto text-right">
@@ -114,7 +115,7 @@
 
 									<div class="form-row">
 										<div class="form-group">
-											<a class="btn-sm"
+											<a class="btn btn-sm"
 											<?php if (empty($u->FileProposal)) {
 												echo "";
 											} else {
@@ -132,7 +133,7 @@
 											</form>
 										</div> 
 										<div class="form-group ml-2">
-											<a class="btn-sm"
+											<a class="btn btn-sm"
 											<?php if (empty($u->FileSkripsi)) {
 												echo "";
 											} else {

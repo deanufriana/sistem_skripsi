@@ -59,6 +59,7 @@ class Mahasiswa extends CI_Controller {
 				'sukses' => 0
 			);
 		} else {
+			$this->M_data->save($ide, 'ideskripsi');
 			$notif = array(
 				'head' => 'Ide Skripsi Berhasil Diajukan!',
 				'isi' => 'Silahkan Tunggu Validasi Dari Kaprodi',
@@ -66,7 +67,6 @@ class Mahasiswa extends CI_Controller {
 				'func' => 'Mahasiswa/ideSkripsi',
 				'sukses' => 1
 			);
-			$this->M_data->save($ide, 'ideskripsi');
 		}
 
 		echo json_encode($notif);
@@ -74,7 +74,6 @@ class Mahasiswa extends CI_Controller {
 
 	function form_ide()
 	{
-		$this->load->view('template/jquery/formSubmit');
 		$this->load->view('mahasiswa/formIde');
 	}
 
@@ -82,7 +81,6 @@ class Mahasiswa extends CI_Controller {
 	{
 		$where = array('IDIdeMahasiswa' => $_SESSION['ID']);
 		$data['ide_skripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC');
-
 		$this->load->view('mahasiswa/ideSkripsi', $data);
 	}
 
@@ -143,7 +141,7 @@ class Mahasiswa extends CI_Controller {
 					$level = $s->FileSkripsi;
 				}
 			}
-			if (file_exists('./assets/'.$sesi.'/'.$level)) {
+			if ($level !== null) {
 				unlink('./assets/'.$sesi.'/'.$level);
 			}
 

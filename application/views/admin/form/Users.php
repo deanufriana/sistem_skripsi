@@ -47,10 +47,10 @@
 		</div>
 	</div>
 <?php } else {?>
-	<form method="post" id="Dosen" action="<?= base_url('Admin/saveUsers/'.$user); ?>" class="formSimpan">
+	<form method="post" id="Dosen" action="<?=base_url('Admin/saveUsers/' . $user);?>" class="formSimpan">
 					<div class="form-row">
 						<div class="form-group col-md">
-							<input type="number" id="nik" name="id" class="form-control" placeholder="ID <?= $user?>" required>
+							<input type="number" id="nik" name="id" class="form-control" placeholder="ID <?=$user?>" required>
 						</div>
 						<div class="form-group col-md">
 							<input id="nama" type="text" name="name" class="form-control" placeholder='Nama' required>

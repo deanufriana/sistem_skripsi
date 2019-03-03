@@ -29,7 +29,6 @@
 							$('#tabel'+result.ID).load('<?= base_url('')?>'+result.func);
 							$('input').val('');
 							$('textarea').val('');
-							$('#blah').attr('src', '<?=base_url('assets/web/user.png')?>');
 						}
 
 						$(".loading").fadeOut();

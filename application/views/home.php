@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/web/book.ico');?>" />
+	<link rel="shortcut icon" type="image/x-icon" href="<?= base_url('assets/web/icon.ico');?>" />
 	
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1" />

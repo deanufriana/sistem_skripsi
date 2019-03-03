@@ -148,20 +148,16 @@ class Cetak extends CI_Controller {
 		}
 
 
-		$pdf->ln(20);
-		$pdf->Cell(130, 0, '', 0,0,'L');
-		$pdf->Cell(0, 0, 'Brebes, '.date_indo(date('Y-m-d')), 190,0,'L');
-		$pdf->ln(25);
-		$pdf->Cell(130, 0, '', 0,0,'L');
+		$pdf->Cell(120, 0, '', 0,0,'L');
+		$pdf->Cell(0, 35, 'Brebes, '.date_indo(date('Y-m-d')), 0,2,'L');
+
 		foreach ($mhs->result() as $k) {
 			$where = array('IDKonsentrasi' => $k->IDKonsentrasiUser);
 			$jurusan = $this->M_data->find('konsentrasi', $where,  '', '', 'users', 'users.ID = konsentrasi.IDDosen', 'jurusan', 'jurusan.IDJurusan = konsentrasi.IDJurusanKsn');	
 		}
 		foreach ($jurusan->result() as $j) {
-			$pdf->Cell(181, 0, $j->Nama, 0,2,'L');
-			$pdf->ln(5);
-			$pdf->Cell(130, 0, '', 0,0,'L');
-			$pdf->Cell(0, 0, 'Ka. Prodi '.$j->Jurusan.' '.$j->Konsentrasi, 0,0,'L');
+			$pdf->Cell(0, 9, $j->Nama, 0,2,'L');
+			$pdf->Cell(0, 0, 'Ka. Prodi '.$j->Jurusan.' '.$j->Konsentrasi, 0,2,'L');
 		}
 		$pdf->Output();
 	}

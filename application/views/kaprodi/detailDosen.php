@@ -6,7 +6,13 @@ foreach ($dosen->result() as $d) {
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-1 mr-auto">
-						<img class="card-img-top" src="<?php echo base_url('assets/images/User/'.$d->Foto) ;?>">
+						<?php if ($d->Foto === null) {
+							$image = 'assets/web/user.png';
+						} else {
+							$image = 'assets/images/users/'.$d->Foto;
+						} 
+						?>						
+						<img class="card-img-top" src="<?= base_url($image) ;?>">
 					</div>
 					<div class="col">
 						<div class="form-row">

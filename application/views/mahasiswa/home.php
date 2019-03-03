@@ -54,11 +54,7 @@
 				<div class="col-md mb-3">
 					<div class="tab-content" id="v-pills-tabContent">
 						<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-							<div class="scroll card card-outline-secondary">
-								<div id="Pemberitahuan">
-
-								</div>
-							</div>
+								<div id="Pemberitahuan"></div>
 						</div>
 						<div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
 							<div class="card border-primary">

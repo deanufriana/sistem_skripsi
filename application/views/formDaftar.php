@@ -34,6 +34,7 @@
 		$("#foto").change(function() {
 			readUrl(this);
 		});
+		
 
 	</script>
 </head>
