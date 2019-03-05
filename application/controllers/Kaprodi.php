@@ -223,24 +223,31 @@ function aksiKegiatan()
   $penerima = $this->input->post('penerima');
   $tanggal = $this->input->post('tanggal');
 
-  $data['Notifikasi'] = 'Kegiatan '.$kegiatan.' Telah Ditetapkan';
-  $data['Catatan'] = '<i class="fas fa-clock mr-auto"></i>  '.$jam.'<br> <i class="fas fa-map-marker mr-auto"></i>  '.$tempat.'<br> <i class="fas fa-calendar-alt"></i> '.longdate_indo($tanggal);
-  $data['IDPengirim'] = $_SESSION['ID'];
-  $data['IDPenerima'] = $penerima;
-  $data['TanggalNotifikasi'] = date('Y-m-d');
-  $data['StatusNotifikasi'] = $kegiatan;
+  foreach ($penerima as $p) {
+    
+    $data = array(
+      'Notifikasi' => 'Kegiatan '.$kegiatan.' Telah Ditetapkan',
+      'Catatan' => 'Dimohon Persiapkan diri Pada : <br> <i class="fas fa-clock mr-auto"></i>  '.$jam.'<br> <i class="fas fa-map-marker mr-auto"></i>  '.$tempat.'<br> <i class="fas fa-calendar-alt"></i> '.longdate_indo($tanggal),
+      'IDPengirim' => $_SESSION['ID'],
+      'IDPenerima' => $p,
+      'TanggalNotifikasi' => date('Y-m-d'),
+      'StatusNotifikasi' => $kegiatan
+    );
 
-  $simpan = array(
-    'IDUsers' => $penerima,
-    'Kegiatan' => $kegiatan,
-    'Tempat' => $tempat,
-    'JamKegiatan' => $jam,
-    'TanggalKegiatan' => $tanggal,
-    'Finish' => 0,
-  );
+    $this->M_data->save($data, 'notifikasi'); 
 
-  $this->M_data->save($simpan, 'kegiatan');
-  $this->M_data->save($data, 'notifikasi');
+  }
+
+  // $simpan = array(
+  //   'IDUsers' => $penerima,
+  //   'Kegiatan' => $kegiatan,
+  //   'Tempat' => $tempat,
+  //   'JamKegiatan' => $jam,
+  //   'TanggalKegiatan' => $tanggal,
+  //   'Finish' => 0,
+  // );
+
+  // $this->M_data->save($simpan, 'kegiatan');
 
 }
 
