@@ -12,6 +12,7 @@
 					$('.loading').show();
 				},
 				success: function (html) {
+					console.log(html)
 					$('#tabelUser').html(html);
 					$('.loading').fadeOut("slow");
 				}
@@ -22,44 +23,24 @@
 </head>
 
 <?php if ($users) {?>
-<div class="form-row">
-	<div class="form-group col-md">
-		<input type="text" name="" id="keywords" class="form-control" onkeyup="searchmhs()">
-	</div>
-	<div class="form-group col-md-2">
-		<select class="form-control" id="search" onchange="searchmhs()">
-			<option value="IDMahasiswaSkripsi"> NIM </option>
-			<option value="Nama"> Nama </option>
-		</select>
-	</div>
-	<div class="form-group col-1 m-1 loading" style="display: none">
-		<i class="fas fa-spinner fa-pulse"></i>
-	</div>
-</div>
-<table class="table table-bordered" id="tabelUser">
+<div id="tabelUser">
+<table class="table table-bordered">
 	<thead>
 		<tr class="text-center">
-			<th>NIM</th>
-			<th>Nama</th>
+			<th>Nama / NIM</th>
 			<th colspan="2">Pembimbing</th>
 			<th>Proposal</th>
 			<th>Skripsi</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($users->result() as $u) {
-    ?>
+		<?php foreach ($users->result() as $u) {?>
 		<tr>
 			<td style="vertical-align : middle;text-align:center;" rowspan="2">
-				<?php echo $u->ID; ?>
-			</td>
-			<td style="vertical-align : middle;text-align:center;" rowspan="2">
 				<a href="<?php echo base_url('Dosen/detailMahasiswa/' . $u->IDMahasiswaSkripsi); ?>">
-					<?php echo $u->Nama ?></a></td>
-			<?php foreach ($pembimbing->result() as $p) {?>
-			<?php if ($u->IDSkripsi === $p->IDSkripsiPmb) {
-        # code...
-        ?>
+					<?=$u->Nama . ' / ' . $u->ID?></a> </td>
+			<?php foreach ($pembimbing->result() as $p) { ?>
+			<?php if ($u->IDSkripsi === $p->IDSkripsiPmb) {  ?>
 			<td>
 				<?php echo anchor('Dosen/detailDosen/' . $p->IDDosenPmb, $p->Nama); ?>
 			</td>
@@ -68,47 +49,33 @@
 			</td>
 
 			<td class="text-center">
-				<?php if ($p->StatusProposal) {
-            echo "<i class='fas fa-check-square'></i>";
-        } else {
-            echo "<i class='fas fa-square'></i>";
-        }?>
-
+				<?php if ($p->StatusProposal) {  echo "<i class='fas fa-check-square'></i>"; } else { echo "<i class='fas fa-square'></i>"; }?>
 			</td>
 
 			<td class="text-center">
-				<?php if ($p->StatusSkripsi) {
-            echo "<i class='fas fa-check-square'></i>";
-        } else {
-            echo "<i class='fas fa-square'></i>";
-        }?>
+				<?php if ($p->StatusSkripsi) {   echo "<i class='fas fa-check-square'></i>"; } else { echo "<i class='fas fa-square'></i>"; }?>
 			</td>
 		</tr>
 		<?php }}?>
 		<tr>
 			<th>Judul Skripsi</th>
-			<td colspan="3">
+			<td colspan="2">
 				<?php echo anchor('Dosen/detailMahasiswa/' . $u->ID, $u->JudulSkripsi); ?>
 			</td>
-			<td class="text-center"><a <?php if (empty($u->FileProposal)) {
-					echo "";
-					} else {
-					echo "href=" . base_url("ControllerGlobal/downloadFile/" . $u->FileProposal);
-					}?>> <i class="fa fa-download"></i> </a></td>
-			<td class="text-center"> <a <?php if (empty($u->FileSkripsi)) {
-					echo "";
-					} else {
-					echo "href=" . base_url("ControllerGlobal/downloadFile/" . $u->FileSkripsi);
-					}?>> <i class="fa fa-download"></i> </a> </td>
+			<td class="text-center"><a <?php if (empty($u->FileProposal)) {  echo ""; } else { echo "href=" . base_url("ControllerGlobal/downloadFile/" . $u->FileProposal);}?>> <i class="fa fa-download"></i> </a>
+			</td>
+			<td class="text-center"> <a <?php if (empty($u->FileSkripsi)) { echo ""; } else { echo "href=" . base_url("ControllerGlobal/downloadFile/" . $u->FileSkripsi); }?>> <i class="fa fa-download"></i> </a> 
+			</td>
 		</tr>
 
 		<?php }?>
 	</tbody>
 </table>
+</div>
+
 <?php echo $this->ajax_pagination->create_links(); ?>
-<?php
-} else {?>
-<div class="card card-outline-secondary container">
+<?php } else {?>
+<div class="container">
 	<div class="row align-items-center m-5">
 		<div class="col-md mb-5">
 			<?php if ($_SESSION['Kaprodi']) {?>

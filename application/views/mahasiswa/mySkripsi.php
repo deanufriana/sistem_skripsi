@@ -128,11 +128,11 @@
 		</div>
 	<?php } else { ?>
 		<div id="table-wrapper">
-			<div class="mt-2" style="overflow:auto; height: 15rem">
+			<div class="mt-2" style="overflow:auto; height: 16rem">
 				<table class="table table-sm small">
 					<thead>
 						<tr>
-							<th>No</th>
+							<th style='width: 5rem'>No</th>
 							<th style="width: 12rem">Tanggal</th>
 							<th>Pembimbing</th>
 						</tr>

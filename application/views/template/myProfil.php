@@ -31,6 +31,9 @@
 						success: function(a){
 							target.hide();
 							target.siblings("span[class~='caption']").html(value).fadeIn();
+						},
+						error: function(e) {
+							swal(e.statusText, 'Nomer HP Sudah Pernah Digunakan')
 						}
 
 					})
@@ -90,11 +93,11 @@
 			<div class="row">
 				<div class="col-md">
 					<div class="card-text small mt-2">	
-						<i class='fas fa-envelope'></i> <span class='span-email caption' data-id='<?= $d->ID;?>'> <?= $d->Email;?> </span> 
-						<input type='email' class='field-email col-7 form-control-sm form-control editor' value='<?= $d->Email;?>' data-id='<?= $d->ID;?>' style="display: none;"/> 
+					<span class='span-email caption' data-id='<?= $d->ID;?>'> 	<i class='fas fa-envelope'></i>  <?= $d->Email;?> </span> 
+						<input type='email' class='field-email form-control-sm form-control editor' value='<?= $d->Email;?>' data-id='<?= $d->ID;?>' style="display: none;"/> 
 					</div> 
 					<div class="card-text small mt-2"> 
-						<span class='span-phone caption' data-id='<?= $d->ID;?>'> <i class='fas fa-phone'></i>  <?= $d->NoHP === null ? 'klik to add phone number' : $d->NoHP ;?> </span> <input type='text' class='field-phone col-7 form-control-sm form-control editor' value='<?= $d->NoHP;?>' data-id='<?= $d->ID;?>' style="display: none;"/>
+					 <span class='span-phone caption' data-id='<?= $d->ID;?>'> <i class='fas fa-phone'></i>  <?= $d->NoHP === null ? 'klik to add phone number' : $d->NoHP ;?> </span> <input type='number' class='field-phone form-control-sm form-control editor' value='<?= $d->NoHP;?>' data-id='<?= $d->ID;?>' style="display: none;"/>
 					</div>
 				</div>
 

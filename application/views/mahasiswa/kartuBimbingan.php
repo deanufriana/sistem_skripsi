@@ -7,7 +7,7 @@
 			<i class="fas fa-trash"></i>
 		</div>
 		
-			<table class="table table-borderless">
+			<table class="table table-borderless" style='width: auto !important;'>
 				<thead>
 					<tr>
 						<th> Nama Dosen </th>

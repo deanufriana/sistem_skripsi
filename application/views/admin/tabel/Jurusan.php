@@ -1,13 +1,11 @@
-<head>
-	<script type="text/javascript" src="<?= base_url('assets/js/myscript.js');?>">
-	</script>
-</head>
+<script type="text/javascript" src="<?= base_url('assets/js/myscript.js');?>"></script>
+
 <?php if (!$jurusan) {?>
 	<div class='container-fluid'>
 		<div class="row align-items-center">
 			<div class="col-md">
-				<h2>Selamat Datang Admin</h2>
-				Sistem Skripsi Online Berbasis Web Disini Merupakan Data Jurusan dan Konsentrasi Silahkan Masukan Data Jurusan Melalui form Jurusan Di Atas. 
+				<h2>Selamat data admin</h2>
+				Sistem skripsi online berbasis web disini merupakan data jurusan dan konsentrasi silahkan masukan data jurusan melalui form jurusan di atas. 
 			</div>
 			<div class="col-md-3">
 				<img src="<?= base_url('assets/web/welcome.png');?>">
@@ -16,7 +14,7 @@
 	</div>
 <?php } else { ?>
 	<div id="container" class="row">
-		<div class="col-md table-responsive">
+		<div class="col-md-4 table-responsive">
 			<table class="table">
 				<thead>
 					<tr>

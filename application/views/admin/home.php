@@ -53,7 +53,6 @@
 						</div>
 						<div class="col-md col text-right">
 							<h5> BERANDA </h5>
-							Navigasi Ini Merupakan Halaman Dimana Kamu Selaku Admin Dapat Menambahkan Jurusan & Konsentrasi Sekaligus Menetapkan Kaprodi Di Setiap Konsentrasi, ya min.	
 						</div>
 					</div>
 					<hr>
@@ -109,9 +108,6 @@
 						</div>
 						
 					</div>
-					<div class="text-justify">
-						Di halaman ini kamu bisa melihat semua daftar mahasiswa ya min, selain itu kamu juga bisa mengubah status skripsi mahasiswa menjadi skripsi agar mahasiswa bisa mengajukan ide skripsi oh ya saat kamu mengacc data pendaftar secara otomatis password akan di kirimkan lewat email, min.	
-					</div>
 					<hr>
 					<div id="nav_mhs">
 
@@ -128,9 +124,6 @@
 							<h5> DOSEN </h5>
 						</div>
 						
-					</div>
-					<div class="text-justify">
-						Di halaman ini kamu bisa melihat semua daftar dosen. kamu juga bisa menambahkan daftar dosen dengan menggunakan form yang ada di masukan dosen. dan seperti biasa password akan di kirimkan melalui email ya, min.	
 					</div>
 					<hr>
 					<div id='nav_dsn'></div>

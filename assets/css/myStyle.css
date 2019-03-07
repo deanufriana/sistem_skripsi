@@ -48,8 +48,11 @@ pre {
 	*height: 3px; /* IE6+7 need the total height */
 	/* the rest of your styling */
 }
+
 .scroll {
 	overflow-y: auto;
+	display: none;
+	height: 30rem;
 }
 
 .navigasi{

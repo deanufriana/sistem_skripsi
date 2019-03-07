@@ -106,7 +106,7 @@
 <?php }?>
 
 <body>
-	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border">
+	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border" >
 
 		<div class="navbar-brand navbar-nav m-1">
 			<img src="<?=base_url('assets/web/horizontal.png')?>" alt="" srcset="">

@@ -71,10 +71,6 @@
     </div>
     <div class="col-md text-center">
       <div class='row align-items-center'>
-        <div class='col-md-7'>
-          <h2>Di Halaman Ini Kamu Bisa Menggubah Password & Username Kamu Min.</h2>
-          Jangan Sampe Lupa Password ya min. Karna Akan Repot Mengubahnya Kembali. 
-        </div>
         <div class='col-md-3 mr-3'>
           <img src="<?= base_url('assets/web/info.png')?>">
         </div>

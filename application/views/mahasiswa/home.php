@@ -70,7 +70,7 @@
 							</div>
 						</div>
 						<div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-							<div class="mb-3 card" id="tabelMySkripsi">
+							<div class="mb-3 card container" id="tabelMySkripsi">
 							</div>
 						</div>		
 					</div>

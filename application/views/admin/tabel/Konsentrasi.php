@@ -10,8 +10,7 @@
 				<th>Konsentrasi</th>
 				<th>KaProdi</th>
 			</thead>
-			<?php foreach ($konsentrasi->result() as $k) {
-				?>
+			<?php foreach ($konsentrasi->result() as $k) { ?>
 				<tbody>
 					<tr>
 						<td scope="row"> <?php echo $k->IDKonsentrasi;?></td>
@@ -32,7 +31,7 @@
 											<button type="submit" class="btn btn-primary mb-4">Submit</button>
 										</div>
 									<?php } else {
-										echo "Tetapkan Dosen Untuk Konsentrasi Ini Dulu Min, :(";
+										echo "mohon masukan data dosen untuk konsentrasi ini";
 									} ?>
 								</div>
 							</form>
@@ -57,8 +56,8 @@
 		<div class='container-fluid mt-5'>
 			<div class='row align-items-center'>
 				<div class='col-md'>
-					<h2>Belum Ada Konsentrasi Untuk Fakultas Ini, Min.</h2>
-					Silahkan Tambahkan Konsentrasi Fakultas Dengan Memasukannya Melalui Form Konsentrasi Di Atas. 
+					<h2>Konsentrasi untuk fakultas ini tidak ditemukan.</h2>
+					Silahkan tambahkan konsentrasi fakultas dengan memasukannya melalui form konsentrasi di atas. 
 				</div>
 				<div class='col-md-3'>
 					<img src="<?= base_url('assets/web/sad.jpg')?>">

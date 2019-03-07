@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /**
  * Sistem Skripsi Online Berbasis Web
@@ -13,242 +13,240 @@
  * 3. TIDAK MENYERTAKAN LINK KOMERSIL (JASA LAYANAN HOSTING DAN DOMAIN) YANG MENGUNTUNGKAN SEPIHAK.
  */
 
-class Kaprodi extends CI_Controller {
+class Kaprodi extends CI_Controller
+{
 
-	function __construct()
-	{
-		parent::__construct();
-    $where = array('IDDosen' => $_SESSION['ID']);
-    $dosen = $this->M_data->find('konsentrasi', $where);
-    if (!$dosen) {
-      redirect(base_url("Home"));
+    public function __construct()
+    {
+        parent::__construct();
+        $where = array('IDDosen' => $_SESSION['ID']);
+        $dosen = $this->M_data->find('konsentrasi', $where);
+        if (!$dosen) {
+            redirect(base_url("Home"));
+        }
+
+        $this->load->library('Ajax_pagination');
+        $this->perPage = 5;
     }
 
-    $this->load->library('Ajax_pagination');
-    $this->perPage = 5;
-  }
+    public function index()
+    {
+        $id = array('ID' => $_SESSION['ID']);
 
-  function index()
-  {
-    $id = array('ID' => $_SESSION['ID']);
-    
-    $Penerima = array('IDPenerima' => $_SESSION['ID']);
-    
-    $data['Notifikasi'] = $this->M_data->find('notifikasi', $Penerima, '', '', 'users', 'users.ID = notifikasi.IDPengirim');
-    
-    $data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan' ,'jurusan.IDJurusan = users.IDJurusanUser');
+        $Penerima = array('IDPenerima' => $_SESSION['ID']);
 
-    $result = $data['users']->row();
-    $where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
+        $data['Notifikasi'] = $this->M_data->find('notifikasi', $Penerima, '', '', 'users', 'users.ID = notifikasi.IDPengirim');
 
-    $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+        $data['users'] = $this->M_data->find('users', $id, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser');
 
-    $this->load->view('template/navbar');
-    $this->load->view('dosen/home', $data);
-  }
+        $result = $data['users']->row();
+        $where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
 
+        $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
-  function filterPembimbing(){
+        $this->load->view('template/navbar');
+        $this->load->view('dosen/home', $data);
+    }
 
-    $pmb1 = $this->input->post('pmb1');
-    $id = array('ID' => $_SESSION['ID']);
-    $kaprodi = $this->M_data->find('users', $id);
+    public function filterPembimbing()
+    {
 
-    $result = $kaprodi->row();
+        $pmb1 = $this->input->post('pmb1');
+        $id = array('ID' => $_SESSION['ID']);
+        $kaprodi = $this->M_data->find('users', $id);
 
-    $where = array(
-      'IDKonsentrasiUser' => $result->IDKonsentrasiUser,
-      'Status' => 'Dosen',
-      'ID <>' => $pmb1,
-    );
+        $result = $kaprodi->row();
 
-    $data = $this->M_data->find('users', $where);
-    
-    $lists = "<option value=''>Pilih</option>";
+        $where = array(
+            'IDKonsentrasiUser' => $result->IDKonsentrasiUser,
+            'Status' => 'Dosen',
+            'ID <>' => $pmb1,
+        );
 
-    foreach($data->result() as $u){
-     $lists .= "<option value='".$u->ID."'>".$u->Nama."</option>"; 
-   }
+        $data = $this->M_data->find('users', $where);
 
-   $callback = array('list'=> $lists); 
-   echo json_encode($callback);
- }
+        $lists = "<option value=''>Pilih</option>";
 
- function nilai()
- {
+        foreach ($data->result() as $u) {
+            $lists .= "<option value='" . $u->ID . "'>" . $u->Nama . "</option>";
+        }
 
-  $id= $this->input->post("id");
-  $value= $this->input->post("value");
-  $modul= $this->input->post("modul");
+        $callback = array('list' => $lists);
+        echo json_encode($callback);
+    }
 
-  $users = $this->M_data->find('users', '', 'IDSkripsi', $id);
-  foreach ($users as $m) {
-    $ID = $m->ID;
-    $status = array('status' => 'Alumni');
-    $this->M_data->update('ID', $ID, 'users', $status);
-  }
-  $data[$modul] = $value;
-  $this->M_data->update('IDSkripsi', $id, 'skripsi', $data);
-  echo "{}";
-}
+    public function nilai()
+    {
 
-function formKegiatan()
-{	
-  $data = array('ID' => $_SESSION['ID']);
-  $users = $this->M_data->find('users', $data);
+        $id = $this->input->post("id");
+        $value = $this->input->post("value");
+        $modul = $this->input->post("modul");
 
-  $result = $users->row();
+        $users = $this->M_data->find('users', '', 'IDSkripsi', $id);
+        foreach ($users as $m) {
+            $ID = $m->ID;
+            $status = array('status' => 'Alumni');
+            $this->M_data->update('ID', $ID, 'users', $status);
+        }
+        $data[$modul] = $value;
+        $this->M_data->update('IDSkripsi', $id, 'skripsi', $data);
+        echo "{}";
+    }
 
-  $where = array(
-    'IDKonsentrasiUser' => $result->IDKonsentrasiUser,
-    'Status' => 'Skripsi'
-  );
+    public function formKegiatan()
+    {
+        $data = array('ID' => $_SESSION['ID']);
+        $users = $this->M_data->find('users', $data);
 
-  $data['users'] = $this->M_data->find('users', $where);
-  $this->load->view('kaprodi/formKegiatan', $data);
-}
+        $result = $users->row();
 
-function ideSkripsi()
-{
+        $where = array(
+            'IDKonsentrasiUser' => $result->IDKonsentrasiUser,
+            'Status' => 'Skripsi',
+        );
 
- $id = array('ID' => $_SESSION['ID']);
- $kaprodi = $this->M_data->find('users', $id);
+        $data['users'] = $this->M_data->find('users', $where);
+        $this->load->view('kaprodi/formKegiatan', $data);
+    }
 
- $result = $kaprodi->row();
- $where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
- $dosen = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser,  'Status' => 'Dosen');
+    public function ideSkripsi()
+    {
 
- $data['dosen'] = $this->M_data->find(
-  'users', $dosen
-);
+        $id = array('ID' => $_SESSION['ID']);
+        $kaprodi = $this->M_data->find('users', $id);
 
- $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+        $result = $kaprodi->row();
+        $where = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser);
+        $dosen = array('IDKonsentrasiUser' => $result->IDKonsentrasiUser, 'Status' => 'Dosen');
 
- $this->load->view('kaprodi/ideSkripsi', $data);
-}
+        $data['dosen'] = $this->M_data->find(
+            'users', $dosen
+        );
 
-function acceptSkripsi($idSkripsi, $sta)
-{
-  $note = $this->input->post('catatan');
-  $where['IDIde'] = $idSkripsi;
+        $data['ideskripsi'] = $this->M_data->find('ideskripsi', $where, 'IDIde', 'DESC', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
-  $pengirim = $_SESSION['ID'];
-  $tanggal = date('Y-m-d');
+        $this->load->view('kaprodi/ideSkripsi', $data);
+    }
 
-  $ideSkripsi = $this->M_data->find('ideskripsi', $where,  '', '', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
+    public function acceptSkripsi($idSkripsi, $sta)
+    {
+        $note = $this->input->post('catatan');
+        $where['IDIde'] = $idSkripsi;
 
-  foreach ($ideSkripsi->result() as $d) {
-    $IDIde = $d->IDIde;
-    $judul = $d->JudulIde;
-    $deskripsi = $d->DeskripsiIde;
-    $ID = $d->ID;
-    $nama = $d->Nama;
-  }
+        $pengirim = $_SESSION['ID'];
+        $tanggal = date('Y-m-d');
 
-  if (!is_dir('./assets/images/QRCode')) {
-    mkdir('./assets/images/QRCode');
-  }
+        $ideSkripsi = $this->M_data->find('ideskripsi', $where, '', '', 'users', 'users.ID = ideskripsi.IDIdeMahasiswa');
 
+        foreach ($ideSkripsi->result() as $d) {
+            $IDIde = $d->IDIde;
+            $judul = $d->JudulIde;
+            $deskripsi = $d->DeskripsiIde;
+            $ID = $d->ID;
+            $nama = $d->Nama;
+        }
 
-  if ($sta === 'null') {
+        if (!is_dir('./assets/images/QRCode')) {
+            mkdir('./assets/images/QRCode');
+        }
 
-    $hasil = 'Ditolak';
+        if ($sta === 'true') {
 
-    $whereIde = array('IDIde' => $IDIde);
+            $hasil = 'Ditolak';
 
-    $this->M_data->delete($whereIde, 'ideskripsi');
+            $whereIde = array('IDIde' => $IDIde);
 
-  } else {
-    
-    $this->load->library('ciqrcode');
+            $this->M_data->delete($whereIde, 'ideskripsi');
 
-    $config['cacheable']    = true; 
-    $config['cachedir']     = './assets/'; 
-    $config['errorlog']     = './assets/'; 
-    $config['imagedir']     = './assets/images/QRCode/'; 
-    $config['quality']      = true; 
-    $config['size']         = '1024'; 
-    $config['black']        = array(224,255,255); 
-    $config['white']        = array(70,130,180); 
-    $this->ciqrcode->initialize($config);
+        } else {
 
-    $params['data'] = base_url('Cetak/kartu/'.$ID);
-    $params['level'] = 'H';
-    $params['size'] = 10;
-    $params['savename'] = FCPATH.$config['imagedir'].$ID.'.png';
+            $this->load->library('ciqrcode');
 
-    $this->ciqrcode->generate($params);
+            $config['cacheable'] = true;
+            $config['cachedir'] = './assets/';
+            $config['errorlog'] = './assets/';
+            $config['imagedir'] = './assets/images/QRCode/';
+            $config['quality'] = true;
+            $config['size'] = '1024';
+            $config['black'] = array(224, 255, 255);
+            $config['white'] = array(70, 130, 180);
+            $this->ciqrcode->initialize($config);
 
-    
-    $sh = array('IDSkripsi' => $IDIde ,'JudulSkripsi' => $judul, 'QRCode' => $ID.'.png', 'Deskripsi' => $deskripsi, 'IDMahasiswaSkripsi' => $ID, 'Tanggal' => $tanggal);
-    $this->M_data->save($sh, 'skripsi');
+            $params['data'] = base_url('Cetak/kartu/' . $ID);
+            $params['level'] = 'H';
+            $params['size'] = 10;
+            $params['savename'] = FCPATH . $config['imagedir'] . $ID . '.png';
 
+            $this->ciqrcode->generate($params);
 
-    for ($i=1; $i < 3; $i++) { 
+            $sh = array('IDSkripsi' => $IDIde, 'JudulSkripsi' => $judul, 'QRCode' => $ID . '.png', 'Deskripsi' => $deskripsi, 'IDMahasiswaSkripsi' => $ID, 'Tanggal' => $tanggal);
+            $this->M_data->save($sh, 'skripsi');
 
-      $pmb = $this->input->post('pmb'.$i);
+            for ($i = 1; $i < 3; $i++) {
 
-      // Memasukan Dosen Pembimbing Ke Database
-      $dosen = array('IDDosenPmb' => $pmb, 'IDSkripsiPmb' => $IDIde, 'StatusProposal' => 0, 'StatusSkripsi' => 0, 'StatusPembimbing' => $i);
-      $this->M_data->save($dosen, 'pembimbing');
-      
-      // Mengirim Pemberitahuan Ke Dosen Pembimbing
-      $Catatan = 'Anda Di Tetapkan Sebagai Dosen Pembimbing '.$nama.' Anda sekarang bisa mengacc proposal maupun skripsi '.$nama.'dan juga menambah kartu bimbingan untuk mahasiswa tersebut Anda ditetapkan sebagai pembimbing ke '.$i;
+                $pmb = $this->input->post('pmb' . $i);
 
-      $NotifDosen = array('Notifikasi' => $judul, 'Catatan' => $Catatan, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $pmb, 'StatusNotifikasi' => 'Informasi');  
-      $this->M_data->save($NotifDosen, 'notifikasi');
+                // Memasukan Dosen Pembimbing Ke Database
+                $dosen = array('IDDosenPmb' => $pmb, 'IDSkripsiPmb' => $IDIde, 'StatusProposal' => 0, 'StatusSkripsi' => 0, 'StatusPembimbing' => $i);
+                $this->M_data->save($dosen, 'pembimbing');
+
+                // Mengirim Pemberitahuan Ke Dosen Pembimbing
+                $Catatan = 'Anda Di Tetapkan Sebagai Dosen Pembimbing ' . $nama . ' Anda sekarang bisa mengacc proposal maupun skripsi ' . $nama . 'dan juga menambah kartu bimbingan untuk mahasiswa tersebut Anda ditetapkan sebagai pembimbing ke ' . $i;
+
+                $NotifDosen = array('Notifikasi' => $judul, 'Catatan' => $Catatan, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $pmb, 'StatusNotifikasi' => 'Informasi');
+                $this->M_data->save($NotifDosen, 'notifikasi');
+
+            }
+
+            $whereIde = array('IDIdeMahasiswa' => $ID);
+
+            $this->M_data->delete($whereIde, 'ideskripsi');
+
+            $hasil = 'Diterima';
+
+        }
+
+        echo $sta;
+
+        $NotifMhs = array('Notifikasi' => $judul, 'Catatan' => $note, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $ID, 'StatusNotifikasi' => $hasil);
+        $this->M_data->save($NotifMhs, 'notifikasi');
 
     }
-    
-    $whereIde = array('IDIdeMahasiswa' => $ID);
 
-    $this->M_data->delete($whereIde, 'ideskripsi');
+    public function aksiKegiatan()
+    {
+        $kegiatan = $this->input->post('kegiatan');
+        $jam = $this->input->post('jam');
+        $tempat = $this->input->post('tempat');
+        $penerima = $this->input->post('penerima');
+        $tanggal = $this->input->post('tanggal');
 
-    $hasil = 'Diterima';
+        foreach ($penerima as $p) {
 
-  }
+            $data = array(
+                'Notifikasi' => 'Kegiatan ' . $kegiatan . ' Telah Ditetapkan',
+                'Catatan' => 'Dimohon Persiapkan diri Pada : <br> <i class="fas fa-clock mr-auto"></i>  ' . $jam . '<br> <i class="fas fa-map-marker mr-auto"></i>  ' . $tempat . '<br> <i class="fas fa-calendar-alt"></i> ' . longdate_indo($tanggal),
+                'IDPengirim' => $_SESSION['ID'],
+                'IDPenerima' => $p,
+                'TanggalNotifikasi' => date('Y-m-d'),
+                'StatusNotifikasi' => $kegiatan,
+            );
 
-  echo $sta;
+            $this->M_data->save($data, 'notifikasi');
 
-  $NotifMhs = array('Notifikasi' => $judul, 'Catatan' => $note, 'TanggalNotifikasi' => $tanggal, 'IDPengirim' => $pengirim, 'IDPenerima' => $ID, 'StatusNotifikasi' => $hasil);
-  $this->M_data->save($NotifMhs, 'notifikasi');
+        }
 
-}
+        // $simpan = array(
+        //   'IDUsers' => $penerima,
+        //   'Kegiatan' => $kegiatan,
+        //   'Tempat' => $tempat,
+        //   'JamKegiatan' => $jam,
+        //   'TanggalKegiatan' => $tanggal,
+        //   'Finish' => 0,
+        // );
 
-function aksiKegiatan()
-{
-  $kegiatan = $this->input->post('kegiatan');
-  $jam = $this->input->post('jam');
-  $tempat = $this->input->post('tempat');
-  $penerima = $this->input->post('penerima');
-  $tanggal = $this->input->post('tanggal');
+        // $this->M_data->save($simpan, 'kegiatan');
 
-  foreach ($penerima as $p) {
-    
-    $data = array(
-      'Notifikasi' => 'Kegiatan '.$kegiatan.' Telah Ditetapkan',
-      'Catatan' => 'Dimohon Persiapkan diri Pada : <br> <i class="fas fa-clock mr-auto"></i>  '.$jam.'<br> <i class="fas fa-map-marker mr-auto"></i>  '.$tempat.'<br> <i class="fas fa-calendar-alt"></i> '.longdate_indo($tanggal),
-      'IDPengirim' => $_SESSION['ID'],
-      'IDPenerima' => $p,
-      'TanggalNotifikasi' => date('Y-m-d'),
-      'StatusNotifikasi' => $kegiatan
-    );
-
-    $this->M_data->save($data, 'notifikasi'); 
-
-  }
-
-  // $simpan = array(
-  //   'IDUsers' => $penerima,
-  //   'Kegiatan' => $kegiatan,
-  //   'Tempat' => $tempat,
-  //   'JamKegiatan' => $jam,
-  //   'TanggalKegiatan' => $tanggal,
-  //   'Finish' => 0,
-  // );
-
-  // $this->M_data->save($simpan, 'kegiatan');
-
-}
+    }
 
 }

@@ -65,13 +65,14 @@ class ControllerGlobal extends CI_Controller {
 	{
 		if (!is_dir('./assets/images/users')) {
             mkdir('./assets/images/users');
-        }
-
-		$filename = "file_".time('upload');
+		}
+		
+		$id= $_SESSION['ID'];
 
 		$config['upload_path'] = './assets/images/users';
 		$config['allowed_types'] = 'jpg';
-		$config['file_name']	= $filename;
+		$config['overwrite'] = true;
+		$config['file_name']	= $id;
 		
 		$this->load->library('upload', $config);
 		
@@ -87,16 +88,10 @@ class ControllerGlobal extends CI_Controller {
 
 		} else {
 	
-			$id= $_SESSION['ID'];
 
 			$foto = $this->upload->data();
 
 			$query = $this->db->query("SELECT Foto FROM users WHERE ID=$id");
-			$row = $query->row();
-
-			if ($row->Foto != null) {
-				unlink('./assets/images/users/' . $row->Foto);				
-			}
 
 			$data['Foto'] = $foto['file_name'];
 
