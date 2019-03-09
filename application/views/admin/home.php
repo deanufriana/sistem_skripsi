@@ -2,13 +2,12 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 
-			$("#tabelJurusanAdmin").load('<?php echo base_url('admin/tabelJrsnAdmin'); ?>');
-			$("#nav_mhs").load('<?php echo base_url('admin/navigasiUsers/Mahasiswa'); ?>');
+			$("#tabelJurusanAdmin").load('<?= base_url('admin/tabelJrsnAdmin'); ?>');
+			$("#nav_mhs").load('<?= base_url('admin/navigasiUsers/Mahasiswa'); ?>');
 
 			$("#v-pills-dosen-tab").on('click', function() {
 				$("#nav_dsn").load('<?php echo base_url('admin/navigasiUsers/Dosen'); ?>');
 			});
-			
 			
 			$("#pengaturan").load('<?php echo base_url('admin/navigasiUsers/Settings'); ?>');	
 			

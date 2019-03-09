@@ -1,5 +1,5 @@
 <?php if ($ide_skripsi) { ?>
-	<div style="height: 30rem" class="scroll">
+	<div style="height: 30rem; overflow: auto">
 		<?php foreach ($ide_skripsi->result() as $u) {	?>
 
 			<h6 class="card-title"> <i class="fas fa-book fa-xs"></i> <?php echo $u->JudulIde;?></h6>

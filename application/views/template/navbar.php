@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 	<meta charset="utf-8">
@@ -17,12 +18,12 @@
 	<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert.min.js'); ?>"></script>
 
-
 	<script type="text/javascript">
-
-		$("#slide").animate({width:'toggle'},350);
-		$(document).ready(function() {
-			$("#ubahPassword").on('submit', function() {
+		$("#slide").animate({
+			width: 'toggle'
+		}, 350);
+		$(document).ready(function () {
+			$("#ubahPassword").on('submit', function () {
 				var form = $(this);
 				var formdata = false;
 				if (window.FormData) {
@@ -43,13 +44,12 @@
 						contentType: false,
 						processData: false,
 						cache: false,
-						success: function(result) {
-							if(result == 1) {
-								$("#success").show('fast').delay(1000).hide('slow', function() {
+						success: function (result) {
+							if (result == 1) {
+								$("#success").show('fast').delay(1000).hide('slow', function () {
 									$("#Ubah").modal('toggle');
 								});;
-							}
-							else {
+							} else {
 								$("#failed").show('fast').delay(1000).hide('fast');
 								$('input').val('');
 								return false;
@@ -62,12 +62,13 @@
 			});
 
 		});
+
 	</script>
 	<link rel="stylesheet" type="text/css" href="<?=base_url('assets/css/myStyle.css');?>">
 
 </head>
 <?php if ($_SESSION['Status'] != 'Admin') {?>
-	<div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade ubah" id="Ubah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-body">
@@ -80,7 +81,7 @@
 							<strong> <i class="fas fa-exclamation"></i> Peringatan !</strong>
 							<br>Kata Sandi Tidak Boleh Kosong
 						</div>
-						<div id="failed" class="alert alert-danger alert-white rounded"style="display:none;">
+						<div id="failed" class="alert alert-danger alert-white rounded" style="display:none;">
 							<strong><i class="fas fa-user-times"></i> Password Salah !</strong>
 							<br>Kata Sandi Lama Salah!
 						</div>
@@ -106,22 +107,24 @@
 <?php }?>
 
 <body>
-	<nav class="navbar navbar-expand-lg mb-3 border-bottom-1 border" >
-
-		<div class="navbar-brand navbar-nav m-1">
-			<img src="<?=base_url('assets/web/horizontal.png')?>" alt="" srcset="">
+	<nav class="navbar navbar-expand-lg mb-4 border-bottom-4 navbar-light bg-light">
+		<div class="navbar-brand navbar-nav m-2">
+			<img src="<?= base_url('assets/web/master3.png')?>">
 		</div>
 		<div class="navbar-collapse collapse">
-			<span class="text-right col"><i class="fas fa-calendar-alt"> </i>
-				<?php echo longdate_indo(date('Y-m-d')); ?> </span>
+			<div class="mr-auto" style="color: white">
 			</div>
-			<div class="m-1 float-right">
-				<a <?=$_SESSION['Status'] === 'Admin' ? 'style="display: none"' : ''?> href="#" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm"><i class="fas fa-edit fa-xs"></i> Ganti Password </a>
-				<a href="<?php echo base_url('Home/Logout'); ?>" class="btn btn-outline-primary btn-sm"><i class="fas fa-sign-out-alt"></i> Keluar </a>
-			</div>
-		</nav>
-		<div id="beranda">
-
+			<span class="mr-3">
+				<i class="fas fa-calendar-alt"> </i>
+				<?= longdate_indo(date('Y-m-d')); ?>
+			</span>
+			<a <?=$_SESSION['Status']==='Admin' ? "style='display: none'" : '' ?> href="#" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm mr-3"><i class="fas fa-edit fa-xs"></i> Ganti Password </a>
 		</div>
-	</body>
-	</html>
+		<a href="<?= base_url('Home/Logout'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-sign-out-alt"></i>
+			Keluar </a>
+	</nav>
+
+	<div id="beranda"></div>
+</body>
+
+</html>

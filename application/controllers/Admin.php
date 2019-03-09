@@ -348,7 +348,7 @@ class Admin extends CI_Controller
         if (!$this->M_data->update('ID', $ID, 'users', $data)) {
             echo 0;
         } else {
-            echo 1;
+            echo 'Status Mahasiswa Berhasil Diubah';
         }
 
     }

@@ -16,7 +16,9 @@
 					swal({
 							title: "Ide Skripsi",
 							text: "Terima Judul Skripsi Ini",
-							icon: "warning",
+							type: "warning",
+							showCancelButton: true,
+							showConfirmButton: true,
 							buttons: {
 								cancel: true,
 								confirm: "Tolak",
@@ -85,7 +87,7 @@
 	<div class="card-body">
 		<div id="judul" class="form-row">
 			<div class="form-group col-md-1 col-2">
-				<img class="card-img-top" src="<?=base_url('assets/images/users/'.$u->Foto);?>" alt="Card image">
+				<img class="card-img-top" src="<?=base_url($u->Foto === NULL ? 'assets/web/user.png' :'assets/images/users/'.$u->Foto);?>" alt="Card image">
 			</div>
 			<div class="form-group col-md col-10 mb-2">
 				<h4>
