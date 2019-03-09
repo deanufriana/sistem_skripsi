@@ -78,14 +78,13 @@
 
 	</script>
 </head>
-<?php foreach ($skripsi->result() as $u) {
-	?>
+<?php foreach ($skripsi->result() as $u) { ?>
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-2 mr-3">
-						<img class="card-img-top" src="<?= base_url('assets/images/users/'.$u->Foto) ;?>">
+						<img class="card-img-top" src="<?= base_url($u->Foto === NULL ? 'assets/web/user.png' : 'assets/images/users/'.$u->Foto ) ;?>">
 					</div>
 					<div class="col-md">
 						<div class="form-row">
@@ -116,48 +115,33 @@
 									<div class="form-row">
 										<div class="form-group">
 											<a class="btn btn-sm"
-											<?php if (empty($u->FileProposal)) {
-												echo "";
-											} else {
-												echo "href=".base_url("ControllerGlobal/downloadFile/".$u->FileProposal);
-											} ?>> <i class="fa fa-download"></i> </a>
+											<?php if (!empty($u->FileProposal)) { echo "href=".base_url("ControllerGlobal/downloadFile/Proposal/".$u->FileProposal);
+											}  ?>> <i class="fa fa-download"></i> </a>
 										</div>
 										<div class="form-group ml-2">
 											<form class="status" id="<?= $p->IDPembimbing;?>" nama="Proposal" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Proposal');?>">
-												<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" 
-												<?php if ($StaProposal) {
-													echo 'disabled';
-												} else {
-													echo "";
-												} ?> >
+												<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" <?php if ($StaProposal) { echo 'disabled'; } ?> >
 											</form>
 										</div> 
 										<div class="form-group ml-2">
 											<a class="btn btn-sm"
-											<?php if (empty($u->FileSkripsi)) {
-												echo "";
-											} else {
-												echo "href=".base_url("ControllerGlobal/downloadFile/".$u->FileSkripsi);
-											} ?>> <i class="fa fa-download"></i> </a>
+											<?php if (!empty($u->FileSkripsi)) { echo "href=".base_url("ControllerGlobal/downloadFile/Skripsi/".$u->FileSkripsi);	} ?>> <i class="fa fa-download"></i> </a>
 										</div>
 										<div class="form-group ml-2">
-											<div id="Skripsi" class="form-row" <?php if (!$StaProposal) {
-												echo 'style="display: none"';	} ?>>
+											<div id="Skripsi" class="form-row" <?php if (!$StaProposal) { echo 'style="display: none"';	} ?>>
 												<div class="form-group col-md"> 
 													<form id="<?= $p->IDPembimbing;?>" class="status" nama="Skripsi" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Skripsi');?>">
 														<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Skripsi" 
-														<?php if ($proposal->num_rows() < 2) {
+														<?php if ($skripsi->num_rows() > 2) {
 															echo 'disabled';
-															$status = 'Proposal Telah diSetujui mohon tunggu acc dari pemmbimbing yang lain untuk dapat mengacc Skripsi';
+															$status = 'Proposal telah disetujui mohon tunggu acc dari pembimbing yang lain untuk dapat mengacc skripsi '.$StaSkripsi;
 														} else {
-															echo "";
 															$status = 'Silahkan Acc Jika Sudah Sesuai';
 														} ?>>
 													</form>
 												</div>
 											</div>
 										</div>
-
 									</div>
 									<div class="alert alert-info">
 										<?= $status ?>	
@@ -201,7 +185,6 @@
 										<img src="<?= base_url('assets/web/sad.jpg') ?>" >	
 									</div>
 								</div>
-
 							</div>
 						<?php } else { ?>
 							<div class="table-responsive">

@@ -51,13 +51,13 @@
 					<a class="card-body" <?php if (empty($proposal)) {
 						echo "";
 					} else {
-						echo "href=".base_url("ControllerGlobal/downloadFile/".$proposal);
+						echo "href=".base_url("ControllerGlobal/downloadFile/Proposal/".$proposal);
 					} ?>> <i class="fa fa-download"></i> Proposal </a>
 
 					<a class="card-body" <?php if (empty($skripsi)) {
 						echo "";
 					} else {
-						echo "href=".base_url("ControllerGlobal/downloadFile/".$skripsi);
+						echo "href=".base_url("ControllerGlobal/downloadFile/Skripsi/".$skripsi);
 					} ?>> <i class="fa fa-download"></i> Skripsi </a>
 
 				</div>

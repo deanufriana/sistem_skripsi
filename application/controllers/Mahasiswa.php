@@ -129,10 +129,10 @@ class Mahasiswa extends CI_Controller
         $this->load->library('upload', $config);
 
         if (!$this->upload->do_upload($sesi)) {
-            $notif = array(
-                'head' => "maaf terjadi kesalahan teknis",
+            $notif = array('head' => "maaf terjadi kesalahan teknis",
                 'isi' => $this->upload->display_errors(),
                 'sukses' => 0);
+
         } else {
         
             $file = $this->upload->data();

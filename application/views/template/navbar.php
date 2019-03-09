@@ -107,9 +107,10 @@
 <?php }?>
 
 <body>
-	<nav class="navbar navbar-expand-lg mb-4 border-bottom-4 navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg mb-4 border-bottom-4 navbar-dark bg-light">
 		<div class="navbar-brand navbar-nav m-2">
 			<img src="<?= base_url('assets/web/master3.png')?>">
+			<div class='ml-3' style='color: black'> Sistem Skripsi Online </div> 
 		</div>
 		<div class="navbar-collapse collapse">
 			<div class="mr-auto" style="color: white">
@@ -120,7 +121,7 @@
 			</span>
 			<a <?=$_SESSION['Status']==='Admin' ? "style='display: none'" : '' ?> href="#" data-target="#Ubah" data-toggle="modal" class="btn btn-outline-primary btn-sm mr-3"><i class="fas fa-edit fa-xs"></i> Ganti Password </a>
 		</div>
-		<a href="<?= base_url('Home/Logout'); ?>" class="btn btn-primary btn-sm"><i class="fas fa-sign-out-alt"></i>
+		<a href="<?= base_url('Home/Logout'); ?>" class="btn btn-dark btn-sm"><i class="fas fa-sign-out-alt"></i>
 			Keluar </a>
 	</nav>
 

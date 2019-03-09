@@ -77,14 +77,15 @@ class Kaprodi extends CI_Controller
 
     public function nilai()
     {
-
         $id = $this->input->post("id");
         $value = $this->input->post("value");
         $modul = $this->input->post("modul");
 
-        $users = $this->M_data->find('users', '', 'IDSkripsi', $id);
-        foreach ($users as $m) {
-            $ID = $m->ID;
+        $where = array('IDSkripsi' => $id);
+
+        $skripsi = $this->M_data->find('skripsi', $where);
+        foreach ($skripsi->result() as $m) {
+            $ID = $m->IDMahasiswaSkripsi;
             $status = array('status' => 'Alumni');
             $this->M_data->update('ID', $ID, 'users', $status);
         }
@@ -102,7 +103,7 @@ class Kaprodi extends CI_Controller
 
         $where = array(
             'IDKonsentrasiUser' => $result->IDKonsentrasiUser,
-            'Status' => 'Skripsi',
+            'Status' => 'Skripsi'
         );
 
         $data['users'] = $this->M_data->find('users', $where);
@@ -249,4 +250,12 @@ class Kaprodi extends CI_Controller
 
     }
 
+    function dokumentasi()
+    {
+        $where = array('Status' => 'Alumni');
+
+        $data['users'] = $this->M_data->find('skripsi', $where, '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
+
+        $this->load->view('kaprodi/dokumentasi', $data);
+    }
 }

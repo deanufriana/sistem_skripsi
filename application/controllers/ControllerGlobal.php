@@ -55,10 +55,10 @@ class ControllerGlobal extends CI_Controller {
 		}
 	}
 	
-	function downloadFile($filename)
+	function downloadFile($status, $filename)
 	{
 		$this->load->helper('download');
-		force_download('assets/Proposal/'.$filename, NULL);
+		force_download('assets/'.$status.'/'.$filename, NULL);
 	}
 
 	function uploadFoto()

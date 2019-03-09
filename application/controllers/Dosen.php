@@ -81,7 +81,8 @@ class Dosen extends CI_Controller {
 			$Status = $u->Status;
 
 			$whereID = array(
-				'IDKonsentrasiUser' => $u->IDKonsentrasiUser
+				'IDKonsentrasiUser' => $u->IDKonsentrasiUser,
+				'Nilai =' => NULL,
 			);
 		}	
 
@@ -100,8 +101,18 @@ class Dosen extends CI_Controller {
 
 		$this->ajax_pagination->initialize($config);
 
+		if ($data['users']) {
+			foreach ($data['users']->result() as $d) {
+				$where = array('IDSkripsiPmb' => $d->IDSkripsi);
+				$finish = array(
+					'IDSkripsiPmb' => $d->IDSkripsi,
+					'StatusSkripsi' => 1
+				);
+			}
+			$data['finish'] = $this->M_data->find('pembimbing', $finish, '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
+		}
 
-		$data['pembimbing'] = $this->M_data->find('pembimbing', '', '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
+		$data['pembimbing'] = $this->M_data->find('pembimbing', $where, '', '', 'users', 'users.ID = pembimbing.IDDosenPmb');
 
 		$this->load->view('dosen/tabelSkripsi', $data, false);  
 

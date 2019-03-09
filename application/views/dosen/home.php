@@ -14,6 +14,10 @@
 				$('#tabelSkripsi').load("<?php echo base_url('Dosen/tabelSkripsi');?>");
 			});
 
+			$("#navDokumentasi").click(function () {
+				$('#dokumentasi').load("<?php echo base_url('kaprodi/dokumentasi');?>");
+			});
+
 			$('#profil').load("<?php echo base_url('ControllerGlobal/myProfil');?>");
 
 			$("#dosen_button").on('click', function () {
@@ -27,6 +31,25 @@
 				$("#profil").toggle('slow');
 			});
 		});
+
+		function searchmhs(page_num) {
+			page_num = page_num ? page_num : 0;
+			var keywords = $('#keywords').val();
+			var search = $('#search').val();
+			$.ajax({
+				type: 'POST',
+				url: '<?= base_url(); ?>Dosen/tabelSkripsi/' + page_num,
+				data: 'page=' + page_num + '&keywords=' + keywords + '&search=' + search,
+				beforeSend: function () {
+					$('.loading').show();
+				},
+				success: function (html) {
+					console.log(html)
+					$('#tabelSkripsi').html(html);
+					$('.loading').fadeOut("slow");
+				}
+			});
+		}
 
 	</script>
 </head>
@@ -55,6 +78,12 @@
 							<a class="nav-link nav-item" id="navKegiatan" data-toggle="list" href="#list-settings" role="tab" aria-controls="settings">
 								<i class="fas fa-calendar-alt"></i> Kegiatan </a>
 							<?php } ?>
+
+							<?php if ($_SESSION['Kaprodi']) { ?>
+							<a class="nav-link nav-item" id="navDokumentasi" data-toggle="list" href="#list-dokumentasi" role="tab" aria-controls="settings">
+							<i class="fas fa-file-alt"></i> Dokumentasi </a>
+							<?php } ?>
+
 						</div>
 					</div>
 					<div class="col-md-auto">
@@ -107,6 +136,12 @@
 
 								<div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-messages-list">
 									<div id="formKegiatan" class='container'>
+
+									</div>
+								</div>
+
+								<div class="tab-pane fade" id="list-dokumentasi" role="tabpanel" aria-labelledby="list-messages-list">
+									<div id='dokumentasi' class="container">
 
 									</div>
 								</div>
