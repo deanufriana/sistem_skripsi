@@ -29,9 +29,9 @@ class Admin extends CI_Controller
 
     public function index()
     {
-
+        $data['konsentrasi'] = $this->M_data->find('konsentrasi');
         $this->load->view('template/navbar');
-        $this->load->view('admin/home');
+        $this->load->view('admin/home', $data);
     }
 
     public function navigasiUsers($nav)

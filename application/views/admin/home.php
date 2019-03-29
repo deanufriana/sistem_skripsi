@@ -34,8 +34,8 @@
 		<div class="col-xl-2 menu">
 			<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 				<a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><i class="fas fa-university"></i> Beranda </a> 
-				<a class="nav-link" id="pills-mahasiswa" data-toggle="pill" href="#pills-tabel-mahasiswa" role="tab" aria-controls="pills-tabel-mahasiswa" aria-selected="false"><i class="fas fa-graduation-cap"></i> Mahasiswa</a>
-				<a class="nav-link" id="v-pills-dosen-tab" data-toggle="pill" href="#v-pills-dosen" role="tab" aria-controls="v-pills-dosen" aria-selected="false"><i class="fas fa-briefcase"></i> Dosen </a>
+				<a class="nav-link <?= $konsentrasi ? '' : 'disabled' ?>" id="pills-mahasiswa" data-toggle="pill" href="#pills-tabel-mahasiswa" role="tab" aria-controls="pills-tabel-mahasiswa" aria-selected="false"><i class="fas fa-graduation-cap"></i> Mahasiswa</a>
+				<a class="nav-link <?= $konsentrasi ? '' : 'disabled' ?>" id="v-pills-dosen-tab" data-toggle="pill" href="#v-pills-dosen" role="tab" aria-controls="v-pills-dosen" aria-selected="false"><i class="fas fa-briefcase"></i> Dosen </a>
 				<a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false"><i class="fas fa-wrench"></i> Pengaturan</a>
 				<br>
 				<br>
