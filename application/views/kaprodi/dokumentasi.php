@@ -11,21 +11,33 @@
 	</thead>
 	<tbody>
 		<?php foreach($users->result() as $u) { ?>
-            <td><?= $u->Nama ?></td>
-            <td><?= $u->JudulSkripsi  ?></td>
-            <td><?= anchor('ControllerGlobal/downloadFile/Proposal/'.$u->FileProposal, '<i class="fas fa-download"></i>') ?></td> 
-            <td><?= anchor('ControllerGlobal/downloadFile/Skripsi/'.$u->FileSkripsi, '<i class="fas fa-download"></i>') ?></td> 
-            <td><?= $u->Nilai ?></td> 
-        <?php } ?>
+		<td>
+			<?= $u->Nama ?>
+		</td>
+		<td>
+			<?= $u->JudulSkripsi  ?>
+		</td>
+		<td>
+			<?= anchor('ControllerGlobal/downloadFile/Proposal/'.$u->FileProposal, '<i class="fas fa-download"></i>') ?>
+		</td>
+		<td>
+			<?= anchor('ControllerGlobal/downloadFile/Skripsi/'.$u->FileSkripsi, '<i class="fas fa-download"></i>') ?>
+		</td>
+		<td>
+			<?= $u->Nilai ?>
+		</td>
+		<?php } ?>
 	</tbody>
 </table>
 <?php } else { ?>
-	<div class='row align-items-center'>
-		<div class='col-md'>
-			<h2>Dokumentasi Skripsi Tidak ditemukan</h2>
+		<div class='row align-items-center'>
+			<div class="col-md mb-5">
+				<h2> Dokumentasi Tidak Ditemukan </h2>
+				Mohon maaf saat ini tidak ditemukan dokumentasi untuk konsentrasi ini.
+			</div>
+			<div class="col-md-3">
+				<img src="<?=base_url('assets/web/sad.jpg')?>">
+			</div>
 		</div>
-		<div class='col-md-5'>
-			<img class="card-img-top" src="<?= base_url('assets/web/ide.jpg')?>">
-		</div>
-	</div>
+
 <?php } ?>

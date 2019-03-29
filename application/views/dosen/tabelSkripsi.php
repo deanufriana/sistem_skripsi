@@ -78,15 +78,15 @@
 					<?= anchor('Dosen/detailMahasiswa/' . $u->ID, $u->JudulSkripsi); ?>
 				</td>
 				<td>
-					<?php if (($finish->num_rows() === 2) AND ($_SESSION['Kaprodi'])) {
+					<?php if ($finish) {
+						if (($finish->num_rows() === 2) AND ($_SESSION['Kaprodi'])) {
 						
 						if ($u->Nilai === NULL) {
 							echo "<input data-id=".$u->IDSkripsi." class='form-control form-control-sm field-name edit' type='number' name='nilai' min='0' max='100' value=".$u->Nilai.">";
 						} else {
 							echo "<span class='caption'>".$u->Nilai."</span>";
 						}
-					
-					}  ?>
+					}} ?>
 				</td>
 				<td class="text-center"><a <?php if (empty($u->FileProposal)) { echo ""; } else { echo "href=" .
 						base_url("ControllerGlobal/downloadFile/Proposal/" . $u->FileProposal);}?>> <i class="fa fa-download"></i> </a>

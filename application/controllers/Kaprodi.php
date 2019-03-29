@@ -252,7 +252,11 @@ class Kaprodi extends CI_Controller
 
     function dokumentasi()
     {
-        $where = array('Status' => 'Alumni');
+        $kaprodi = $this->M_data->find('users', array('ID' => $_SESSION['ID']));
+
+        foreach ($kaprodi->result() as $k) {
+            $where = array('Status' => 'Alumni', 'IDKonsentrasiUser' => $k->IDKonsentrasiUser);
+        }
 
         $data['users'] = $this->M_data->find('skripsi', $where, '', '', 'users', 'users.ID = skripsi.IDMahasiswaSkripsi');
 

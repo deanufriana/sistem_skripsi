@@ -82,17 +82,16 @@
 	</script>
 </head>
 
-<body style="background-image: <?= base_url('assets/web/background.jpg') ?>; background-size: cover"
+<body style="background-image: url('https://cdn.csu.edu.au/__data/assets/image/0006/2875965/M_Inclusive_Education_Banner_01.jpg'); background-size: cover"
  class="align-items-center">
-	<div class="container" style="height: 100%; display: table; width: 30%">
+	<div class="container" style="height: 100%; display: table; width: 400px">
 		<form id="form-login" action="<?=base_url('Home/session');?>" method="POST" style="vertical-align: middle; display: table-cell; ">
 			<div class="card card-body">
 				<h6> Sistem Skripsi Online</h6>
 				<input name="nim" id="nim" type="text" class="form-control form-group" placeholder="username">
 				<input name="password" id="password" type="password" class="form-control form-group" placeholder="password">
-				<div class="form-group form-check">
-					<small class="form-text text-muted"> username dan password diberikan melalui email masing masing yang telah diisi mahasiswa silahkan ajukan form ke fakultas  </small>
-				</div>
+				
+					<small class="form-text text-muted mb-3"> username dan password diberikan melalui email masing masing yang telah diisi mahasiswa silahkan ajukan form ke fakultas  </small>
 				<button id='btn-login' type="submit" class="btn btn-primary">Login</button>
 			</div>
 		</form>

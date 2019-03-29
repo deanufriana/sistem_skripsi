@@ -107,13 +107,13 @@
 <?php }?>
 
 <body>
-	<nav class="navbar navbar-expand-lg mb-4 border-bottom-4 navbar-dark bg-light">
-		<div class="navbar-brand navbar-nav m-2">
-			<img src="<?= base_url('assets/web/master3.png')?>">
-			<div class='ml-3' style='color: black'> Sistem Skripsi Online </div> 
+	<nav class="navbar navbar-expand-lg mb-4 border-bottom-4 navbar-light bg-light">
+		<div class="navbar-brand">
+			<img class='mr-3' style='width: 5%; height:5%' src="<?= base_url('assets/web/Master.png')?>">
+			 Sistem Skripsi Online
 		</div>
 		<div class="navbar-collapse collapse">
-			<div class="mr-auto" style="color: white">
+			<div class="mr-auto" style="color: white; align: text-left">
 			</div>
 			<span class="mr-3">
 				<i class="fas fa-calendar-alt"> </i>

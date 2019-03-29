@@ -142,11 +142,19 @@ class Dosen extends CI_Controller {
 				'IDDosenPmb' => $_SESSION['ID']
 			);
 
+			// Mengambil data pembimbing yang sedang melihat skripsi
 			$data['pembimbing'] = $this->M_data->find('pembimbing', $wherepmb);
-			if ($data['pembimbing']) {
-				foreach ($data['pembimbing']->result() as $p) {
-					$whereProp = array('StatusProposal' => $p->StatusProposal);
 
+			if ($data['pembimbing']) {
+
+				foreach ($data['pembimbing']->result() as $p) {
+
+					$whereProp = array(
+						'StatusProposal' => $p->StatusProposal,
+						'IDSkripsiPmb' => $s->IDSkripsi
+					);
+
+					// Array Proposal Berfungsi Untuk Menghitung Proposal Skripsi Yang Di ACC
 					$data['proposal'] =  $this->M_data->find('pembimbing', $whereProp);
 
 				}

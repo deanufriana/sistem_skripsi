@@ -68,7 +68,7 @@
             echo 'table-warning';
         }?>">
 			<td> <?=$m->ID;?> </td>
-			<td><a class="a-href" title="Kirim Ulang Password?" text="Ini akan mengubah password dan akan di kirim melalui email." href="<?=base_url('Admin/sendPassword/' . $m->ID)?>"> <?=$m->Nama;?> </a></td>
+			<td><a class="a-href" title="Kirim Password?" text="Ini akan mengubah password dan akan di kirim melalui email." href="<?=base_url('Admin/sendPassword/' . $m->ID)?>"> <?=$m->Nama;?> </a></td>
 			<td> <?=$m->Jurusan;?> </td>
 			<td> <?=$m->Konsentrasi;?> </td>
 			<td> <?=$m->Email;?> </td>

@@ -64,13 +64,14 @@ class ControllerGlobal extends CI_Controller {
 	function uploadFoto()
 	{
 		if (!is_dir('./assets/images/users')) {
-            mkdir('./assets/images/users');
+			mkdir('./assets/images');
+            mkdir('./assets/images/users');			
 		}
 		
 		$id= $_SESSION['ID'];
-
+		
 		$config['upload_path'] = './assets/images/users';
-		$config['allowed_types'] = 'jpg';
+		$config['allowed_types'] = 'gif|jpg|png';
 		$config['overwrite'] = true;
 		$config['file_name']	= $id;
 		

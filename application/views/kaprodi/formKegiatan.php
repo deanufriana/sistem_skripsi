@@ -71,7 +71,7 @@
 </head>
 
 <?php if (!$users) {?>
-<div class="row align-items-center m-5">
+<div class="row align-items-center">
 	<div class="col-md mb-5">
 		<h2> Mahasiswa Belum Ada </h2>
 		Mahasiswa Saat Ini Belum Ada !! Anda Belum Bisa Mengirim Notifikasi Agenda Kegiatan Skripsi

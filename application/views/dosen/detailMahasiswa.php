@@ -40,8 +40,6 @@
 									$("#Skripsi").fadeIn("slow");
 								}
 							});
-						} else {
-							swal("Skripsi Batal di ACC");
 						}
 					});
 				});
@@ -120,7 +118,7 @@
 										</div>
 										<div class="form-group ml-2">
 											<form class="status" id="<?= $p->IDPembimbing;?>" nama="Proposal" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Proposal');?>">
-												<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" <?php if ($StaProposal) { echo 'disabled'; } ?> >
+												<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" <?= $StaProposal ? 'disabled' : '' ?> >
 											</form>
 										</div> 
 										<div class="form-group ml-2">
@@ -131,12 +129,16 @@
 											<div id="Skripsi" class="form-row" <?php if (!$StaProposal) { echo 'style="display: none"';	} ?>>
 												<div class="form-group col-md"> 
 													<form id="<?= $p->IDPembimbing;?>" class="status" nama="Skripsi" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Skripsi');?>">
-														<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Skripsi" 
-														<?php if ($skripsi->num_rows() > 2) {
+														<input type="submit" <?= $StaSkripsi ? 'Disabled' : '' ?> class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Skripsi" 
+														<?php if ($proposal->num_rows() === 1) {
 															echo 'disabled';
-															$status = 'Proposal telah disetujui mohon tunggu acc dari pembimbing yang lain untuk dapat mengacc skripsi '.$StaSkripsi;
+															if ($StaProposal) {
+																$status = 'Proposal telah disetujui mohon tunggu acc dari pembimbing yang lain untuk dapat mengacc skripsi ';
+															} else {
+																$status = 'Proposal ini telah disetujui pembimbing yang lain.';
+															}
 														} else {
-															$status = 'Silahkan Acc Jika Sudah Sesuai';
+															$status = 'Silahkan Acc Jika Sudah Sesuai <br>';
 														} ?>>
 													</form>
 												</div>
@@ -154,10 +156,10 @@
 							<form id="<?= $u->ID ?>" method="POST" action="<?= base_url('dosen/catatan/');?>" class="catatan">
 								<div class="form-group">
 									<h6 class="text-right"> Catatan Bimbingan </h6>
-									<textarea class="form-control" name="note"></textarea>
+									<textarea class="form-control" name="note" required></textarea>
 								</div>
 								<div class="form-group">
-									<input class="btn btn-primary" type="submit" name="submit">
+										 <button type="submit" class='btn btn-primary'><i class='fas fa-paper-plane'></i> Kirim</button>
 								</div>
 							</form>
 						<?php } } ?>
