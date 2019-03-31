@@ -24,6 +24,10 @@
 					$("#form_konsentrasi").load('<?php echo base_url('admin/formKonsentrasi'); ?>');	
 				});
 			});
+
+			$(".btn-menu").click(function() {
+				$('.menu').toggle('slow');
+			})
 			
 			
 		});	

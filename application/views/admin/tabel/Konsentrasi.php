@@ -3,8 +3,8 @@
 	</script>
 </head>
 <?php if ($konsentrasi) { ?>
-	<div class="table-responsive">
-		<table class="table">
+	<div>
+		<table class="table w-auto">
 			<thead>
 				<th>ID</th>
 				<th>Konsentrasi</th>
@@ -17,18 +17,20 @@
 						<td> <?php echo $k->Konsentrasi;?> </td>
 						<td> <?php if (empty($k->Nama)) { ?>
 							<?php if ($users) { ?>
-								<form method="POST" action="<?php echo base_url('Admin/submitKaprodi/'.$k->IDKonsentrasi);?>" id="kaprodi<?=$k->IDKonsentrasi;?>">
-									<div class="form-row align-items-center">
-										<div class="col-md mb-4">
-											<select name="kaprodi" class="custom-select small mr-sm-2">
+								<form class='mb-2' method="POST" action="<?php echo base_url('Admin/submitKaprodi/'.$k->IDKonsentrasi);?>" id="kaprodi<?=$k->IDKonsentrasi;?>">
+									<div class="form-row">
+										<div class="col">
+											<select name="kaprodi" class="custom-select form-control-sm small">
 												<option selected>Menetapkan Kaprodi <?php echo $k->Konsentrasi;?></option>
 												<?php foreach ($users->result() as $j) { ?>
+												<?php if ($j->IDKonsentrasiUser === $k->IDKonsentrasi) { ?>
 													<option value="<?php echo $j->ID;?>"><?php echo $j->Nama;?></option>
+												<?php } ?>
 												<?php } ?>
 											</select>
 										</div>
 										<div class="col-auto">
-											<button type="submit" class="btn btn-primary mb-4">Submit</button>
+											<button type="submit" class="btn btn-sm btn-primary"> <i class='fas fa-paper-plane'></i> </button>
 										</div>
 									<?php } else {
 										echo "mohon masukan data dosen untuk konsentrasi ini";

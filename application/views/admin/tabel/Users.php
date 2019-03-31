@@ -49,6 +49,7 @@
 </head>
 
 <?php if (!empty($users)) {?>
+<div class='table-responsive'>
 <table class="table small">
 	<thead>
 		<tr>
@@ -89,6 +90,8 @@
 		<?php endforeach;?>
 	</tbody>
 </table>
+</div>
+
 
 <div class="form<?=$status?>"></div>
 

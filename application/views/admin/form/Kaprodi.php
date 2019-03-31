@@ -1,10 +1,10 @@
-<form method="POST" action="<?php echo base_url('Admin/submitKaprodi/'.$ID);?>" id="kaprodi">
+<form method="POST" action="<?= base_url('Admin/submitKaprodi/'.$ID);?>" id="kaprodi">
  <div class="form-row align-items-center">
   <div class="col-md mb-4">
     <select name="kaprodi" class="custom-select mr-sm-2">
       <?php foreach ($dosen->result() as $j) {
         ?>
-        <option value="<?php echo $j->ID;?>"><?php echo $j->Nama;?></option>
+        <option value="<?= $j->ID;?>"><?= $j->Nama;?></option>
       <?php } ?>
     </select>
   </div>

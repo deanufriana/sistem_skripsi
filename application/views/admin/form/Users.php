@@ -73,7 +73,7 @@
 			<select name="konsentrasi" id="form_<?=$user?>_ksn" class="custom-select">
 			</select>
 		</div>
-		<div class="form-group col-md">
+		<div class="form-group col-md col">
 			<div class="input-group mb-3">
 				<div class="input-group-prepend">
 					<span class="input-group-text"> <i class="fas fa-envelope m-1"></i></span>
@@ -83,7 +83,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group col-md-auto">
+		<div class="col-2">
 			<button class="btn btn-primary" type="submit" id="daftar"> <i class='fas fa-plus'></i> </button>
 		</div>
 	</div>

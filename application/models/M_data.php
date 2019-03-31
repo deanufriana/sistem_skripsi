@@ -139,4 +139,10 @@ class M_data extends CI_Model {
 		$query = $this->db->get('ide_skripsi')->result_array();
 		return $query;
 	}
+
+
+	function (Type $var = null)
+	{
+		# code...
+	}
 }

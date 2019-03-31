@@ -98,7 +98,7 @@ class Admin extends CI_Controller
         if ($data['konsentrasi']) {
             foreach ($data['konsentrasi']->result() as $k) {
                 $whereUsers = array(
-                    'IDKonsentrasiUser' => $k->IDKonsentrasi,
+           //       'IDKonsentrasiUser' => $k->IDKonsentrasi,
                     'Status' => 'Dosen',
                 );
             }

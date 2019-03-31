@@ -29,36 +29,33 @@
 
 </script>
 
-<ul class="nav nav-pills text-center" id="pills-tab" role="tablist">
-	<li class="nav-item btn-sm" id="dataMahasiswa">
-		<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Data Mahasiswa</a>
-	</li>
 
 	<?php if ($users) {?>
-			<li class="nav-item nav-link">
-			<input class="form-control form-control-sm" id="keywords" type="text" name="tabel_dsn_admin/"
+
+<div class='row mb-3 ml-2'>
+<input class="form-control form-control-sm col-md col ml-1" id="keywords" type="text" name="tabel_dsn_admin/"
 					placeholder="Cari Mahasiswa" onkeyup="searchMahasiswa()" />
-			</li>
-			<li class="nav-item nav-link">
-			<select class="form-control form-control-sm sortBy" id="search" name="cari_dsn" onchange="searchMahasiswa()">
+
+			<select class="form-control form-control-sm sortBy col-md-1 col-2 ml-1" id="search" name="cari_dsn" onchange="searchMahasiswa()">
 					<option value="ID">NIK</option>
 					<option value="Nama">Nama</option>
 					<option value="Jurusan">Jurusan</option>
 				</select>
-			</li>
-			<li class="nav-item nav-link">
-			<select class="form-control form-control-sm sortBy" id="sortBy" onchange="searchMahasiswa()">
+
+			<select class="form-control form-control-sm sortBy col-md-1 col-2 ml-1" id="sortBy" onchange="searchMahasiswa()">
 					<option value="">Sort By</option>
 					<option value="asc">Ascending</option>
 					<option value="desc">Descending</option>
 				</select>
-			</li>
-			<li class="nav-item nav-link loading" style='display:none'>
-				<i class="fas fa-spinner fa-pulse"></i>
-			</li>
+
+			<div class="col-md-1 col-1">
+				<i class="fas fa-spinner fa-pulse" style='display:none'></i>
+			</div>
+			<hr>
+</div>
+
 		<?php }?>
-</ul>
-<hr>
+
 
 <div class="tab-content">
 	<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">

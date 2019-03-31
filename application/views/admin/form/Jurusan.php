@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo base_url('Admin/saveJurusan');?>" id="fakultas">
+<form method="POST" action="<?= base_url('Admin/saveJurusan');?>" id="fakultas">
   <div class="form-row align-items-center">
     <div class="col-md-auto">
       <label class="sr-only" for="inlineFormInput">ID Fakultas</label>
