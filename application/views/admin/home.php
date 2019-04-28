@@ -1,5 +1,63 @@
 <head>
 	<script type="text/javascript">
+					$(document).on('click', '.edit', function(e) {
+				var idbutton = $(this).attr("data-id");
+				
+				$(this).parents('td').siblings('td').remove()
+
+				$(this).parents('tr').siblings('tr#formtabel'+idbutton).show('fast');
+				$(this).parents('td').remove()
+			});
+
+			$(document).on('click', '.save', function(e) {
+
+				const idbutton = $(this).attr("data-id");
+				
+				$(this).parents('tr').hide()
+				const vlue = $(this).parents('td').siblings('td').children()
+				
+				for (let i = 0; i < vlue.length; i++) {
+					if (vlue[i] === vlue[2]) {
+						
+						let idjurusan = vlue[i].value.split(";")
+						$(this).parents('tr').siblings('tr#tabel'+idbutton).show().append(`<td>${idjurusan[1]}</td>`);
+
+					} else if (vlue[i] === vlue[3]) {
+
+						let idkonsentrasi = vlue[i].value.split(";")
+						$(this).parents('tr').siblings('tr#tabel'+idbutton).show().append(`<td>${idkonsentrasi[1]}</td>`);
+
+					} else {
+						$(this).parents('tr').siblings('tr#tabel'+idbutton).show().append(`<td>${vlue[i].value}</td>`);
+					}
+				}
+
+				$(this).parents('tr').siblings('tr#tabel'+idbutton).append("<td><button class='btn btn-success btn-sm edit' data-id="+vlue[0].value+"><i class='fas fa-edit'></i></button></td>")
+
+				const id = vlue[0].value
+				const name = vlue[1].value
+				const jurusan = vlue[2].value.split(";")[0]
+				const konsentrasi = vlue[3].value
+				const email = vlue[4].value
+				const nohp = vlue[5].value
+
+				$.ajax({
+					url: '<?= base_url('Admin/updateUser'); ?>',
+					type: 'post',
+					dataType: 'json',
+					data: {id, name, jurusan, konsentrasi, email, nohp, idlama: idbutton},
+				})
+				.done(function() {
+					console.log("success");
+				})
+				.fail(function() {
+					console.log("error");
+				})
+				.always(function() {
+					console.log("complete");
+				});
+				
+			});
 		$(document).ready(function() {
 
 			$("#tabelJurusanAdmin").load('<?= base_url('admin/tabelJrsnAdmin'); ?>');
@@ -51,7 +109,7 @@
 				
 				<div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
 					<div class="row">
-						<div class="col-md-auto">
+						<div class="col-md-auto col-auto">
 							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
 						<div class="col-md col text-right">
@@ -88,7 +146,7 @@
 
 				<div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
 					<div class="row">
-						<div class="col-md-auto">
+						<div class="col-md-auto col-auto">
 							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
 						<div class="col col-md">
@@ -103,10 +161,10 @@
 				<div class="tab-pane fade" id="pills-tabel-mahasiswa" role="tabpanel" aria-labelledby="pills-mahasiswa">
 					<div class="row">
 
-						<div class="col-md-auto">
+						<div class="col-md-auto col-auto">
 							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md text-right">
+						<div class="col-md col text-right">
 							<h5> MAHASISWA </h5>
 						</div>
 						
@@ -120,10 +178,10 @@
 				<div class="tab-pane fade" id="v-pills-dosen" role="tabpanel" aria-labelledby="v-pills-dosen-tab">
 					<div class="row">
 
-						<div class="col-md-auto">
+						<div class="col-md-auto col-auto">
 							<a class="btn-menu" href="#"><i class="fas fa-bars"></i></a>	
 						</div>
-						<div class="col-md text-right">
+						<div class="col-md col text-right">
 							<h5> DOSEN </h5>
 						</div>
 						

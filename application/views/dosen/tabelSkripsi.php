@@ -55,6 +55,7 @@
 				</td>
 
 				<?php foreach ($pembimbing->result() as $p) { ?>
+				<?php if ($p->IDSkripsiPmb === $u->IDSkripsi) { ?>
 				<td>
 					<?= anchor('Dosen/detailDosen/' . $p->IDDosenPmb, $p->Nama); ?>
 				</td>
@@ -70,7 +71,7 @@
 					<?php if ($p->StatusSkripsi) {   echo "<i class='fas fa-check-square'></i>"; } else { echo "<i class='fas fa-square'></i>"; }?>
 				</td>
 			</tr>
-			<?php }?>
+			<?php }}?>
 			<tr>
 
 				<th>Judul Skripsi</th>
@@ -103,8 +104,8 @@
 
 <?php echo $this->ajax_pagination->create_links(); ?>
 <?php } else {?>
-<div class="container">
-	<div class="row align-items-center m-5">
+
+	<div class="row align-items-center m-1">
 		<div class="col-md mb-5">
 			<?php if ($_SESSION['Kaprodi']) {?>
 			<h2>Tidak ada Mahasiswa Jurusan</h2>
@@ -118,6 +119,4 @@
 			<img src="<?=base_url('assets/web/sad.jpg')?>">
 		</div>
 	</div>
-
-</div>
 <?php }?>

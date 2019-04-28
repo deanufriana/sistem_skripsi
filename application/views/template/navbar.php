@@ -18,6 +18,12 @@
 	<script type="text/javascript" src="<?php echo base_url('assets/js/bootstrap.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo base_url('assets/js/sweetalert.min.js'); ?>"></script>
 
+	<!-- <link rel="stylesheet" href="<?= base_url('assets/css/orionicons.css')?>"> -->
+    <!-- theme stylesheet-->
+    <!-- <link rel="stylesheet" href="<?= base_url('assets/css/style.default.css')?>" id="theme-stylesheet"> -->
+    <!-- Custom stylesheet - for your changes-->
+    <!-- <link rel="stylesheet" href="<?= base_url('assets/css/custom.css')?>"> -->
+
 	<script type="text/javascript">
 		$("#slide").animate({
 			width: 'toggle'

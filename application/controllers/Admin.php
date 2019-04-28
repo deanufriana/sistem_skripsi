@@ -24,7 +24,7 @@ class Admin extends CI_Controller
             redirect(base_url("Home"));
         }
         $this->load->library('Ajax_pagination');
-        $this->perPage = 2;
+        $this->perPage = 4;
     }
 
     public function index()
@@ -77,8 +77,8 @@ class Admin extends CI_Controller
     public function formUsers($user)
     {
         $data['konsentrasi'] = $this->M_data->find('konsentrasi');
-		$data['jurusan'] = $this->M_data->find('jurusan');
-		$data['user'] = $user;
+        $data['jurusan'] = $this->M_data->find('jurusan');
+        $data['user'] = $user;
         $this->load->view('admin/form/Users', $data);
         $this->load->view('template/jquery/formSubmit');
     }
@@ -159,8 +159,20 @@ class Admin extends CI_Controller
 
         $total = $this->M_data->find('users', $where, '', '', 'jurusan', 'jurusan.IDJurusan = users.IDJurusanUser', 'konsentrasi', 'konsentrasi.IDKonsentrasi = users.IDKonsentrasiUser');
 
-        $totalRec = $total != false ? $total->num_rows() : 0;
+        if ($data['users']) {
 
+            $data['jurusan'] = $this->M_data->find('jurusan');
+
+            $wherekonsentrasi = array(
+              'IDJurusanKsn' => $data['users']->row()->IDJurusanUser   
+          );
+
+            $data['konsentrasi'] = $this->M_data->find('konsentrasi', $wherekonsentrasi);
+
+        }
+
+
+        $totalRec = $total != false ? $total->num_rows() : 0;
         $config['target'] = '#tabelUsers';
         $config['base_url'] = base_url() . 'Admin/tabelNavigasi/' . $page . '/' . $user;
         $config['total_rows'] = $totalRec;
@@ -168,7 +180,11 @@ class Admin extends CI_Controller
         $config['link_func'] = 'search' . $user;
 
         $user === 'Daftar' ? '' : $this->ajax_pagination->initialize($config);
+
+
         $data['status'] = $user;
+
+
 
         $this->load->view('admin/tabel/Users', $data, false);
         $this->load->view('template/jquery/btnSubmit');
@@ -351,6 +367,21 @@ class Admin extends CI_Controller
             echo 'Status Mahasiswa Berhasil Diubah';
         }
 
+    }
+
+    function updateUser()
+    {
+        $id = $this->input->post('id');
+        $name = $this->input->post('name');
+        $jurusan = $this->input->post('jurusan');
+        $konsentrasi = $this->input->post('konsentrasi');
+        $email = $this->input->post('email');
+        $nohp = $this->input->post('nohp');
+        $idlama = $this->input->post('idlama');
+
+        $data = array('ID' => $id, 'Nama' => $name, 'IDJurusanUser' => $jurusan, 'IDKonsentrasiUser' => $konsentrasi, 'Email' => $email, 'NoHP' => $nohp );
+
+        $this->M_data->update('ID', $idlama, 'users', $data);
     }
 
     public function update()

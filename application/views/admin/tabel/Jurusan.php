@@ -1,7 +1,7 @@
 	<script type="text/javascript" src="<?= base_url('assets/js/myscript.js');?>"></script>
-	<div class='container-fluid'>
-	<?php if (!$jurusan) {?>
 
+	<?php if (!$jurusan) {?>
+		<div class='container-fluid'>
 			<div class="row align-items-center">
 				<div class="col-md">
 					<h2>Selamat data admin</h2>
@@ -11,7 +11,7 @@
 					<img src="<?= base_url('assets/web/welcome.png');?>">
 				</div>
 			</div>
-
+			</div>
 	<?php } else { ?>
 		<div id="container" class="row">
 			<div class="table-responsive mr-3 col-md-3 col">
@@ -41,4 +41,3 @@
 		</div>
 		<?php } ?>
 
-		</div>

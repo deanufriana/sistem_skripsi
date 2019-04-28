@@ -84,7 +84,7 @@
 
 <body style="background-image: url('https://cdn.csu.edu.au/__data/assets/image/0006/2875965/M_Inclusive_Education_Banner_01.jpg'); background-size: cover"
  class="align-items-center">
-	<div class="container" style="height: 100%; display: table; width: 400px">
+	<div class="container col-md-3 col-11 col-sm-7" style="height: 100%; display: table;">
 		<form id="form-login" action="<?=base_url('Home/session');?>" method="POST" style="vertical-align: middle; display: table-cell; ">
 			<div class="card card-body">
 				<h6> Sistem Skripsi Online</h6>

@@ -77,23 +77,24 @@
 	</script>
 </head>
 <?php foreach ($skripsi->result() as $u) { ?>
+	
 	<div class="container-fluid">
 		<div class="card">
 			<div class="card-body">
 				<div class="row">
 					<div class="col-md-2 mr-3">
-						<img class="card-img-top" src="<?= base_url($u->Foto === NULL ? 'assets/web/user.png' : 'assets/images/users/'.$u->Foto ) ;?>">
+						<img class="card-img-top" src="<?= base_url($u->Foto === '' ? 'assets/web/user.png' : 'assets/images/users/'.$u->Foto ) ;?>">
 					</div>
 					<div class="col-md">
 						<div class="form-row">
-							<div class="form-group col-md">
+							<div class="form-group col-md-auto">
 								<p class="h5"> <?= $u->Nama;?> / <?= $u->ID;?>  </p>
 								<p class="text-subtitle h6">
 									<i class="fas fa-envelope fa-sm"></i> <?= $u->Email;?> <br> 
-									<i class="fas fa-phone fa-sm"></i> <?= $u->NoHP === null ? 'user belum menambahkan nomer' : $u->NoHP;?> 
+									<i class="fas fa-phone fa-sm"></i> <?= $u->NoHP === '' ? 'user belum menambahkan nomer' : $u->NoHP;?> 
 								</p>
 							</div>						
-							<div class="form-group col-md-auto text-right">
+							<div class="form-group col-md text-right">
 								<div>
 									<h4><?= $u->JudulSkripsi;?></h4>
 								</div>
@@ -114,19 +115,20 @@
 										<div class="form-group">
 											<a class="btn btn-sm"
 											<?php if (!empty($u->FileProposal)) { echo "href=".base_url("ControllerGlobal/downloadFile/Proposal/".$u->FileProposal);
-											}  ?>> <i class="fa fa-download"></i> </a>
+											}  ?>> <i class="fa fa-download"></i> <span class="badge badge-light"><?= $uploader->row_array()['Nama'] ?></span> </a>
 										</div>
 										<div class="form-group ml-2">
 											<form class="status" id="<?= $p->IDPembimbing;?>" nama="Proposal" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Proposal');?>">
 												<input type="submit" class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Proposal" <?= $StaProposal ? 'disabled' : '' ?> >
 											</form>
 										</div> 
-										<div class="form-group ml-2">
-											<a class="btn btn-sm"
-											<?php if (!empty($u->FileSkripsi)) { echo "href=".base_url("ControllerGlobal/downloadFile/Skripsi/".$u->FileSkripsi);	} ?>> <i class="fa fa-download"></i> </a>
-										</div>
-										<div class="form-group ml-2">
+
+										<div class="form-group ml-2"> 
 											<div id="Skripsi" class="form-row" <?php if (!$StaProposal) { echo 'style="display: none"';	} ?>>
+											<div class="form-group ml-2">
+											<a class="btn btn-sm"
+											<?php if (!empty($u->FileSkripsi)) { echo "href=".base_url("ControllerGlobal/downloadFile/Skripsi/".$u->FileSkripsi);	} ?>> <i class="fa fa-download"></i> <span class="badge badge-light"><?= $uploader->row_array()['Nama'] ?></span> </a>
+												</div>
 												<div class="form-group col-md"> 
 													<form id="<?= $p->IDPembimbing;?>" class="status" nama="Skripsi" method="POST" action="<?= base_url('Dosen/accUsers/'.$u->IDSkripsi.'/Skripsi');?>">
 														<input type="submit" <?= $StaSkripsi ? 'Disabled' : '' ?> class="btn<?= $p->IDPembimbing;?> btn btn-outline-primary btn-sm" value="Menyetujui Skripsi" 
@@ -153,13 +155,17 @@
 							</div>
 						</div>
 						<?php if ($pembimbing) { ?>
-							<form id="<?= $u->ID ?>" method="POST" action="<?= base_url('dosen/catatan/');?>" class="catatan">
+							<form id="catatanBimbingan" method="POST" action="<?= base_url('dosen/catatan/'.$u->IDSkripsi.'/'.$u->ID.'/'.$isSkripsi);?>">
 								<div class="form-group">
 									<h6 class="text-right"> Catatan Bimbingan </h6>
 									<textarea class="form-control" name="note" required></textarea>
 								</div>
 								<div class="form-group">
-										 <button type="submit" class='btn btn-primary'><i class='fas fa-paper-plane'></i> Kirim</button>
+									<input type="file" class="form-control" name="<?= 'file'.$isSkripsi ?>" required>
+									<small>Upload File Revisi <?= $isSkripsi ?></small>
+								</div>
+								<div class="form-group">
+									<button type="submit" class='btn btn-primary'><i class='fas fa-paper-plane'></i> Kirim</button>
 								</div>
 							</form>
 						<?php } } ?>
@@ -219,3 +225,40 @@
 					</div>
 				</div>
 			</div>
+
+
+			<script>
+			$("#catatanBimbingan").on('submit', 
+				function(e) {
+				e.preventDefault();
+				var form = $(this)
+				var formData = false;
+				if (window.FormData) {
+					formdata = new FormData(form[0])
+				}
+
+				var formAction = form.attr('action');
+
+				$.ajax({
+					url: formAction,
+					type: 'POST',
+					cache:false,
+					contentType:false,
+					processData:false,
+					dataType: 'json',
+					data: formdata ? formdata: form.serialize(),
+					beforeSend: function () {
+					 	swal('Loading')
+					},
+					success: function (result) {
+						swal('Berhasil')
+						setTimeout(function() {
+							location.reload();
+						}, 1000)
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						swal(errorThrown, 'Cek Database Dimana Mungkin Ada NIK / NIM yang Sama')
+  					}
+				})
+			});
+			</script>

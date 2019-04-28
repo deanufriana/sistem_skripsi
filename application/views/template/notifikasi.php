@@ -40,10 +40,10 @@
 	</script>
 </head>
 
-<div class="container" id="Notifikasi">
+<div id="Notifikasi">
 	<?php if (!$Notifikasi) { ?>
 	<div class="card">
-		<div class='row align-items-center m-5'>
+		<div class='row align-items-center m-4'>
 			<div class='col-md'>
 				<?php if ($_SESSION['Status'] === 'Dosen') { ?>
 				<h2>Selamat Datang,

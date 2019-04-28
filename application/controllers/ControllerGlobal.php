@@ -116,7 +116,12 @@ class ControllerGlobal extends CI_Controller {
 	}
 
 	function update(){
-		$id= $_SESSION['ID'];
+		if ($_SESSION['Status'] === 'Admin') {
+			$id = $this->input->post('id');
+		} else {
+			$id = $_SESSION['ID'];
+		}
+
 		$value= $this->input->post("value");
 		$modul= $this->input->post("modul");
 		$data[$modul] = $value;

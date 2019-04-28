@@ -4,7 +4,7 @@
       <label class="sr-only" for="inlineFormInput">ID Fakultas</label>
       <input name="id_jurusan" min="0" type="number" class="form-control btn-sm mb-4" placeholder="ID Jurusan" required>
     </div>
-    <div class="col-md">
+    <div class="col-md col">
       <label class="sr-only" for="inlineFormInputGroup">Jurusan</label>
       <div class="input-group mb-4">
         <input name="jurusan" type="text" class="form-control btn-sm" placeholder="Jurusan" required>

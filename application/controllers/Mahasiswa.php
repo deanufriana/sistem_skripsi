@@ -136,7 +136,12 @@ class Mahasiswa extends CI_Controller
         } else {
         
             $file = $this->upload->data();
-            $data = array('File' . $sesi => $file['file_name']);
+
+			$data = array(
+				'file' . $sesi => $file['file_name'],
+				'Uploader' => $_SESSION['ID']
+            );
+            
             if ($this->M_data->update('IDSkripsi', $ID, 'skripsi', $data)) {
 
                 $notif = array(
