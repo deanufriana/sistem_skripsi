@@ -295,6 +295,7 @@ class Admin extends CI_Controller
             'Email' => $email,
             'IDKonsentrasiUser' => $konsentrasi,
             'IDJurusanUser' => $jurusan,
+            'Password' => md5('12345'),
             'Status' => $user,
         );
 

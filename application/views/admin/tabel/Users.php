@@ -155,9 +155,7 @@
 		<div class="close">
 			<i class="fas fa-info"> </i>
 		</div>
-		Tabel yang berwarna Kuning pertanda bahwa pengguna belum pernah menerima password dari admin untuk mengirim password
-		dari admin silahkan klik pada bagian nama pengguna dan pastikan email server bekerja maka password akan di kirim
-		melalui email masing masing
+		Password Default Untuk Setiap Pengguna Adalah 12345, Jika Ingin Mengirim Password Ke Setiap Mahasiswa Klik Bagian Nama Pengguna Untuk Mengirim Password Fitur Tersebut Membutuhkan Settingan SMPTP
 	</div>
 
 

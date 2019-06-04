@@ -145,7 +145,6 @@ class Dosen extends CI_Controller
 		$data['pembimbing'] = $this->M_data->find('pembimbing', $wherePMB);
 
 		$whereProp = array(
-			'StatusProposal' => $data['pembimbing']->row_array()['StatusProposal'],
 			'IDSkripsiPmb' => $data['skripsi']->row_array()['IDSkripsi']
 		);
 
