@@ -67,7 +67,7 @@ Lisensi
 
 /**
  * Sistem Proses Skripsi Online
- * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart
+ * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart | https://www.instagram.com/deanufriana/
  * @copyright  (c) 2018
  * @email      deanheart09@gmail.com
  *
