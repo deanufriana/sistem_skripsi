@@ -5,6 +5,8 @@
 				e.preventDefault();
 				var form = $(this)
 				var formData = false;
+				
+
 				if (window.FormData) {
 					formdata = new FormData(form[0])
 				}

@@ -7,7 +7,7 @@ $(document).ready(function(){
 		var id = $(this).attr("id");
 		
 		if (window.FormData) {
-			formdata = new FormData(form[0]);
+			formdata = new FormData();
 		}	
 		swal({
 			title: "Apa kau yakin ingin menghapus?",
@@ -42,10 +42,13 @@ $(document).ready(function(){
 		var form = $(this);
 		var formdata = false;
 		var id = $(this).attr("id");
+		console.log(form[0])
 
 		if (window.FormData) {
-			formdata = new FormData(form[0]);
+			formdata = new FormData();
 		}	
+		console.log(formdata)
+
 		$.ajax({
 			type: 'POST',
 			url: form.attr('href'),

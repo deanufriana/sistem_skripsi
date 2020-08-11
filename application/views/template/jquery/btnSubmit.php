@@ -7,6 +7,8 @@
 			var id = $(this).attr("id");
 			var action = $(this).attr("action");
 			var willAcc = $(this).attr('acc');
+			console.log('buttton')
+			console.log(btndata)
 
 			if (window.btndata) {
 				btndata = new btndata(form[0]);
