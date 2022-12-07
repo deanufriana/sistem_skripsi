@@ -1,3 +1,8 @@
+
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+> Warning ! This project has been deprecated. and has been many error. just use for education only and dont expect too much in this project. maybe sometimes i will re create this project at other time, thanks for all support.
+
 ###################
 Apa itu Sistem Skripsi Online ?
 ###################
@@ -67,7 +72,7 @@ Lisensi
 
 /**
  * Sistem Proses Skripsi Online
- * @author     Devi Adi Nufriana | https://facebook.com/mysilkyheart | https://www.instagram.com/deanufriana/
+ * @author     Devi Adi Nufriana
  * @copyright  (c) 2018
  * @email      deanheart09@gmail.com
  *
